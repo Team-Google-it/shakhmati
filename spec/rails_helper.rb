@@ -2,7 +2,7 @@
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 
-require 'spec/support/factory_bot.rb'
+require 'factory_bot.rb'
 
 require File.expand_path('../config/environment', __dir__)
 
