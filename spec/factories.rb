@@ -1,13 +1,10 @@
-# FactoryBot.define do
-#  factory :user do
-    
-#  end
+FactoryBot.define do
+  factory :user do
+    first_name {'John'}
+    last_name {'Doe'}
+    birthdate { 21.years.ago }
+    admin { false }
 
-#	factory :user do
-#		sequence :email do |n|
-#			{ "dummyEmail#{n}@gmail.com" }
-#		end
-#		password { "secretPassword" }
-#		password_confirmation { "secretPassword" }
-#	end
-# end
+    sequence(:username) { |n| "user#{n}" }
+  end
+end
