@@ -3,7 +3,7 @@ FactoryBot.define do
     first_name {'John'}
     last_name {'Doe'}
     birthdate { 21.years.ago }
-    admin false
+    admin { false }
 
     sequence(:username) { |n| "user#{n}" }
   end
