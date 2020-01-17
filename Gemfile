@@ -72,3 +72,5 @@ end
 gem 'jquery-rails'
 gem 'rubocop', '~> 0.79.0', require: false
 
+gem 'simple_form'
+
