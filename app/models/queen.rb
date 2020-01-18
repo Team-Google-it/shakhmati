@@ -1,3 +1,3 @@
-class Queen < Peice
+class Queen < Piece
 
 end
