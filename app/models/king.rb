@@ -1,3 +1,3 @@
-class King < Peice 
+class King < Piece 
 
 end 
