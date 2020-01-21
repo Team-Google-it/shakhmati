@@ -6,5 +6,9 @@ RSpec.describe GamesController, type: :controller do
 			get :index
 			expect(response).to have_http_status(:success)
 		end
+		it "should list only available games" do
+			available = build(:game_available)
+			unavailable = build(:game_unavailable)
+		end
 	end
 end
