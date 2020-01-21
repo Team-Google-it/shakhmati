@@ -1,1 +1,26 @@
 @import "bootstrap";
+
+.side-nav {
+  background-color: lightgray;
+  height: 100vh;
+  width: 200px;
+  float: left;
+}
+.side-nav h1 {
+  font-size: 30px;
+  font-weight: 100;
+  text-align: center;
+  margin-top: 20px;
+}
+.open-games {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200px;
+  background-color: white;
+  margin-top: 20px;
+}
+.open-games h2 {
+  font-size: 15px;
+  text-align: center;
+}
