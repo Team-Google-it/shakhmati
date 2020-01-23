@@ -10,7 +10,7 @@ class Piece < ApplicationRecord
 			when diagonal_move?(x_target, y_target)
 				diagonal_obstruction?(x_target, y_target)
 			else
-				raise 'Invalid Input'
+				false
 		end
 	end
 
@@ -43,14 +43,14 @@ class Piece < ApplicationRecord
 	end
 
 	def diagonal_obstruction?(x_target, y_target)
-		x_direction = x_target > x_position ? 1 : -1
-		y_direction = y_target > y_target ? 1 : -1
-		(x_position + x_direction).step(x_target - x_direction, x_direction) do |x_current|
-			y_current = y_position + ((x_current - x_position).abs * y_direction)
-			return true if occupied?(x_current, y_current)
-		end
-		false
-	end
+    	x_direction = x_target > x_position ? 1 : -1
+    	y_direction = y_target > y_position ? 1 : -1
+    	(x_position + x_direction).step(x_target - x_direction, x_direction) do |x_current|
+      		y_current = y_position + ((x_current - x_position).abs * y_direction)
+      		return true if occupied?(x_current, y_current)
+    	end
+    	false
+  	end
 
 	def occupied?(x_current, y_current)
 		game.pieces.where(x_position: x_current, y_position: y_current).present?
