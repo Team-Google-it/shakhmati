@@ -55,4 +55,14 @@ class Piece < ApplicationRecord
 	def occupied?(x_current, y_current)
 		game.pieces.where(x_position: x_current, y_position: y_current).present?
 	end
+
+	private
+
+	def same_position?(x_target, y_target)
+		return x_position == x_target && y_position == y_target
+	end
+
+	def on_board?(x_target, y_target)
+		return x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
+	end
 end
