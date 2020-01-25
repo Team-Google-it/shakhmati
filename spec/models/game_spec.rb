@@ -11,7 +11,7 @@ RSpec.describe Game, type: :model do
 
 			white_player.save!
 
-			black_player = Game.new 
+			black_player = Game.new
 
 			black_player.black_player_id = 11
 
@@ -101,5 +101,3 @@ RSpec.describe Game, type: :model do
 		end
 	end
 end
-
-
