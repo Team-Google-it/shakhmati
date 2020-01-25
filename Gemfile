@@ -73,6 +73,11 @@ gem 'jquery-rails'
 gem 'rubocop', '~> 0.79.0', require: false
 
 gem 'simple_form'
+
+# Omniauth for social media authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
+
+# Figaro is used for security
+gem "figaro"
 
