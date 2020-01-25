@@ -56,9 +56,6 @@ class Piece < ApplicationRecord
 		game.pieces.where(x_position: x_current, y_position: y_current).present?
 	end
 
-	def valid_move?(x_target, y_target)
-	end
-
 	private
 
 	def same_position?(x_target, y_target)
