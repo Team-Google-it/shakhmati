@@ -8,5 +8,7 @@ FactoryBot.define do
 
   factory :game do
     name { 'New game' }
+    black_player_id { 1 }
+    white_player_id { 2 }
   end
 end
