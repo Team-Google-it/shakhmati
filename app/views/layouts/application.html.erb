@@ -14,9 +14,11 @@
       <h1>SHAKHMATI</h1>
       <div class="open-games">
         <h2>Open games:</h2>
-        <% @games.each do |game| %>
-          <p><%= game.name %></p>
-        <% end %>
+        <div class="open-games-wrapper">
+          <% @games.each do |game| %>
+            <p><%= game.name %></p>
+          <% end %>
+        </div>
       </div>
     </div>
     <% if notice.present? %>
