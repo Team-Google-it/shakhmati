@@ -7,36 +7,36 @@ class Game < ApplicationRecord
 
 	def populate_white_pieces
 		(0..7).each do |num|
-			Pawn.create(game_id: self.id, x_position: num, y_position: 1, player_id: self.white_player_id)
+			Pawn.create(game_id: self.id, x_position: num, y_position: 1, player_id: self.white_player_id, color: "white")
 		end
-		Rook.create(game_id: self.id, x_position: 0, y_position: 0, player_id: self.white_player_id)
-		Rook.create(game_id: self.id, x_position: 7, y_position: 0, player_id: self.white_player_id)
+		Rook.create(game_id: self.id, x_position: 0, y_position: 0, player_id: self.white_player_id, color: "white")
+		Rook.create(game_id: self.id, x_position: 7, y_position: 0, player_id: self.white_player_id, color: "white")
 
-		Knight.create(game_id: self.id, x_position: 1, y_position: 0, player_id: self.white_player_id)
-		Knight.create(game_id: self.id, x_position: 6, y_position: 0, player_id: self.white_player_id)
+		Knight.create(game_id: self.id, x_position: 1, y_position: 0, player_id: self.white_player_id, color: "white")
+		Knight.create(game_id: self.id, x_position: 6, y_position: 0, player_id: self.white_player_id, color: "white")
 
-		Bishop.create(game_id: self.id, x_position: 2, y_position: 0, player_id: self.white_player_id)
-		Bishop.create(game_id: self.id, x_position: 5, y_position: 0, player_id: self.white_player_id)
+		Bishop.create(game_id: self.id, x_position: 2, y_position: 0, player_id: self.white_player_id, color: "white")
+		Bishop.create(game_id: self.id, x_position: 5, y_position: 0, player_id: self.white_player_id, color: "white")
 
-		Queen.create(game_id: self.id, x_position: 3, y_position: 0, player_id: self.white_player_id)
-		King.create(game_id: self.id, x_position: 4, y_position: 0, player_id: self.white_player_id)
+		Queen.create(game_id: self.id, x_position: 3, y_position: 0, player_id: self.white_player_id, color: "white")
+		King.create(game_id: self.id, x_position: 4, y_position: 0, player_id: self.white_player_id, color: "white")
 	end
 
 	def populate_black_pieces
 		(0..7).each do |num|
-			Pawn.create(game_id: self.id, x_position: num, y_position: 6, player_id: self.black_player_id)
+			Pawn.create(game_id: self.id, x_position: num, y_position: 6, player_id: self.black_player_id, color: "black")
 		end
-		Rook.create(game_id: self.id, x_position: 0, y_position: 7, player_id: self.black_player_id)
-		Rook.create(game_id: self.id, x_position: 7, y_position: 7, player_id: self.black_player_id)
+		Rook.create(game_id: self.id, x_position: 0, y_position: 7, player_id: self.black_player_id, color: "black")
+		Rook.create(game_id: self.id, x_position: 7, y_position: 7, player_id: self.black_player_id, color: "black")
 
-		Knight.create(game_id: self.id, x_position: 1, y_position: 7, player_id: self.black_player_id)
-		Knight.create(game_id: self.id, x_position: 6, y_position: 7, player_id: self.black_player_id)
+		Knight.create(game_id: self.id, x_position: 1, y_position: 7, player_id: self.black_player_id, color: "black")
+		Knight.create(game_id: self.id, x_position: 6, y_position: 7, player_id: self.black_player_id, color: "black")
 
-		Bishop.create(game_id: self.id, x_position: 2, y_position: 7, player_id: self.black_player_id)
-		Bishop.create(game_id: self.id, x_position: 5, y_position: 7, player_id: self.black_player_id)
+		Bishop.create(game_id: self.id, x_position: 2, y_position: 7, player_id: self.black_player_id, color: "black")
+		Bishop.create(game_id: self.id, x_position: 5, y_position: 7, player_id: self.black_player_id, color: "black")
 
-		Queen.create(game_id: self.id, x_position: 3, y_position: 7, player_id: self.black_player_id)
-		King.create(game_id: self.id, x_position: 4, y_position: 7, player_id: self.black_player_id)
+		Queen.create(game_id: self.id, x_position: 3, y_position: 7, player_id: self.black_player_id, color: "black")
+		King.create(game_id: self.id, x_position: 4, y_position: 7, player_id: self.black_player_id, color: "black")
 	end
 
 end
