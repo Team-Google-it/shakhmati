@@ -23,17 +23,17 @@ RSpec.describe Piece, type: :model do
 
 		it "should return false if piece path is not obstructed vertically UP" do
 			g = Game.create!()
-			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 0)
+			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 2)
 
-			result = p.is_obstructed?(0,3)
+			result = p.is_obstructed?(0,4)
 			expect(result).to eq(false)
 		end
 
 		it "should return false if piece path is not obstructed vertically DOWN" do
 			g = Game.create!()
-			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 3)
+			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 4)
 
-			result = p.is_obstructed?(0,0)
+			result = p.is_obstructed?(0,2)
 			expect(result).to eq(false)
 		end
 
@@ -57,17 +57,17 @@ RSpec.describe Piece, type: :model do
 
 		it "should return false if piece path is not obstructed horizontally RIGHT" do
 			g = Game.create!()
-			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 0)
+			p = Rook.create!(game_id: g.id, x_position: 0, y_position: 2)
 
-			result = p.is_obstructed?(3,0)
+			result = p.is_obstructed?(3,2)
 			expect(result).to eq(false)
 		end
 
 		it "should return false if piece path is not obstructed horizontally LEFT" do
 			g = Game.create!()
-			p = Rook.create!(game_id: g.id, x_position: 3, y_position: 0)
+			p = Rook.create!(game_id: g.id, x_position: 3, y_position: 2)
 
-			result = p.is_obstructed?(0,0)
+			result = p.is_obstructed?(0,2)
 			expect(result).to eq(false)
 		end
 
@@ -109,17 +109,17 @@ RSpec.describe Piece, type: :model do
 
 		it "should return false if piece path is obstructed diagonally UP RIGHT" do
 			g = Game.create!()
-			p = Bishop.create!(game_id: g.id, x_position: 0, y_position: 5)
+			p = Bishop.create!(game_id: g.id, x_position: 2, y_position: 2)
 
-			result = p.is_obstructed?(3,8)
+			result = p.is_obstructed?(4,4)
 			expect(result).to eq(false)
 		end
 
 		it "should return false if piece path is obstructed diagonally UP LEFT" do
 			g = Game.create!()
-			p = Bishop.create!(game_id: g.id, x_position: 2, y_position: 5)
+			p = Bishop.create!(game_id: g.id, x_position: 4, y_position: 3)
 
-			result = p.is_obstructed?(0,7)
+			result = p.is_obstructed?(2,5)
 			expect(result).to eq(false)
 		end
 

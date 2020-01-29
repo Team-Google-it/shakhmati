@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+	after_create :populate_white_pieces, :populate_black_pieces
+
 	has_many :pieces
 
 	scope :available, -> { where("white_player_id IS NULL or black_player_id IS NULL")}
@@ -33,8 +35,8 @@ class Game < ApplicationRecord
 		Bishop.create(game_id: self.id, x_position: 2, y_position: 7, player_id: self.black_player_id)
 		Bishop.create(game_id: self.id, x_position: 5, y_position: 7, player_id: self.black_player_id)
 
-		Queen.create(game_id: self.id, x_position: 4, y_position: 7, player_id: self.black_player_id)
-		King.create(game_id: self.id, x_position: 3, y_position: 7, player_id: self.black_player_id)
+		Queen.create(game_id: self.id, x_position: 3, y_position: 7, player_id: self.black_player_id)
+		King.create(game_id: self.id, x_position: 4, y_position: 7, player_id: self.black_player_id)
 	end
 
 end
