@@ -20,6 +20,11 @@
   background-color: white;
   margin-top: 20px;
 }
+.open-games-wrapper {
+  overflow-y: scroll;
+  height: inherit;
+  background-color: white;
+}
 .open-games h2 {
   font-size: 15px;
   text-align: center;

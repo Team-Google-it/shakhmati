@@ -1,6 +1,9 @@
 class GamesController < ApplicationController
 	def index
 		@games = Game.available
+		@game = Game.create(name: "New Game")
+		#@game.populate_white_pieces
+		#@game.populate_black_pieces
 	end
 
 	def new

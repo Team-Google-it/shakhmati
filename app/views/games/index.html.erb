@@ -3,7 +3,12 @@
   <div class="container">
 
     <!-- column 1 -->
-    <div class="a-8">a 8</div>
+    <div class="a-8">
+      <% piece = Piece.find_by(x_position: 7, y_position: 7, game_id: @game.id) %>
+      <% if piece %>
+        <%= piece.type %>
+      <% end %>
+    </div>
     <div class="a-7">a 7</div>
     <div class="a-6">a 6</div>
     <div class="a-5">a 5</div>
