@@ -1,11 +1,14 @@
 class ApplicationController < ActionController::Base
   helper_method :find_piece, :draw_piece
 
-  def find_piece(x, y)
+  def find_piece(x, y, only_find=nil)
     piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id)
     if piece
-      image = draw_piece(piece.type, piece.color)
-      return image
+      if only_find == nil
+        image = draw_piece(piece.type, piece.color)
+        return image
+      end
+      return piece.id
     end
   end
 
