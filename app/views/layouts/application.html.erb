@@ -10,17 +10,6 @@
   </head>
 
   <body>
-    <div class="side-nav col-2">
-      <h1>SHAKHMATI</h1>
-      <div class="open-games">
-        <h2>Open games:</h2>
-        <div class="open-games-wrapper">
-          <% @games.each do |game| %>
-            <p><%= game.name %></p>
-          <% end %>
-        </div>
-      </div>
-    </div>
     <% if notice.present? %>
       <p class="alert alert-info"><%= notice %></p>
     <% end %>

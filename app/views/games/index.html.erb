@@ -1,4 +1,19 @@
 <br>
+
+<div class="side-nav col-3 text-center">
+  <h1>SHAKHMATI</h1>
+  <div class="open-games">
+    <h2>Open games:</h2>
+    <div class="col-4 offset-1 text-center game-card">
+      <% @games.each do |game| %>
+        Game: <%= game.name %>
+        Current status: <%= game.status %>
+        <%= button_to "Join Game", game_path(game.name), method: :put, class: 'btn btn-primary btn-sm' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <div class="col-10 offset-2">
   <div class="container">
 
