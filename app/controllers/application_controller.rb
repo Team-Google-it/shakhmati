@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :find_piece, :draw_piece
+  helper_method :find_piece, :draw_piece, :draw_board
 
   def find_piece(x, y, only_find=nil)
     piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id)
