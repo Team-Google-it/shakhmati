@@ -147,4 +147,47 @@ RSpec.describe Piece, type: :model do
 			expect(result).to eq(false)
 		end
 	end
+
+
+	describe "move_to!" do
+		it "should remove a piece if opposite color" do
+			g = Game.create!
+			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
+
+			result = p.move_to!(3,3)
+			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
+		end 
+
+		it "should raise invalid move if same color" do
+			g = Game.create!
+			p = King.create!(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "white")
+
+			result = p.move_to!(3,3)
+			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
+		end
+
+		it "should change piece location if opposite color" do
+			g = Game.create!
+			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
+
+			result = p.move_to!(3,3)
+			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
+			expect(p.reload.x_position).to eq(3)
+			expect(p.reload.y_position).to eq(3)
+		end
+
+		it "should change piece location if empty" do
+
+			g = Game.create!
+			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			
+			result = p.move_to!(3,3)
+			expect(p.reload.x_position).to eq(3)
+			expect(p.reload.y_position).to eq(3)
+		end
+	end
+
 end
