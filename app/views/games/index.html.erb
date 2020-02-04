@@ -1,17 +1,19 @@
-<table id="chessboard">
-  <% (0..7).each do |y| %>
-    <tr>
-      <% (0..7).each do |x| %>
-        <td class="square-td" data-x="<%= x %>" data-y="<%= y %>">
-          <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
-          <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> dark<% else %> light<% end %>">
-            <% if piece.present? %>
-              <% image = find_piece(x, y) %>
-              <%= image_tag(image, height: '65px').to_s if image %>
-            <% end %>
-          </div>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<div class="col-10 offset-2" align="center">
+  <table id="chessboard">
+    <% ((7).downto(0)).each do |y| %>
+      <tr>
+        <% (0..7).each do |x| %>
+          <td class="square-td" data-x="<%= x %>" data-y="<%= y %>">
+            <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
+              <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
+              <% if piece.present? %>
+                <% image = find_piece(x, y) %>
+                <%= image_tag(image, height: '65px').to_s if image %>
+              <% end %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
