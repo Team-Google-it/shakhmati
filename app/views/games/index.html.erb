@@ -3,12 +3,12 @@
     <% ((7).downto(0)).each do |y| %>
       <tr>
         <% (0..7).each do |x| %>
-          <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
+          <td class="square-td droppable">
             <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
             <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
               <% if piece.present? %>
                 <% image = find_piece(x, y) %>
-                <div class="draggable" data-id='<%= piece.id %>'>
+                <div class="draggable" data-id='<%= piece.id %>' data-x="<%= x %>" data-y="<%= y %>">
                   <%= image_tag(image, height: '65px').to_s if image %>
                 </div>
               <% end %>
@@ -30,6 +30,7 @@
       drop: function( event, ui) {
 
         var id = ui.draggable.data('id')
+        console.log(id);
         var x = $(this).data('x')
         var y = $(this).data('y')
 

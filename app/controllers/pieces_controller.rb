@@ -1,4 +1,6 @@
 class PiecesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  
   def index
 
   end
@@ -8,7 +10,6 @@ class PiecesController < ApplicationController
   end
 
   def update
-    @pieces = Piece.order(:sort).all
     @piece = Piece.find(params[:id])
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
