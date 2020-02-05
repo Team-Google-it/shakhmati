@@ -14,6 +14,11 @@
 //= require activestorage
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require jquery-ui-sortable
+//= require jquery-ui/widgets/sortable
+//= require rails_sortable
+//= require html.sortable
 //= require turbolinks
 //= require popper
 //= require tether

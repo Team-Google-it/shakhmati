@@ -2,7 +2,7 @@ class Piece < ApplicationRecord
 	belongs_to :game
 
 	def is_obstructed?(x_target, y_target)
-		case 
+		case
 			when vertical_move?(x_target, y_target)
 				vertical_obstruction?(y_target)
 			when horizontal_move?(x_target, y_target)
