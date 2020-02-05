@@ -132,8 +132,10 @@ class Piece < ApplicationRecord
   	end
 
   	def friendly_piece_at?(x_target, y_target)
-    	piece = piece_at(x_target, y_target)
-    	piece && piece.is_black == is_black
+    	if piece = piece_at(x_target, y_target)
+    	elsif piece && piece.is_black == is_black
+    	then piece && piece.is_white == is_white
+    
   	end
 
 	private
