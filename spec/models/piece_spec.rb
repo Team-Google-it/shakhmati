@@ -149,44 +149,32 @@ RSpec.describe Piece, type: :model do
 	end
 
 
-	describe "move_to!" do
-		it "should remove a piece if opposite color" do
-			g = Game.create!
-			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
-			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
+	describe "#move_to" do
+		it "should replace a piece if opposite color" do
+			g = Game.create!()
+			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = Pawn.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
 
-			result = p.move_to!(3,3)
-			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
+			p.move_to(3,3)
+			expect(p2.x_position).to eq(nil)
+			expect(p1.x_position).to eq(3)
 		end 
 
-		it "should raise invalid move if same color" do
-			g = Game.create!
-			p = King.create!(game_id: g.id, x_position: 4, y_position: 3, color: "white")
-			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "white")
+		it "should return false if piece is same color" do
+			g = Game.create!()
+			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = Pawn.create!(game_id: g.id, x_position: 3, y_position: 3, color: "white")
 
-			result = p.move_to!(3,3)
-			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
-		end
-
-		it "should change piece location if opposite color" do
-			g = Game.create!
-			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
-			p2 = King.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
-
-			result = p.move_to!(3,3)
-			expect{p2.reload}.to raise_error ActiveRecord::RecordNotFound
-			expect(p.reload.x_position).to eq(3)
-			expect(p.reload.y_position).to eq(3)
+			result = p.move_to(3,3)
+			expect(result).to eq(false)
 		end
 
 		it "should change piece location if empty" do
+			g = Game.create!()
+			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
 
-			g = Game.create!
-			p = King.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
-			
-			result = p.move_to!(3,3)
-			expect(p.reload.x_position).to eq(3)
-			expect(p.reload.y_position).to eq(3)
+			p.move_to(2,3)
+			expect(p.y_position).to eq(3)
 		end
 	end
 
