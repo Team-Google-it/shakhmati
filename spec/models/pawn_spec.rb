@@ -80,6 +80,7 @@ RSpec.describe Pawn, type: :class do
 			expect(piece1.valid_move?(piece1.x_position-1, piece1.y_position+1)).to eq(false)
 			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+1)).to eq(false)
 			expect(piece1.valid_move?(piece1.x_position+1, piece1.y_position+1)).to eq(false)
+			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+2)).to eq(false)
 		end
 
 		it "should check for invalid moves for a pawn with obstructions (opposite color)" do
@@ -92,6 +93,7 @@ RSpec.describe Pawn, type: :class do
 			expect(piece1.valid_move?(piece1.x_position-1, piece1.y_position+1)).to eq(true)
 			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+1)).to eq(false)
 			expect(piece1.valid_move?(piece1.x_position+1, piece1.y_position+1)).to eq(true)
+			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+2)).to eq(false)
 		end
 	end
 end

@@ -3,6 +3,7 @@ class Pawn < Piece
 	def valid_move?(x_target, y_target)
 		return false if same_position?(x_target, y_target)
 		return false if !on_board?(x_target, y_target)
+		return false if is_obstructed?(x_target, y_target)
 	
 		return true if color == "white" && y_position == 1 && x_position == x_target && y_target == 3 # 1st move & 2 steps
 		return true if color == "black" && y_position == 6 && x_position == x_target && y_target == 4 # 1st move & 2 steps
