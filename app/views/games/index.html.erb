@@ -1,8 +1,5 @@
-<br>
-
-<div class="side-nav col-3 text-center">
-  <h1>SHAKHMATI</h1>
-  <div class="open-games">
+<div class="open-games">
+  <div class="open-games-wrapper">
     <h2>Open games:</h2>
     <div class="col-4 offset-1 text-center game-card">
       <% @games.each do |game| %>
@@ -14,470 +11,76 @@
   </div>
 </div>
 
-<div class="col-10 offset-2">
-  <div class="container">
-
-    <!-- column 1 -->
-    <div class="a-8">
-      <% piece = Piece.find_by(x_position: 0, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-7">
-      <% piece = Piece.find_by(x_position: 0, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-      <% image = draw_piece(piece.type, piece.color) %>
-      <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-6">
-      <% piece = Piece.find_by(x_position: 0, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <%= piece.type %>
-      <% end %>
-    </div>
-    <div class="a-5">
-      <% piece = Piece.find_by(x_position: 0, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-4">
-      <% piece = Piece.find_by(x_position: 0, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-3">
-      <% piece = Piece.find_by(x_position: 0, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-2">
-      <% piece = Piece.find_by(x_position: 0, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="a-1">
-      <% piece = Piece.find_by(x_position: 0, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 2 -->
-    <div class="b-8">
-      <% piece = Piece.find_by(x_position: 1, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-7">
-      <% piece = Piece.find_by(x_position: 1, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-6">
-      <% piece = Piece.find_by(x_position: 1, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-5">
-      <% piece = Piece.find_by(x_position: 1, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-4">
-      <% piece = Piece.find_by(x_position: 1, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-3">
-      <% piece = Piece.find_by(x_position: 1, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-2">
-      <% piece = Piece.find_by(x_position: 1, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="b-1">
-      <% piece = Piece.find_by(x_position: 1, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 3 -->
-    <div class="c-8">
-      <% piece = Piece.find_by(x_position: 2, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-7">
-      <% piece = Piece.find_by(x_position: 2, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-6">
-      <% piece = Piece.find_by(x_position: 2, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-5">
-      <% piece = Piece.find_by(x_position: 2, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-4">
-      <% piece = Piece.find_by(x_position: 2, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-3">
-      <% piece = Piece.find_by(x_position: 2, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-2">
-      <% piece = Piece.find_by(x_position: 2, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="c-1">
-      <% piece = Piece.find_by(x_position: 2, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 4 -->
-    <div class="d-8">
-      <% piece = Piece.find_by(x_position: 3, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-7">
-      <% piece = Piece.find_by(x_position: 3, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-6">
-      <% piece = Piece.find_by(x_position: 3, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-5">
-      <% piece = Piece.find_by(x_position: 3, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-4">
-      <% piece = Piece.find_by(x_position: 3, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-3">
-      <% piece = Piece.find_by(x_position: 3, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-2">
-      <% piece = Piece.find_by(x_position: 3, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="d-1">
-      <% piece = Piece.find_by(x_position: 3, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 5- -->
-    <div class="e-8">
-      <% piece = Piece.find_by(x_position: 4, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-7">
-      <% piece = Piece.find_by(x_position: 4, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-6">
-      <% piece = Piece.find_by(x_position: 4, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-5">
-      <% piece = Piece.find_by(x_position: 4, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-4">
-      <% piece = Piece.find_by(x_position: 4, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-3">
-      <% piece = Piece.find_by(x_position: 4, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-2">
-      <% piece = Piece.find_by(x_position: 4, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="e-1">
-      <% piece = Piece.find_by(x_position: 4, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 6 -->
-    <div class="f-8">
-      <% piece = Piece.find_by(x_position: 5, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-7">
-      <% piece = Piece.find_by(x_position: 5, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-6">
-      <% piece = Piece.find_by(x_position: 5, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-5">
-      <% piece = Piece.find_by(x_position: 5, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-4">
-      <% piece = Piece.find_by(x_position: 5, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-3">
-      <% piece = Piece.find_by(x_position: 5, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-2">
-      <% piece = Piece.find_by(x_position: 5, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="f-1">
-      <% piece = Piece.find_by(x_position: 5, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 7 -->
-    <div class="g-8">
-      <% piece = Piece.find_by(x_position: 6, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-7">
-      <% piece = Piece.find_by(x_position: 6, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-6">
-      <% piece = Piece.find_by(x_position: 6, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-5">
-      <% piece = Piece.find_by(x_position: 6, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-4">
-      <% piece = Piece.find_by(x_position: 6, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-3">
-      <% piece = Piece.find_by(x_position: 6, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-2">
-      <% piece = Piece.find_by(x_position: 6, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="g-1">
-      <% piece = Piece.find_by(x_position: 6, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-
-    <!-- column 8 -->
-    <div class="h-8">
-      <% piece = Piece.find_by(x_position: 7, y_position: 7, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-7">
-      <% piece = Piece.find_by(x_position: 7, y_position: 6, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-6">
-      <% piece = Piece.find_by(x_position: 7, y_position: 5, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-5">
-      <% piece = Piece.find_by(x_position: 7, y_position: 4, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-4">
-      <% piece = Piece.find_by(x_position: 7, y_position: 3, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-3">
-      <% piece = Piece.find_by(x_position: 7, y_position: 2, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-2">
-      <% piece = Piece.find_by(x_position: 7, y_position: 1, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-    <div class="h-1">
-      <% piece = Piece.find_by(x_position: 7, y_position: 0, game_id: @game.id) %>
-      <% if piece %>
-        <% image = draw_piece(piece.type, piece.color) %>
-        <%= image_tag(image, height: '65px').to_s %>
-      <% end %>
-    </div>
-  </div>
+<br>
+<div class="col-10 offset-2" align="center">
+  <table id="chessboard">
+    <% ((7).downto(0)).each do |y| %>
+      <tr>
+        <% (0..7).each do |x| %>
+          <td class="square-td droppable">
+            <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
+            <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
+              <% if piece.present? %>
+                <% image = find_piece(x, y) %>
+                <div class="draggable" data-id='<%= piece.id %>' data-x="<%= x %>" data-y="<%= y %>">
+                  <%= image_tag(image, height: '65px').to_s if image %>
+                </div>
+              <% end %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </div>
+=======
+<div class="col-10 offset-2" align="center">
+  <table id="chessboard">
+    <% ((7).downto(0)).each do |y| %>
+      <tr>
+        <% (0..7).each do |x| %>
+          <td class="square-td droppable">
+            <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
+            <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
+              <% if piece.present? %>
+                <% image = find_piece(x, y) %>
+                <div class="draggable" data-id='<%= piece.id %>' data-x="<%= x %>" data-y="<%= y %>">
+                  <%= image_tag(image, height: '65px').to_s if image %>
+                </div>
+              <% end %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".draggable").draggable();
+    $(".droppable").droppable({
+
+      drop: function( event, ui) {
+
+        var id = ui.draggable.data('id')
+        console.log(id);
+        var x = $(this).data('x')
+        var y = $(this).data('y')
+
+
+        $.ajax({
+          type: 'PUT',
+           url: '/pieces/' + id,
+           dataType: 'json',
+           data: { id: id, x_position: x, y_position: y },
+           success: function(data){
+             location.reload();
+          }
+        });
+      }
+    });
+  });
+</script>

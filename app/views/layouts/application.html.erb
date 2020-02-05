@@ -10,6 +10,16 @@
   </head>
 
   <body>
+    <div class="side-nav col-3 text-center">
+      <h1>SHAKHMATI</h1>
+      <% if !current_user %>
+        <%= link_to "Sign up", new_user_registration_path %>
+        <%= link_to "Sign in", new_user_session_path %>
+      <% else %>
+        <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+      <% end %>
+      <%= button_to "New Game", new_game_path, method: :get %>
+    </div>
     <% if notice.present? %>
       <p class="alert alert-info"><%= notice %></p>
     <% end %>

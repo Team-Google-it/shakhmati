@@ -43,6 +43,13 @@ RSpec.describe Game, type: :model do
 
 		it 'adds a white pawn at x_position: 0 through 7, y_position: 1' do
 			expect(Pawn.exists?(game_id: game.id, x_position: 0, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 1, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 2, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 3, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 4, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 5, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 6, y_position: 1, player_id: game.white_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 7, y_position: 1, player_id: game.white_player_id)).to be true
 		end
 
 		it 'adds a white rook at x_position: 0 and 7, y_position: 0' do
@@ -74,7 +81,14 @@ RSpec.describe Game, type: :model do
 		let(:game) { FactoryBot.create :game, black_player_id: user2.id }
 
 		it 'adds a black pawn at x_position: 0 through 7, y_position: 6' do
-			expect(Pawn.exists?(game_id: game.id, x_position: (0..7), y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 0, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 1, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 2, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 3, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 4, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 5, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 6, y_position: 6, player_id: game.black_player_id)).to be true
+			expect(Pawn.exists?(game_id: game.id, x_position: 7, y_position: 6, player_id: game.black_player_id)).to be true
 		end
 
 		it 'adds a black rook at x_position: 0 and 7, y_position: 7' do
