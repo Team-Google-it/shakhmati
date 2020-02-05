@@ -14,7 +14,7 @@ class Pawn < Piece
 					return target.color == 'black' ? true : false
 				end
 			else
-				return true if !is_occupied?(x_target, y_target)
+				return true if !occupied?(x_target, y_target)
 			end
 		end
 
@@ -25,7 +25,7 @@ class Pawn < Piece
 					return target.color == 'white' ? true : false
 				end
 			else
-				return true if !is_occupied?(x_target, y_target)
+				return true if !occupied?(x_target, y_target)
 			end
 		end
 		
