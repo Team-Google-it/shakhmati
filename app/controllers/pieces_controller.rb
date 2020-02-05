@@ -10,9 +10,13 @@ class PiecesController < ApplicationController
   end
 
   def update
-    @piece = Piece.find(params[:id])
+
+    @piece = Piece.find_by(id: params[:id])
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
+
+    @piece.update_position(new_x, new_y)
+
   end
 
   private

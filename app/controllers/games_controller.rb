@@ -8,11 +8,13 @@ class GamesController < ApplicationController
 	end
 
 	def new
+		@games = Game.available
 		@game = Game.new
 	end
 
 	def create
-		@game = Game.create(:white_player_id => current_user.id, :status => "pending")
+		@game = Game.create(game_params)
+		@game.update_attributes(:white_player_id => current_user.id, :status => "pending")
 		if @game.valid?
 			redirect_to game_path(@game)
 		else
@@ -34,6 +36,14 @@ class GamesController < ApplicationController
 	end
 
 	def show
+		@games = Game.available
+		@game = Game.find(params[:id])
+	end
+
+	private
+
+	def game_params
+		params.require(:game).permit(:name, :white_player_id, :status)
 	end
 
 end
