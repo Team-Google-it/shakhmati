@@ -104,22 +104,22 @@ class Piece < ApplicationRecord
 	end
 
 	def update_opponent_if_white_capture_en_passant_right(x_target, y_target)
-    	return unless type == 'Pawn' && x_target == (x_target - 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target - 1))
+    	return unless type == 'King' && x_target == (x_target - 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target - 1))
     	pawn_at(x_target, (y_target - 1)).update_attributes(x_position: 8, y_position: 8, status: 'captured')
   	end
 
   	def update_opponent_if_white_capture_en_passant_left(x_target, y_target)
-    	return unless type == 'Pawn' && x_target == (x_target + 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target - 1))
+    	return unless type == 'King' && x_target == (x_target + 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target - 1))
     	pawn_at(x_target, (y_target - 1)).update_attributes(x_position: 8, y_position: 8, status: 'captured')
   	end
 
   	def update_opponent_if_black_capture_en_passant_left(x_target, y_target)
-    	return unless type == 'Pawn' && x_target == (x_target - 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target + 1))
+    	return unless type == 'King' && x_target == (x_target - 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target + 1))
     	pawn_at(x_target, (y_target + 1)).update_attributes(x_position: 8, y_position: 8, status: 'captured')
   	end
 
   	def update_opponent_if_black_capture_en_passant_right(x_target, y_target)
-    	return unless type == 'Pawn' && x_position == (x_target + 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target + 1))
+    	return unless type == 'King' && x_position == (x_target + 1) && !space_occupied?(x_target, y_target) && pawn_at(x_target, (y_target + 1))
     	pawn_at(x_target, (y_target + 1)).update_attributes(x_position: 8, y_position: 8, status: 'captured')
   	end
 
@@ -129,6 +129,11 @@ class Piece < ApplicationRecord
 
 	def capture?(x_target, y_target)
     	opponent_piece_at?(x_target, y_target)
+  	end
+
+  	def friendly_piece_at?(x_target, y_target)
+    	piece = piece_at(x_target, y_target)
+    	piece && piece.is_black == is_black
   	end
 
 	private
