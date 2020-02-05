@@ -10,7 +10,7 @@ class Piece < ApplicationRecord
 			when diagonal_move?(x_target, y_target)
 				diagonal_obstruction?(x_target, y_target)
 			else
-				false
+				return false
 		end
 	end
 

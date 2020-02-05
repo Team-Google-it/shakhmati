@@ -29,10 +29,8 @@
         drop: function( event, ui ) {
 
           var id = ui.draggable.data('id')
-          console.log(id);
           var x = $(this).data('x')
           var y = $(this).data('y')
-          console.log(x);
 
           $.ajax({
             type: 'PUT',

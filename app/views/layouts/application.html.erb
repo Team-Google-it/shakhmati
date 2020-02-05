@@ -18,14 +18,31 @@
       <% else %>
         <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
       <% end %>
-      <%= button_to "New Game", new_game_path, method: :get %>
+      <%= button_to "New Game", new_game_path, method: :get, class: 'btn btn-primary' %>
+      <div class="open-games">
+        <div class="open-games-wrapper">
+          <h2>Open games:</h2>
+          <div class="col-4 offset-1 text-center game-card">
+            <% if @games %>
+              <% @games.each do |game| %>
+                <%= link_to game.name, game_path(game.id), method: :put %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
     <% if notice.present? %>
-      <p class="alert alert-info"><%= notice %></p>
+      <div class="col-2 offset-2 message">
+        <p class="alert alert-info"><%= notice %></p>
+      </div>
     <% end %>
     <% if alert.present? %>
+    <div class="col-2 offset-2 message">
       <p class="alert alert-danger"><%= alert %></p>
+    </div>
     <% end %>
+
 
     <%= yield %>
   </body>
