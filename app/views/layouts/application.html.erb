@@ -16,7 +16,7 @@
         <h2>Open games:</h2>
         <div class="open-games-wrapper">
           <% @games.each do |game| %>
-            <p><%= game.name %></p>
+            <p><%= link_to game.name, game_path(game.id) %></p>
           <% end %>
         </div>
       </div>

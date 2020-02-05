@@ -14,6 +14,7 @@ class GamesController < ApplicationController
 	end
 
 	def show
+		@game = Game.find_by(params[:id])
 	end
 
 end
