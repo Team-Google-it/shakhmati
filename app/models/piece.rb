@@ -70,5 +70,4 @@ class Piece < ApplicationRecord
 		return x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
 	end
 
-
 end

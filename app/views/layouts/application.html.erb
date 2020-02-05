@@ -19,7 +19,6 @@
         <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
       <% end %>
       <%= button_to "New Game", new_game_path, method: :get %>
-      
     </div>
     <% if notice.present? %>
       <p class="alert alert-info"><%= notice %></p>
