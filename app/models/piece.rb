@@ -56,6 +56,10 @@ class Piece < ApplicationRecord
 		game.pieces.where(x_position: x_current, y_position: y_current).present?
 	end
 
+	def update_position(x, y)
+		self.update_attributes(x_position: x, y_position: y)
+	end
+
 	private
 
 	def same_position?(x_target, y_target)
@@ -65,4 +69,6 @@ class Piece < ApplicationRecord
 	def on_board?(x_target, y_target)
 		return x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
 	end
+
+
 end

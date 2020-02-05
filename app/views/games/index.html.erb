@@ -1,3 +1,16 @@
+<div class="open-games">
+  <div class="open-games-wrapper">
+    <h2>Open games:</h2>
+    <div class="col-4 offset-1 text-center game-card">
+      <% @games.each do |game| %>
+        Game: <%= game.name %>
+        Current status: <%= game.status %>
+        <%= button_to "Join Game", game_path(game.name), method: :put, class: 'btn btn-primary btn-sm' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <br>
 <div class="col-10 offset-2" align="center">
   <table id="chessboard">
@@ -20,32 +33,3 @@
     <% end %>
   </table>
 </div>
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-  $(document).ready(function () {
-    $(".draggable").draggable();
-    $(".droppable").droppable({
-
-      drop: function( event, ui) {
-
-        var id = ui.draggable.data('id')
-        console.log(id);
-        var x = $(this).data('x')
-        var y = $(this).data('y')
-
-
-        $.ajax({
-          type: 'PUT',
-           url: '/pieces/' + id,
-           dataType: 'json',
-           data: { id: id, x_position: x, y_position: y },
-           success: function(data){
-             location.reload();
-          }
-        });
-      }
-    });
-  });
-</script>
