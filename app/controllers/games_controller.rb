@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+before_action :authenticate_user!, only: [:new, :create, :show]
 
 	def index
 		@games = Game.available
@@ -8,7 +9,6 @@ class GamesController < ApplicationController
 	end
 
 	def new
-		@games = Game.available
 		@game = Game.new
 	end
 
@@ -28,7 +28,7 @@ class GamesController < ApplicationController
 		if current_user.id != white_player
 			@game.update_attributes(:black_player_id => current_user.id, :status => "in_progress")
 			flash[:notice] = "Joined game: #{@game.name}!"
-			redirect_to game_path(@game.name)
+			redirect_to game_path(@game)
 		else
 			flash[:notice] = "You are already in this game as the white player!"
 			redirect_to game_path(@game)
@@ -36,7 +36,6 @@ class GamesController < ApplicationController
 	end
 
 	def show
-		@games = Game.available
 		@game = Game.find(params[:id])
 	end
 

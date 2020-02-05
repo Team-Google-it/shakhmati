@@ -1,39 +1,6 @@
-<div class="open-games">
-  <div class="open-games-wrapper">
-    <h2>Open games:</h2>
-    <div class="col-4 offset-1 text-center game-card">
-      <% @games.each do |game| %>
-        Game: <%= game.name %>
-        Current status: <%= game.status %>
-        <%= button_to "Join Game", game_path(game.name), method: :put, class: 'btn btn-primary btn-sm' %>
-      <% end %>
-    </div>
-  </div>
-</div>
+
 
 <br>
-<div class="col-10 offset-2" align="center">
-  <table id="chessboard">
-    <% ((7).downto(0)).each do |y| %>
-      <tr>
-        <% (0..7).each do |x| %>
-          <td class="square-td droppable">
-            <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
-            <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
-              <% if piece.present? %>
-                <% image = find_piece(x, y) %>
-                <div class="draggable" data-id='<%= piece.id %>' data-x="<%= x %>" data-y="<%= y %>">
-                  <%= image_tag(image, height: '65px').to_s if image %>
-                </div>
-              <% end %>
-            </div>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-</div>
-=======
 <div class="col-10 offset-2" align="center">
   <table id="chessboard">
     <% ((7).downto(0)).each do |y| %>
