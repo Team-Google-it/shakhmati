@@ -81,3 +81,7 @@ gem 'omniauth-facebook'
 # Figaro is used for security
 gem "figaro"
 
+# Used for drag and drop
+gem 'jquery-ui-rails'
+gem 'rails-jquery-ui-sortable', '~> 1.11', '>= 1.11.4'
+gem 'rails_sortable'

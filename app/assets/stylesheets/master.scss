@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "jquery-ui";
 
 .side-nav {
   background-color: lightgray;
@@ -19,6 +20,11 @@
   height: 200px;
   background-color: white;
   margin-top: 20px;
+}
+.open-games-wrapper {
+  overflow-y: scroll;
+  height: inherit;
+  background-color: white;
 }
 .open-games h2 {
   font-size: 15px;
