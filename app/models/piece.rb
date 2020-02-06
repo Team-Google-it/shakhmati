@@ -65,7 +65,7 @@ class Piece < ApplicationRecord
 
 	def capture(x_target, y_target)
     	target = find_piece(x_target, y_target)
-    	target.update_attributes(status: 'captured', x_position: nil, y_position: nil) if target && color != target.color
+    	target.update_attributes(status: 'captured', x_position: nil, y_position: nil) #if target && color != target.color
   	end
 
   	def find_piece(x_target, y_target)

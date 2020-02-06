@@ -152,10 +152,10 @@ RSpec.describe Piece, type: :model do
 	describe "#move_to" do
 		it "should replace a piece if opposite color" do
 			g = Game.create!()
-			p = Pawn.create(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p1 = Pawn.create(game_id: g.id, x_position: 2, y_position: 2, color: "white")
 			p2 = Pawn.create(game_id: g.id, x_position: 3, y_position: 3, color: "black")
 
-			p.move_to(3,3)
+			p1.move_to(3,3)
 			expect(p2.x_position).to eq(nil)
 			expect(p1.x_position).to eq(3)
 		end 
