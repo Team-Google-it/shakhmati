@@ -56,6 +56,11 @@ class Piece < ApplicationRecord
 		game.pieces.where(x_position: x_current, y_position: y_current).present?
 	end
 
+	def friendly_piece_at?(x_target, y_target)
+    	piece = piece_at(x_target, y_target)
+    	piece && piece.is_black == is_black
+  	end
+
 	def update_position(x, y)
 		self.update_attributes(x_position: x, y_position: y)
 	end
