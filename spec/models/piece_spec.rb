@@ -152,8 +152,8 @@ RSpec.describe Piece, type: :model do
 	describe "#move_to" do
 		it "should replace a piece if opposite color" do
 			g = Game.create!()
-			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
-			p2 = Pawn.create!(game_id: g.id, x_position: 3, y_position: 3, color: "black")
+			p = Pawn.create(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = Pawn.create(game_id: g.id, x_position: 3, y_position: 3, color: "black")
 
 			p.move_to(3,3)
 			expect(p2.x_position).to eq(nil)
@@ -162,8 +162,8 @@ RSpec.describe Piece, type: :model do
 
 		it "should return false if piece is same color" do
 			g = Game.create!()
-			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
-			p2 = Pawn.create!(game_id: g.id, x_position: 3, y_position: 3, color: "white")
+			p = Pawn.create(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p2 = Pawn.create(game_id: g.id, x_position: 3, y_position: 3, color: "white")
 
 			result = p.move_to(3,3)
 			expect(result).to eq(false)
@@ -171,7 +171,7 @@ RSpec.describe Piece, type: :model do
 
 		it "should change piece location if empty" do
 			g = Game.create!()
-			p = Pawn.create!(game_id: g.id, x_position: 2, y_position: 2, color: "white")
+			p = Pawn.create(game_id: g.id, x_position: 2, y_position: 2, color: "white")
 
 			p.move_to(2,3)
 			expect(p.y_position).to eq(3)

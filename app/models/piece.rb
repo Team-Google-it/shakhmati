@@ -72,13 +72,6 @@ class Piece < ApplicationRecord
   		return Piece.where(x_position: x_target, y_position: y_target).first
   	end
 
-  	def friendly_piece_at?(x_target, y_target)
-    	if piece = piece_at(x_target, y_target)
-    	elsif piece && piece.is_black == is_black
-    	then piece && piece.is_white == is_white
-    	end
-  	end
-
 	def update_position(x, y)
 		self.update_attributes(x_position: x, y_position: y)
 	end
