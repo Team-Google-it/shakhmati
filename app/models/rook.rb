@@ -1,11 +1,9 @@
 class Rook < Piece
 	def move_valid?(x_target, y_target)
-	return false if same_position?(x_target, y_target)
-	return false if !on_board?(x_target, y_target)
-    	return false unless vertical_move?(x_target, y_target) || horizontal_move?(x_target, y_target)
-    	return false if is_obstructed?(x_target, y_target)
-    	return false if friendly_piece_at?(x_target, y_target)
-    	true
+		return false if same_position?(x_target, y_target)
+		return false if !on_board?(x_target, y_target)
+		return false if is_obstructed?(x_target, y_target)
+	    return true if vertical_move?(x_target, y_target) || horizontal_move?(x_target, y_target)
+	    false
   	end
-
 end 
