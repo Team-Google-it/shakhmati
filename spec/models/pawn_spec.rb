@@ -74,11 +74,7 @@ RSpec.describe Pawn, type: :class do
 			piece1 = Pawn.create(game_id: game.id, x_position: 4, y_position: 1, color: "white")
 			piece2 = Pawn.create(game_id: game.id, x_position: 3, y_position: 2, color: "white")
 			piece3 = Pawn.create(game_id: game.id, x_position: 4, y_position: 2, color: "white")
-<<<<<<< HEAD
-			piece2 = Pawn.create(game_id: game.id, x_position: 5, y_position: 2, color: "white")
-=======
 			piece4 = Pawn.create(game_id: game.id, x_position: 5, y_position: 2, color: "white")
->>>>>>> 8f0979daec0084134aa7c1da16540da50fe987a2
 
 			expect(piece1.valid_move?(piece1.x_position-1, piece1.y_position+1)).to eq(false)
 			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+1)).to eq(false)
@@ -91,11 +87,7 @@ RSpec.describe Pawn, type: :class do
 			piece1 = Pawn.create(game_id: game.id, x_position: 4, y_position: 1, color: "white")
 			piece2 = Pawn.create(game_id: game.id, x_position: 3, y_position: 2, color: "black")
 			piece3 = Pawn.create(game_id: game.id, x_position: 4, y_position: 2, color: "black")
-<<<<<<< HEAD
-			piece2 = Pawn.create(game_id: game.id, x_position: 5, y_position: 2, color: "black")
-=======
 			piece4 = Pawn.create(game_id: game.id, x_position: 5, y_position: 2, color: "black")
->>>>>>> 8f0979daec0084134aa7c1da16540da50fe987a2
 
 			expect(piece1.valid_move?(piece1.x_position-1, piece1.y_position+1)).to eq(true)
 			expect(piece1.valid_move?(piece1.x_position+0, piece1.y_position+1)).to eq(false)
