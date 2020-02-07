@@ -15,10 +15,8 @@ class PiecesController < ApplicationController
     new_y = params[:y_position].to_i
     if @piece.valid_move?(new_x, new_y) == false
       flash[:alert] = 'This move is invalid. Try again.'
-    elsif @piece.is_obstructed?(new_x, new_y) == true
-      flash[:alert] = 'This move is blocked. Try again.'
     else
-      @piece.update_position(new_x, new_y)
+      @piece.move_to(new_x, new_y)
     end
   end
 

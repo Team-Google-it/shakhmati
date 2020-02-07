@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Pawn, type: :class do
 
-
 	describe '.valid_move?' do
 		it "should check for valid & invalid moves for an initial position white pawn" do
 			game = Game.create!()

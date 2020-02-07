@@ -29,7 +29,6 @@ class Pawn < Piece
 				return true if !occupied?(x_target, y_target)
 			end
 		end
-
-		return false
+		false
 	end
-end
+end 
