@@ -156,6 +156,7 @@ RSpec.describe Piece, type: :model do
 			p2 = Pawn.create(game_id: g.id, x_position: 3, y_position: 3, color: "black")
 
 			p1.move_to(3,3)
+			p2.reload
 			expect(p2.x_position).to eq(nil)
 			expect(p1.x_position).to eq(3)
 		end 

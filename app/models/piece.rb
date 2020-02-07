@@ -55,7 +55,7 @@ class Piece < ApplicationRecord
 	def move_to(x_target,y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes(x_position: x_target, y_position: y_target)
+		update_attributes!(x_position: x_target, y_position: y_target)
 		true
 	end
 
@@ -65,16 +65,12 @@ class Piece < ApplicationRecord
 
 	def capture(x_target, y_target)
     	target = find_piece(x_target, y_target)
-    	target.update_attributes(status: 'captured', x_position: nil, y_position: nil) if target && color != target.color
+    	target.update_attributes!(status: 'captured', x_position: nil, y_position: nil) if color != target.color
   	end
 
   	def find_piece(x_target, y_target)
-  		return Piece.where(x_position: x_target, y_position: y_target).first
+  		return game.pieces.where(x_position: x_target, y_position: y_target).first
   	end
-
-	def update_position(x, y)
-		self.update_attributes(x_position: x, y_position: y)
-	end
 
 	private
 
