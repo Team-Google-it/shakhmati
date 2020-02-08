@@ -23,7 +23,7 @@ before_action :authenticate_user!, only: [:new, :create, :show]
 	end
 
 	def update
-		@game = Game.find_by(params[:name])
+		@game = Game.find(params[:id])
 		white_player = @game.white_player_id
 		if current_user.id != white_player
 			@game.update_attributes(:black_player_id => current_user.id, :status => "in_progress")

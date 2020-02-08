@@ -10,7 +10,9 @@
 
   <body>
     <div class="side-nav col-3 text-center">
-      <h1>SHAKHMATI</h1>
+      <div class="main-header-div">
+        <%= link_to "SHAKHMATI", root_path, class: 'main-header' %>
+      </div>
       <% if !current_user %>
         <%= link_to "Sign up", new_user_registration_path, class: 'btn btn-outline-secondary mb-3' %>
         <%= link_to "Sign in", new_user_session_path, class: 'btn btn-outline-secondary mb-3' %>
