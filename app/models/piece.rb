@@ -72,6 +72,12 @@ class Piece < ApplicationRecord
   		return game.pieces.where(x_position: x_target, y_position: y_target).first
   	end
 
+  	def move_single_step?(x_target, y_target)
+  		x_distance = (x_target - x_position).abs
+  		y_distance = (y_target - y_position).abs
+  		x_distance <= 1 && y_distance <= 1 ? true : false
+  	end
+
 	private
 
 	def same_position?(x_target, y_target)
