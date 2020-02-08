@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'games#index'
 
   resources :pieces, only: [:show, :update]
-  resources :games, only: [:new, :create, :update, :show]
+  resources :games, only: [:new, :create, :update, :show, :destroy]
   resources :pieces, only: [:show, :update]
   resources :users, only: :show
 

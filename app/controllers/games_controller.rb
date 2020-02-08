@@ -39,6 +39,22 @@ before_action :authenticate_user!, only: [:new, :create, :show]
 		@game = Game.find(params[:id])
 	end
 
+	def destroy
+		@game = Game.find(params[:id])
+		if @game.white_player_id && @game.black_player_id
+			if current_user.id == @game.black_player_id
+				@game.update_attributes(:black_player_id => nil)
+			else
+				@game.update_attributes(:white_player_id => nil)
+			end
+		else
+			pieces = Piece.where(:game_id == @game.id).all
+			pieces.destroy!
+			@game.destroy!
+		end
+		redirect_to user_path(current_user.id)
+	end
+
 	private
 
 	def game_params
