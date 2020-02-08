@@ -148,7 +148,6 @@ RSpec.describe Piece, type: :model do
 		end
 	end
 
-
 	describe "#move_to" do
 		it "should replace a piece if opposite color" do
 			g = Game.create!()

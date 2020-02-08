@@ -22,8 +22,10 @@ class Piece < ApplicationRecord
   	end
 
   	def valid_move?(x_target, y_target)
+  		target = find_piece(x_target, y_target)
   		return false if same_position?(x_target, y_target)
   		return false unless on_board?(x_target, y_target)
+  		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
   		true
   	end
