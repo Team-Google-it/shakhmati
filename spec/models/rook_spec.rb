@@ -17,7 +17,7 @@ RSpec.describe Rook, type: :class do
 		it "should check for invalid move for a Rook" do
 			g = Game.create!()
 			p = Rook.create(game_id: g.id, x_position: 4, y_position: 4, color: "white")
-			obs = Pawn.create(game_id: g.id, x_position: 5, y_position: 4, color: "white")
+			Pawn.create(game_id: g.id, x_position: 5, y_position: 4, color: "white")
 			expect(p.valid_move?(p.x_position+0, p.y_position+0)).to be false
 			expect(p.valid_move?(p.x_position+2, p.y_position+2)).to be false
 			expect(p.valid_move?(p.x_position-2, p.y_position+2)).to be false

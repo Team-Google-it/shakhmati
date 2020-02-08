@@ -26,6 +26,7 @@ RSpec.describe Knight, type: :class do
 			expect(p.valid_move?(p.x_position+1, p.y_position+1)).to be false
 			expect(p.valid_move?(p.x_position+5, p.y_position+5)).to be false
 			expect(p.valid_move?(p.x_position+0, p.y_position+0)).to be false
+			expect(p.valid_move?(p.x_position+2, p.y_position+1)).to be false
 		end
 
 	end
