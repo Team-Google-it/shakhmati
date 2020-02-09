@@ -178,4 +178,45 @@ RSpec.describe Piece, type: :model do
 		end
 	end
 
+	describe "#checking?" do
+		it "should return true if a pawn is checking the opponents king" do
+			g = Game.create!()
+			king1 = King.create(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			pawn = Pawn.create(game_id: g.id, x_position: 5, y_position: 4, color: "black")
+
+			expect(checking?).to be true
+		end
+
+		it "should return true if a knight is checking the opponents king" do
+			g = Game.create!()
+			king1 = King.create(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			knight = Knight.create(game_id: g.id, x_position: 3, y_position: 5, color: "black")
+
+			expect(checking?).to be true
+		end
+
+		it "should return true if a bishop is checking the opponents king" do
+			g = Game.create!()
+			king1 = King.create(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			bishop = Bishop.create(game_id: g.id, x_posiition: 2, y_position: 5, color: "black")
+
+			expect(checking?).to be true
+		end
+
+		it "should return true if a rook is checking the opponents king" do 
+			g = Game.create!()
+			king1 = King.create(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			rook = Rook.create(game_id: g.id, x_position: 7, y_position: 3, color: "black")
+
+			expect(checking?).to be true
+		end
+
+		it "should return true if a queen is checking the opponents king" do
+			g = Game.create!()
+			king1 = King.create(game_id: g.id, x_position: 4, y_position: 3, color: "white")
+			queen = Queen.create(game_id: g.id, x_position: 1, y_position: 3, color: "black")
+
+			expect(checking?).to be true
+		end
+	end
 end
