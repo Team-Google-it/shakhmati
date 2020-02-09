@@ -85,3 +85,6 @@ gem "figaro"
 gem 'jquery-ui-rails'
 gem 'rails-jquery-ui-sortable', '~> 1.11', '>= 1.11.4'
 gem 'rails_sortable'
+
+# for viewing test coverage
+gem 'simplecov', require: false, group: :test
