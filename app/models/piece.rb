@@ -1,7 +1,36 @@
 class Piece < ApplicationRecord
 	belongs_to :game
 
-	def is_obstructed?(x_target, y_target)
+	def move_to(x_target,y_target)
+		return false unless valid_move?(x_target, y_target)
+		capture(x_target, y_target) if occupied?(x_target, y_target)
+		update_attributes!(x_position: x_target, y_position: y_target)
+		true
+	end
+
+	def occupied?(x_current, y_current)
+		game.pieces.where(x_position: x_current, y_position: y_current).present?
+	end
+
+	def capture(x_target, y_target)
+    	target = find_piece(x_target, y_target)
+    	target.update_attributes!(status: 'captured', x_position: nil, y_position: nil) if color != target.color
+  	end
+
+  	def find_piece(x_target, y_target)
+  		return game.pieces.where(x_position: x_target, y_position: y_target).first
+  	end
+
+  	def valid_move?(x_target, y_target)
+  		target = find_piece(x_target, y_target)
+  		return false if same_position?(x_target, y_target)
+  		return false unless on_board?(x_target, y_target)
+  		return false if occupied?(x_target, y_target) && color == target.color
+  		return false if is_obstructed?(x_target, y_target)
+  		true
+  	end
+
+  	def is_obstructed?(x_target, y_target)
 		case
 			when vertical_move?(x_target, y_target)
 				vertical_obstruction?(y_target)
@@ -10,7 +39,7 @@ class Piece < ApplicationRecord
 			when diagonal_move?(x_target, y_target)
 				diagonal_obstruction?(x_target, y_target)
 			else
-				return false
+				false
 		end
 	end
 
@@ -52,34 +81,20 @@ class Piece < ApplicationRecord
     	false
   	end
 
-	def move_to(x_target,y_target)
-		return false unless valid_move?(x_target, y_target)
-		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes!(x_position: x_target, y_position: y_target)
-		true
-	end
+  	private
 
-	def occupied?(x_current, y_current)
-		game.pieces.where(x_position: x_current, y_position: y_current).present?
-	end
-
-	def capture(x_target, y_target)
-    	target = find_piece(x_target, y_target)
-    	target.update_attributes!(status: 'captured', x_position: nil, y_position: nil) if color != target.color
+  	def move_single_step?(x_target, y_target)
+  		x_distance = (x_target - x_position).abs
+  		y_distance = (y_target - y_position).abs
+  		x_distance <= 1 && y_distance <= 1 ? true : false
   	end
-
-  	def find_piece(x_target, y_target)
-  		return game.pieces.where(x_position: x_target, y_position: y_target).first
-  	end
-
-	private
 
 	def same_position?(x_target, y_target)
-		return x_position == x_target && y_position == y_target
+		x_position == x_target && y_position == y_target
 	end
 
 	def on_board?(x_target, y_target)
-		return x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
+		x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
 	end
 
 end
