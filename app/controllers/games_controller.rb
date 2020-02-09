@@ -23,7 +23,7 @@ before_action :authenticate_user!, only: [:new, :create, :show]
 	end
 
 	def update
-		@game = Game.find_by(params[:name])
+		@game = Game.find(params[:id])
 		white_player = @game.white_player_id
 		if current_user.id != white_player
 			@game.update_attributes(:black_player_id => current_user.id, :status => "in_progress")
@@ -37,6 +37,24 @@ before_action :authenticate_user!, only: [:new, :create, :show]
 
 	def show
 		@game = Game.find(params[:id])
+	end
+
+	def destroy
+		@game = Game.find(params[:id])
+		if @game.white_player_id && @game.black_player_id && (current_user.id == @game.white_player_id || current_user.id == @game.black_player_id)
+			if current_user.id == @game.black_player_id
+				@game.update_attributes(:black_player_id => nil)
+			elsif current_user.id == @game.white_player_id
+				@game.update_attributes(:white_player_id => nil)
+			else
+				flash[:danger] = "You are not a player of this game!"
+			end
+		else
+			pieces = Piece.where(:game_id == @game.id).all
+			pieces.destroy_all
+			@game.destroy
+		end
+		redirect_to user_path(current_user.id)
 	end
 
 	private
