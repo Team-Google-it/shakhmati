@@ -177,5 +177,4 @@ RSpec.describe Piece, type: :model do
 			expect(p.y_position).to eq(3)
 		end
 	end
-
 end
