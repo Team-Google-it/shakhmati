@@ -11,6 +11,7 @@ class Pawn < Piece
 					target = Piece.where(game_id: game_id, x_position: x_target, y_position: y_target).first
 					return target.color == 'black' ? true : false
 				end
+        return true if en_passant?(x_target, y_target)
 			else
 				return true if !occupied?(x_target, y_target)
 			end
@@ -22,6 +23,7 @@ class Pawn < Piece
 					target = Piece.where(game_id: game_id, x_position: x_target, y_position: y_target).first
 					return target.color == 'white' ? true : false
 				end
+        return true if en_passant?(x_target, y_target)
 			else
 				return true if !occupied?(x_target, y_target)
 			end
@@ -29,50 +31,27 @@ class Pawn < Piece
 		false
 	end
 
+  def en_passant?(x_target, y_target)
+    if color == 'white' && y_position == 4 && y_target == 5
+      if (x_target - x_position).abs == 1
+        if occupied?(x_target, y_target - 1)
+          target = Piece.where(game_id: game_id, x_position: x_target, y_position: 4).first
+          return target.color == 'black' ? true : false
+        end
+      else
+        false
+      end
+    end
 
-
-	def capture_en_passant_legal?(x_target, y_target)
-    	return true if black_capture_en_passant_is_ok?(x_target, y_target) || white_capture_en_passant_is_ok?(x_target, y_target)
-    	false
-  	end
-
-  	def white_capture_en_passant_is_ok?(x_target, y_target)
-    	return true if white_capture_en_passant_to_right_is_ok?(x_target, y_target) || white_capture_en_passant_to_left_is_ok?(x_target, y_target)
-    	false
-  	end
-
-  	def white_capture_en_passant_to_right_is_ok?(x_target, y_target)
-    	pawn = pawn_at((x_position + 1), 4)
-    	return false unless pawn && pawn.is_black && pawn_at((x_position + 1), 4).moves.count == 1
-    	return false unless x_target == (x_position + 1) && y_target == 5
-    	true
-  	end
-
-  	def white_capture_en_passant_to_left_is_ok?(x_target, y_target)
-    	pawn = pawn_at((x_position - 1), 4)
-    	return false unless pawn && pawn.is_black && pawn_at((x_position - 1), 4).moves.count == 1
-    	return false unless x_target == (x_position - 1) && y_target == 5
-    	true
-  	end
-
-  	def black_capture_en_passant_is_ok?(x_target, y_target)
-    	return true if black_capture_en_passant_to_right_is_ok?(x_target, y_target) || black_capture_en_passant_to_left_is_ok?(x_target, y_target)
-    	false
-  	end
-
-  def black_capture_en_passant_to_right_is_ok?(x_target, y_target)
-    pawn = pawn_at((x_position - 1), 3)
-    return false unless pawn && !pawn.is_black
-    return false unless pawn.moves.count == 1
-    return false unless x_target == (x_position - 1) && y_target == 2
-    true
-  end
-
-  def black_capture_en_passant_to_left_is_ok?(x_target, y_target)
-    pawn = pawn_at((x_position + 1), 3)
-    return false unless pawn && !pawn.is_black
-    return false unless pawn.moves.count == 1
-    return false unless x_target == (x_position + 1) && y_target == 2
-    true
+    if color == 'black' && y_position == 3 && y_target == 2
+      if (x_target - x_position).abs == 1
+        if occupied?(x_target, y_target + 1)
+          target = Piece.where(game_id: game_id, x_position: x_target, y_position: 3).first
+          return target.color == 'white' ? true : false
+        end
+      else
+        false
+      end
+    end
   end
 end 
