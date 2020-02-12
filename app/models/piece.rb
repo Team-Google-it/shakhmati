@@ -5,6 +5,9 @@ class Piece < ApplicationRecord
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
+		if checking?
+			game.update_attributes(status: "in_check")
+		end
 		true
 	end
 
@@ -32,6 +35,15 @@ class Piece < ApplicationRecord
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
   		true
+  	end
+
+  	def checking?
+  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
+  		pieces = game.pieces.where(color: color)
+  		pieces.each do |piece|
+  			return true if piece.valid_move?(opponent_king.x_position.to_i, opponent_king.y_position.to_i)
+  		end
+  		false
   	end
 
   	def is_obstructed?(x_target, y_target)
@@ -110,6 +122,11 @@ class Piece < ApplicationRecord
 
 	def on_board?(x_target, y_target)
 		x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
+	end
+
+	def opponent_color
+		return "black" if color == "white"
+		"white"
 	end
 
 end

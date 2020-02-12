@@ -176,37 +176,5 @@ RSpec.describe Piece, type: :model do
 			p.move_to(2,3)
 			expect(p.y_position).to eq(3)
 		end
-
-		it "should allow white capture en passant from the left" do
-    		game = Game.create!()
-    		white_pawn = Pawn.create(game_id: game.id, x_position: 7, y_position: 4, color: "white")
-    		black_pawn = Pawn.create(game_id: game.id, x_position: 6, y_position: 6, color: "black")
-    		black_pawn.move_to(6, 4)
-    		expect(white_pawn.valid_move?(6, 5)).to be true
-  		end
-
-  		it "should allow white capture en passant from the right" do
-    		game = Game.create!()
-    		white_pawn = Pawn.create(game_id: game.id, x_position: 5, y_position: 4, color: "white")
-    		black_pawn = Pawn.create(game_id: game.id, x_position: 6, y_position: 6, color: "black")
-    		black_pawn.move_to(6, 4)
-    		expect(white_pawn.valid_move?(6, 5)).to be true
-  		end
-
-  		it "should allow black capture en passant from the left" do
-    		game = Game.create!()
-   			white_pawn = Pawn.create(game_id: game.id, x_position: 1, y_position: 1, color: "white")
-    		black_pawn = Pawn.create(game_id: game.id, x_position: 0, y_position: 3, color: "black")
-    		white_pawn.move_to(1, 3)
-    		expect(black_pawn.valid_move?(1, 2)).to be true
-  		end
-
-  		it "should allow black capture en passant from the right" do
-    		game = Game.create!()
-   			white_pawn = Pawn.create(game_id: game.id, x_position: 1, y_position: 1, color: "white")
-    		black_pawn = Pawn.create(game_id: game.id, x_position: 0, y_position: 3, color: "black")
-    		white_pawn.move_to(1, 3)
-    		expect(black_pawn.valid_move?(1, 2)).to be true
-  		end
-	end
+    end
 end
