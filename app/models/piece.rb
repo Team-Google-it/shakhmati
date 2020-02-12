@@ -21,6 +21,10 @@ class Piece < ApplicationRecord
   		return game.pieces.where(x_position: x_target, y_position: y_target).first
   	end
 
+  	def find_last_piece(x_target, y_target)
+  		return game.pieces.where(last_move_x: x_target, last_move_y: y_target).first
+  	end
+
   	def valid_move?(x_target, y_target)
   		target = find_piece(x_target, y_target)
   		return false if same_position?(x_target, y_target)

@@ -1,4 +1,4 @@
-class PiecesController < ApplicationController
+class PiecesController < GamesController
   skip_before_action :verify_authenticity_token
 
   def index
@@ -11,12 +11,15 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find_by(id: params[:id])
+    @game = Game.find_by(id: params[:id])
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
     if @piece.valid_move?(new_x, new_y) == false
       flash[:alert] = 'This move is invalid. Try again.'
     else
       @piece.move_to(new_x, new_y)
+      @game.update_attributes(last_piece_x: new_x)
+      @game.update_attributes(last_piece_y: new_y)
     end
   end
 
