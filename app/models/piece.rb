@@ -1,10 +1,11 @@
 class Piece < ApplicationRecord
 	belongs_to :game
 
-	def move_to(x_target,y_target)
+	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
+		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
 	end
 
@@ -22,7 +23,7 @@ class Piece < ApplicationRecord
   	end
 
   	def find_last_piece(x_target, y_target)
-  		return game.pieces.where(last_move_x: x_target, last_move_y: y_target).first
+  		return Piece.find_by(x_position: x_target, y_position: y_target, game_id: game.id)
   	end
 
   	def valid_move?(x_target, y_target)
