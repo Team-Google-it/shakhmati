@@ -46,6 +46,19 @@ class Piece < ApplicationRecord
   		false
   	end
 
+  	def castle!(rook_x, rook_y)
+  		rook = find_piece(rook_x, rook_y)
+  		king = find_piece(4, rook_y)
+  		if rook_x == 0
+  			rook.update_attributes!(x_position: 3)
+  			king.update_attributes!(x_position: 2)
+  		else
+  			rook.update_attributes!(x_position: 5)
+  			king.update_attributes!(x_posiiton: 6)
+  		end
+  	end
+
+
   	def is_obstructed?(x_target, y_target)
 		case
 			when vertical_move?(x_target, y_target)
@@ -97,18 +110,16 @@ class Piece < ApplicationRecord
     	false
   	end
 
-  	private
-
-  	def can_castle_kingside?(x_current, y_current)
-  		if color == "white"
-  			rook = find_piece(7,0)
-  			return false if rook.color != color
-  			return false if status == "moved" || rook.status == "moved"
-  			return false if x_current != 4 && y_current != 0
-  			return false if is_obstructed?(7,0)
-  			true
-  		end
+  	def can_castle?(rook_x, rook_y)
+  		rook = find_piece(rook_x, rook_y)
+  		king = find_piece(4, rook_y)
+  		return false if king.type != "King" || rook.type != "Rook"
+  		return false if king.status == "moved" || rook.status == "moved"
+  		return false if king.is_obstructed?(rook_x, rook_y)
+  		true
   	end
+
+  	private
 
   	def move_single_step?(x_target, y_target)
   		x_distance = (x_target - x_position).abs

@@ -23,6 +23,8 @@
   </div>
   <div class="side-panel col-2">
     <p class="forfeit-button"><%= link_to "Forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-secondary' %></p>
+    <p class="kingside-button"><%= link_to "Castle Kingside", piece_path(@piece), method: :update, class: 'btn btn-outline-secondary' %></p>
+    <p class="queenside-button"><%= link_to "Castle Queenside", piece_path(@piece), method: :update, class: 'btn btn-outline-secondary' %></p>
   </div>
 </div>
 
