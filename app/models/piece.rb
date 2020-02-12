@@ -4,7 +4,7 @@ class Piece < ApplicationRecord
 	def move_to(x_target,y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes!(x_position: x_target, y_position: y_target)
+		update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
 		true
 	end
 
@@ -86,6 +86,17 @@ class Piece < ApplicationRecord
   	end
 
   	private
+
+  	def can_castle_kingside?(x_current, y_current)
+  		if color == "white"
+  			rook = find_piece(7,0)
+  			return false if rook.color != color
+  			return false if status == "moved" || rook.status == "moved"
+  			return false if x_current != 4 && y_current != 0
+  			return false if is_obstructed?(7,0)
+  			true
+  		end
+  	end
 
   	def move_single_step?(x_target, y_target)
   		x_distance = (x_target - x_position).abs
