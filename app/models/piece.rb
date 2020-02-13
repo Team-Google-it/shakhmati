@@ -4,7 +4,7 @@ class Piece < ApplicationRecord
 	def move_to(x_target,y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes!(x_position: x_target, y_position: y_target)
+		update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
 		if checking?
 			game.update_attributes(status: "in_check")
 		end
@@ -31,6 +31,13 @@ class Piece < ApplicationRecord
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
   		true
+  	end
+
+  	def king_in_check?(king_x, king_y)
+  		opponent_pieces.each do |opponent|
+  			return true if opponent.valid_move?(king_x, king_y)
+  		end
+  		false
   	end
 
   	def checking?
@@ -114,4 +121,7 @@ class Piece < ApplicationRecord
 		"white"
 	end
 
+	def opponent_pieces
+    	game.pieces.where(color: opponent_color)
+  	end
 end
