@@ -38,6 +38,13 @@ class Piece < ApplicationRecord
   		true
   	end
 
+  	def king_in_check?(king_x, king_y)
+  		opponent_pieces.each do |opponent|
+  			return true if opponent.valid_move?(king_x, king_y)
+  		end
+  		false
+  	end
+
   	def checking?
 			if game.white_player_id == player_id
 				opponent_color = 'black'
@@ -124,4 +131,7 @@ class Piece < ApplicationRecord
 		"white"
 	end
 
+	def opponent_pieces
+    	game.pieces.where(color: opponent_color)
+  	end
 end
