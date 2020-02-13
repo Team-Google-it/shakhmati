@@ -4,15 +4,9 @@ class Piece < ApplicationRecord
 	def move_to(x_target,y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		if can_castle?(x_target+1, y_target)
-			castle!(x_target+1, y_target)
-		elsif can_castle?(x_target-1, y_target)
-			castle!(x_target-1, y_target)
-		else
-			update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
-			if checking?
-				game.update_attributes(status: "in_check")
-			end
+		update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
+		if checking?
+			game.update_attributes(status: "in_check")
 		end
 		true
 	end
@@ -41,6 +35,13 @@ class Piece < ApplicationRecord
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
   		true
+  	end
+
+  	def king_in_check?(king_x, king_y)
+  		opponent_pieces.each do |opponent|
+  			return true if opponent.valid_move?(king_x, king_y)
+  		end
+  		false
   	end
 
   	def checking?
@@ -103,26 +104,6 @@ class Piece < ApplicationRecord
     	false
   	end
 
-  	def castle!(rook_x, rook_y)
-  		rook = find_piece(rook_x, rook_y)
-  		king = find_piece(4, rook_y)
-  		if rook_x == 0
-  			rook.update_attributes!(x_position: 3)
-  			king.update_attributes!(x_position: 2)
-  		else
-  			rook.update_attributes!(x_position: 5)
-  			king.update_attributes!(x_posiiton: 6)
-  		end
-  	end
-
-  	def can_castle?(rook_x, rook_y)
-  		rook = game.pieces.where(type: 'Rook', x_position: rook_x, y_position: rook_y).first
-  		king = game.pieces.where(type: 'King', x_position: 4, y_position: rook_y).first
-  		return false if king.status == "moved" || rook.status == "moved"
-  		return false if king.is_obstructed?(rook_x, rook_y)
-  		true
-  	end
-
   	private
 
   	def move_single_step?(x_target, y_target)
@@ -144,4 +125,7 @@ class Piece < ApplicationRecord
 		"white"
 	end
 
+	def opponent_pieces
+    	game.pieces.where(color: opponent_color)
+  	end
 end

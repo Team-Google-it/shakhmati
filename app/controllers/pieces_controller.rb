@@ -18,8 +18,6 @@ class PiecesController < GamesController
       flash[:alert] = 'This move is invalid. Try again.'
     else
       @piece.move_to(new_x, new_y)
-      @game.update_attributes(last_piece_x: new_x)
-      @game.update_attributes(last_piece_y: new_y)
     end
   end
 
