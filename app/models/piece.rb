@@ -4,6 +4,7 @@ class Piece < ApplicationRecord
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
+		puts x_target, y_target
 		update_attributes!(x_position: x_target, y_position: y_target)
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true

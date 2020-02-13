@@ -32,20 +32,16 @@ class Pawn < Piece
 	end
 
   def en_passant?(x_target, y_target)
-		puts "en passant being called"
     target = find_last_piece(game.last_piece_x, game.last_piece_y)
 		if target
-			puts "target exists"
 	    if color == 'white' && y_position == 4 && y_target == 5 && (x_position - x_target).abs == 1 && target.y_position == y_position
-				puts "its working"
         if occupied?(x_target, y_target - 1)
-					capture(target.x_position, target.y_position)
+					capture(game.last_piece_x, game.last_piece_y)
           return target.color == 'black' ? true : false
         end
 	    elsif color == 'black' && y_position == 3 && y_target == 2 && (x_position - x_target).abs == 1 && target.y_position == y_position
-				puts "its working still"
         if occupied?(x_target, y_target + 1)
-					capture(target.x_position, target.y_position)
+					capture(game.last_piece_x, game.last_piece_y)
           return target.color == 'white' ? true : false
         end
 	    end
