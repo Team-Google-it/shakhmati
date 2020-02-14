@@ -127,6 +127,6 @@ class Piece < ApplicationRecord
 	end
 
 	def opponent_pieces
-    	game.pieces.where(color: opponent_color)
+    	game.pieces.where(color: opponent_color, captured: false)
   	end
 end
