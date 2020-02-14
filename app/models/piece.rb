@@ -1,13 +1,14 @@
 class Piece < ApplicationRecord
 	belongs_to :game
 
-	def move_to(x_target,y_target)
+	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes!(x_position: x_target, y_position: y_target, status: "moved")
-		if checking?
-			game.update_attributes(status: "in_check")
+		update_attributes!(x_position: x_target, y_position: y_target)
+		if checking?()
+			game.update_attributes!(status: "in_check")
 		end
+		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
 	end
 
@@ -22,6 +23,10 @@ class Piece < ApplicationRecord
 
   	def find_piece(x_target, y_target)
   		return game.pieces.where(x_position: x_target, y_position: y_target).first
+  	end
+
+  	def find_last_piece(x_target, y_target)
+  		return Piece.find_by(x_position: x_target, y_position: y_target, game_id: game.id)
   	end
 
   	def valid_move?(x_target, y_target)
@@ -41,6 +46,11 @@ class Piece < ApplicationRecord
   	end
 
   	def checking?
+			if game.white_player_id == player_id
+				opponent_color = 'black'
+			else
+				opponent_color = 'white'
+			end
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color)
   		pieces.each do |piece|

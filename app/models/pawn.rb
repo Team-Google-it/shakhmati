@@ -32,26 +32,20 @@ class Pawn < Piece
 	end
 
   def en_passant?(x_target, y_target)
-    if color == 'white' && y_position == 4 && y_target == 5
-      if (x_target - x_position).abs == 1
-        if occupied?(x_target, y_target - 1)
-          target = Piece.where(game_id: game_id, x_position: x_target, y_position: 4).first
-          return target.color == 'black' ? true : false
-        end
-      else
-        false
-      end
-    end
-
-    if color == 'black' && y_position == 3 && y_target == 2
-      if (x_target - x_position).abs == 1
+    target = find_last_piece(game.last_piece_x, game.last_piece_y)
+		if target
+	    if color == 'white' && y_position == 4 && y_target == 5 && (x_position - x_target).abs == 1 && target.y_position == y_position
+        	if occupied?(x_target, y_target - 1)
+				capture(game.last_piece_x, game.last_piece_y)
+          		return target.color == 'black' ? true : false
+        	end
+	    elsif color == 'black' && y_position == 3 && y_target == 2 && (x_position - x_target).abs == 1 && target.y_position == y_position
         if occupied?(x_target, y_target + 1)
-          target = Piece.where(game_id: game_id, x_position: x_target, y_position: 3).first
-          return target.color == 'white' ? true : false
+			capture(game.last_piece_x, game.last_piece_y)
+          	return target.color == 'white' ? true : false
         end
-      else
-        false
-      end
-    end
-  end
-end 
+	    end
+	  end
+	end
+	false
+end

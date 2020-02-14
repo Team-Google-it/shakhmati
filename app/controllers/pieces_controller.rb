@@ -14,11 +14,7 @@ class PiecesController < GamesController
     @game = Game.find_by(id: params[:id])
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
-    if @piece.valid_move?(new_x, new_y) == false
-      flash[:alert] = 'This move is invalid. Try again.'
-    else
-      @piece.move_to(new_x, new_y)
-    end
+    flash[:alert] = 'This move is invalid. Try again.' if @piece.move_to(new_x, new_y) == false
   end
 
   private
