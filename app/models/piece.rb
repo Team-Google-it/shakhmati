@@ -18,7 +18,7 @@ class Piece < ApplicationRecord
 
 	def capture(x_target, y_target)
     	target = find_piece(x_target, y_target)
-    	target.update_attributes!(status: 'captured', x_position: nil, y_position: nil) if color != target.color
+    	target.update_attributes!(captured: true, x_position: nil, y_position: nil) if color != target.color
   	end
 
   	def find_piece(x_target, y_target)
@@ -46,13 +46,8 @@ class Piece < ApplicationRecord
   	end
 
   	def checking?
-			if game.white_player_id == player_id
-				opponent_color = 'black'
-			else
-				opponent_color = 'white'
-			end
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
-  		pieces = game.pieces.where(color: color)
+  		pieces = game.pieces.where(color: color, captured: false)
   		pieces.each do |piece|
   			return true if piece.valid_move?(opponent_king.x_position.to_i, opponent_king.y_position.to_i)
   		end
@@ -132,6 +127,6 @@ class Piece < ApplicationRecord
 	end
 
 	def opponent_pieces
-    	game.pieces.where(color: opponent_color)
+    	game.pieces.where(color: opponent_color, captured: false)
   	end
 end
