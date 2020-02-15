@@ -32,7 +32,7 @@ class Pawn < Piece
 	end
 
   def en_passant?(x_target, y_target)
-    target = find_last_piece(game.last_piece_x, game.last_piece_y)
+    target = game.piece_at(game.last_piece_x, game.last_piece_y)
 		if target
 	    if color == 'white' && y_position == 4 && y_target == 5 && (x_position - x_target).abs == 1 && target.y_position == y_position
         	if occupied?(x_target, y_target - 1)

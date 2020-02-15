@@ -11,7 +11,7 @@ class PiecesController < GamesController
 
   def update
     @piece = Piece.find_by(id: params[:id])
-    @game = Game.find_by(id: params[:id])
+    @game = @piece.game
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
     flash[:alert] = 'This move is invalid. Try again.' if @piece.move_to(new_x, new_y) == false

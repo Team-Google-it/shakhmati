@@ -59,4 +59,8 @@ class Game < ApplicationRecord
 		pieces_where(color: opponent_color(color))
 	end
 
+	def piece_at(x, y)
+		pieces.select { |piece| piece.x_position == x && piece.y_position == y }.first
+	end
+
 end
