@@ -5,10 +5,10 @@ class Piece < ApplicationRecord
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
-		if check?(color)
+		if check?
 			game.update_attributes!(status: "in_check")
 		end
-		if checkmate?(color)
+		if checkmate?
 			game.update_attributes!(status: "checkmate")
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
@@ -61,7 +61,7 @@ class Piece < ApplicationRecord
 		end
   	end
 
-  	def check?(color)
+  	def check?
   		king = game.pieces.where(type: 'King', color: color).first
   		opponent_pieces.each do |piece|
   			if piece.valid_move?(king.x_position, king.y_position)
@@ -72,10 +72,10 @@ class Piece < ApplicationRecord
   		false
   	end
 
-  	def checkmate?(color)
+  	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: color).first
 
-  		return false unless check?(color)
+  		return false unless check?
   		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_position)
   		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
   		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
