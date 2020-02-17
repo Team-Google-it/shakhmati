@@ -15,7 +15,7 @@ class PiecesController < GamesController
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
     flash[:alert] = 'This move is invalid. Try again.' if @piece.move_to(new_x, new_y) == false
-    flash[:alert] = 'You are in check!' if @piece.checking? == true
+    flash[:alert] = 'You are in check!' if @piece.check?(@piece.color) == true
   end
 
   private

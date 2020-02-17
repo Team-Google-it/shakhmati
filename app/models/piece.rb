@@ -38,20 +38,46 @@ class Piece < ApplicationRecord
   		true
   	end
 
-  	def king_in_check?(king_x, king_y)
+  	def can_be_captured?(x_current, y_current)
   		opponent_pieces.each do |opponent|
-  			return true if opponent.valid_move?(king_x, king_y)
+  			return true if opponent.valid_move?(x_current, y_current)
   		end
   		false
   	end
 
-  	def checking?
-  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
-  		pieces = game.pieces.where(color: color, captured: false)
-  		pieces.each do |piece|
-  			return true if piece.valid_move?(opponent_king.x_position.to_i, opponent_king.y_position.to_i)
+  	def can_be_blocked?(x_target, y_target)
+  		case
+			when vertical_move?(x_target, y_target)
+				vertical_target?(x_target, y_target)
+			when horizontal_move?(x_target, y_target)
+				horizontal_target?(x_target, y_target)
+			when diagonal_move?(x_target, y_target)
+				diagonal_target?(x_target, y_target)
+			else
+				false
+		end
+  	end
+
+  	def check?(color)
+  		king = pieces.find_by(type: 'King', color: color)
+  		opponent_pieces.each do |piece|
+  			if opponent.valid_move?(king.x_position, king.y_position)
+  				@piece_causing_check = piece
+  				return true
+  			end
   		end
   		false
+  	end
+
+  	def checkmate?(color)
+  		checked_king = pieces.find_by(type: 'King', color: color)
+
+  		return false unless check?(color)
+  		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_postition)
+  		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
+  		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
+
+  		true
   	end
 
   	def is_obstructed?(x_target, y_target)
@@ -101,6 +127,32 @@ class Piece < ApplicationRecord
     	(x_position + x_direction).step(x_target - x_direction, x_direction) do |x_current|
       		y_current = y_position + ((x_current - x_position).abs * y_direction)
       		return true if occupied?(x_current, y_current)
+    	end
+    	false
+  	end
+
+  	def vertical_target?(y_target)
+		direction = y_target > y_position ? 1 : -1
+		(y_position + direction).step(y_target - direction, direction) do |y_current|
+			return true if can_be_captured?(x_position, y_current)
+		end
+		false
+	end
+
+	def horizontal_target?(x_target)
+		direction = x_target > x_position ? 1 : -1
+		(x_position + direction).step(x_target - direction, direction) do |x_current|
+			return true if can_be_captured?(x_current, y_position)
+		end
+		false
+	end
+
+	def diagonal_target?(x_target, y_target)
+    	x_direction = x_target > x_position ? 1 : -1
+    	y_direction = y_target > y_position ? 1 : -1
+    	(x_position + x_direction).step(x_target - x_direction, x_direction) do |x_current|
+      		y_current = y_position + ((x_current - x_position).abs * y_direction)
+      		return true if can_be_captured?(x_current, y_current)
     	end
     	false
   	end
