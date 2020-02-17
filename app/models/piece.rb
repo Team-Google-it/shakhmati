@@ -8,6 +8,9 @@ class Piece < ApplicationRecord
 		if check?(color)
 			game.update_attributes!(status: "in_check")
 		end
+		if checkmate?(color)
+			game.update_attributes!(status: "checkmate")
+		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
 	end
@@ -59,7 +62,7 @@ class Piece < ApplicationRecord
   	end
 
   	def check?(color)
-  		king = Piece.find_by(type: 'King', color: color)
+  		king = game.pieces.where(type: 'King', color: color).first
   		opponent_pieces.each do |piece|
   			if piece.valid_move?(king.x_position, king.y_position)
   				@piece_causing_check = piece
@@ -70,10 +73,10 @@ class Piece < ApplicationRecord
   	end
 
   	def checkmate?(color)
-  		checked_king = Piece.find_by(type: 'King', color: color)
+  		checked_king = game.pieces.where(type: 'King', color: color).first
 
   		return false unless check?(color)
-  		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_postition)
+  		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_position)
   		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
   		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
 
@@ -157,6 +160,11 @@ class Piece < ApplicationRecord
     	false
   	end
 
+  	def opponent_color
+		return "black" if color == "white"
+		"white"
+	end
+
   	private
 
   	def move_single_step?(x_target, y_target)
@@ -171,11 +179,6 @@ class Piece < ApplicationRecord
 
 	def on_board?(x_target, y_target)
 		x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
-	end
-
-	def opponent_color
-		return "black" if color == "white"
-		"white"
 	end
 
 	def opponent_pieces
