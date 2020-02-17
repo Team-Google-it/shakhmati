@@ -7,10 +7,16 @@
   </div>
   <div class="side-panel col-2">
     <p class="forfeit-button"><%= link_to "Forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-secondary' %></p>
-    <p><a href="#pawn-promotion-modal" rel="modal:open">Open Modal</a></p>
   </div>
 </div>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<div id="pawn-promotion-modal" class="modal">
+  <p>Pawn promotion modal</p>
+  <a href="pawn-promotion-modal" rel="modal:close">Close</a>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+</div>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   $(document).ready(init_draggables_and_droppables);
@@ -25,13 +31,8 @@
           type: 'PUT',
           url: `/pieces/${id}?x_position=${x}&y_position=${y}`
         });
+        $('#pawn-promotion-modal').modal('toggle');
       }
     });
   };
 </script>
-<div id="pawn-promotion-modal" class="modal">
-  <p>Pawn promotion modal</p>
-  <a href="pawn-promotion-modal" rel="modal:close">Close</a>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-</div>
