@@ -27,11 +27,14 @@
         var id = ui.draggable.data('id')
         var x = $(this).data('x')
         var y = $(this).data('y')
+        var type = ui.draggable.data('type')
         $.ajax({
           type: 'PUT',
           url: `/pieces/${id}?x_position=${x}&y_position=${y}`
         });
-        $('#pawn-promotion-modal').modal('toggle');
+        if (type === "Pawn") {
+          $('#pawn-promotion-modal').modal('toggle');
+        }
       }
     });
   };

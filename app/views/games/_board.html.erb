@@ -7,7 +7,7 @@
         <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
           <% if piece.present? %>
             <% image = find_piece(x, y) %>
-            <div class="draggable" data-id="<%= piece.id %>">
+            <div class="draggable" data-id="<%= piece.id %>" data-type="<%= piece.type.to_s %>">
               <%= image_tag(image, height: '65px').to_s if image %>
             </div>
           <% end %>
