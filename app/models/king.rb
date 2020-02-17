@@ -10,27 +10,30 @@ class King < Piece
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+		return false if can_be_captured?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		if can_castle?(x_target, y_target)
 			rook = castling_rook(x_target, y_target)
 			rook.move_castled_rook(x_target, y_target)
 		end
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
-		game.update_attributes(status: "in_check") if checking?
+		game.update_attributes(status: "in_check") if check?(color)
 		true
 	end
 
 	def can_move_out_of_check?(x_current, y_current)
-		move_options = [(x_current+1), (y_current+0)
-						(x_current+1), (y_current+1)
-						(x_current+0), (y_current+1)
-						(x_current-1), (y_current+1)
-						(x_current-1), (y_current+0)
-						(x_current+1), (y_current+0)
-						(x_current+1), (y_current+0)
-						(x_current+1), (y_current+0)]
+		move_options = [[x_current+1, y_current+0],
+						[x_current+1, y_current+1],
+						[x_current+0, y_current+1],
+						[x_current-1, y_current+1],
+						[x_current-1, y_current+0],
+						[x_current+1, y_current+0],
+						[x_current+1, y_current+0],
+						[x_current+1, y_current+0]]
 		move_options.each do |move|
-			return true if valid_move?(move)
+			x = move.first
+			y = move.last
+			return true if valid_move?(x,y)
 		end
 	end
 
