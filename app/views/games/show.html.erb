@@ -19,23 +19,26 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+  var type;
   $(document).ready(init_draggables_and_droppables);
   function init_draggables_and_droppables() {
     $(".draggable").draggable();
     $(".droppable").droppable({
       drop: function( event, ui ) {
+        type = ui.draggable.data('type')
         var id = ui.draggable.data('id')
         var x = $(this).data('x')
         var y = $(this).data('y')
-        var type = ui.draggable.data('type')
         $.ajax({
           type: 'PUT',
           url: `/pieces/${id}?x_position=${x}&y_position=${y}`
         });
-        if (type === "Pawn") {
-          $('#pawn-promotion-modal').modal('toggle');
-        }
       }
     });
   };
+  function openModal() {
+    if (type === "Pawn") {
+      $('#pawn-promotion-modal').modal('toggle');
+    }
+  }
 </script>
