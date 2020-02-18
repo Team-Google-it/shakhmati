@@ -11,13 +11,13 @@
 </div>
 
 <div id="pawn-promotion-modal" class="modal">
-  <p>Pawn promotion modal</p>
+  <p>Select a piece type to promote your pawn to:</p>
   <% @game = Game.find_by(id: params[:id]) %>
   <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
   <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
   <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
   <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
-  <a href="pawn-promotion-modal" rel="modal:close">Close</a>
+  <!-- <a href="pawn-promotion-modal" rel="modal:close">Close</a> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </div>
@@ -44,7 +44,11 @@
   };
   function openModal() {
     if (type === "Pawn" && (y === 0 || y === 7)) {
-      $('#pawn-promotion-modal').modal('toggle');
+      $('#pawn-promotion-modal').modal({
+        escapeClose: false,
+        clickClose: false,
+        showClose: false
+      });
     }
   }
   function handlePawnPromotion() {
