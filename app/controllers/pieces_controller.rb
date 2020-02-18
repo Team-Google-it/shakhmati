@@ -1,5 +1,6 @@
 class PiecesController < GamesController
   skip_before_action :verify_authenticity_token
+  respond_to :js, :json, :html
 
   def index
 
@@ -7,6 +8,12 @@ class PiecesController < GamesController
 
   def edit
 
+  end
+
+  def promote
+    new_type = params[:type]
+    @piece = Piece.find_by(id: params[:id])
+    @piece.update_attributes(type: new_type)
   end
 
   def update

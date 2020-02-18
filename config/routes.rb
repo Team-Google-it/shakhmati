@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
   resources :pieces, only: [:show, :update]
   resources :games, only: [:new, :create, :update, :show, :destroy]
-  resources :pieces, only: [:show, :update]
+  resources :pieces, only: [:show, :update] do
+    put 'promote' => 'pieces#promote'
+  end
   resources :users, only: :show
 
   get   '/login', :to => 'sessions#new', :as => :login
