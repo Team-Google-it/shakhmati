@@ -1,3 +1,4 @@
+<% @piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y) %>
 $("#chessboard").html('<%= j render partial: 'games/board' %>');
 init_draggables_and_droppables();
 openModal();

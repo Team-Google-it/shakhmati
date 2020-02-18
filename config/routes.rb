@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   root 'games#index'
 
   resources :pieces, only: [:show, :update]
-  resources :games, only: [:new, :create, :update, :show, :destroy]
-  resources :pieces, only: [:show, :update] do
+  resources :games, only: [:new, :create, :update, :show, :destroy] do
     put 'promote' => 'pieces#promote'
   end
+  resources :pieces, only: [:show, :update]
   resources :users, only: :show
 
   get   '/login', :to => 'sessions#new', :as => :login

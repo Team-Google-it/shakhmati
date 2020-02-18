@@ -12,13 +12,11 @@
 
 <div id="pawn-promotion-modal" class="modal">
   <p>Pawn promotion modal</p>
-  <% @piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y) %>
-  <% if @piece %>
-    <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @piece.id, :type => 'Queen' }).to_s %>
-    <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @piece.id, :type => 'Knight' }).to_s %>
-    <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @piece.id, :type => 'Rook' }).to_s %>
-    <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @piece.id, :type => 'Bishop' }).to_s %>
-  <% end %>
+  <% @game = Game.find_by(id: params[:id]) %>
+  <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
+  <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
+  <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
+  <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
   <a href="pawn-promotion-modal" rel="modal:close">Close</a>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -45,7 +43,7 @@
     });
   };
   function openModal() {
-    if (type === "Rook"/* && (y === 0 || y === 7)*/) {
+    if (type === "Pawn" && (y === 0 || y === 7)) {
       $('#pawn-promotion-modal').modal('toggle');
     }
   }
@@ -59,7 +57,7 @@
 
     $.ajax({
       type: 'PUT',
-      url: `/pieces/${id}/promote`,
+      url: `/games/${id}/promote`,
       data: info,
       dataType: "json"
     });

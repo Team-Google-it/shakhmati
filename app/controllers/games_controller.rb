@@ -1,5 +1,12 @@
 class GamesController < ApplicationController
-before_action :authenticate_user!, only: [:new, :create, :show]
+before_action :authenticate_user!, only: [:new, :create, :update, :show, :destroy]
+
+	def promote
+		@game = Game.find_by_id(params[:id])
+		new_type = params[:type]
+		@piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y)
+		@piece.update_attributes(type: new_type)
+	end
 
 	def index
 		@games = Game.available
@@ -43,9 +50,15 @@ before_action :authenticate_user!, only: [:new, :create, :show]
 		@game = Game.find(params[:id])
 		if @game.white_player_id && @game.black_player_id && (current_user.id == @game.white_player_id || current_user.id == @game.black_player_id)
 			if current_user.id == @game.black_player_id
-				@game.update_attributes(:black_player_id => nil)
+				user = User.find_by(id: @game.white_player_id)
+				wins_update = user.wins + 1
+				user.update_attributes(:wins => wins_update)
+				@game.update_attributes(:black_player_id => nil, :status => "completed")
 			elsif current_user.id == @game.white_player_id
-				@game.update_attributes(:white_player_id => nil)
+				user = User.find_by(id: @game.black_player_id)
+				wins_update = user.wins + 1
+				user.update_attributes(:wins => wins_update)
+				@game.update_attributes(:white_player_id => nil, :status => "completed")
 			else
 				flash[:danger] = "You are not a player of this game!"
 			end
