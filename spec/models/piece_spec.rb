@@ -40,10 +40,10 @@ RSpec.describe Piece, type: :model do
 		context 'when move is valid' do
 			let(:valid_move?) { true }
 			context 'when move checks opponent' do
-				let(:check?) { true }
+				let(:checking?) { true }
 				let(:game) { piece.game }
 				before do
-					allow(piece).to receive(:check?).and_return(check?)
+					allow(piece).to receive(:checking?).and_return(checking?)
 				end
 				it "status should equal in_check" do
 					move_to
