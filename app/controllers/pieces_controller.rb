@@ -11,12 +11,15 @@ class PiecesController < GamesController
 
   def update
     @piece = Piece.find_by(id: params[:id])
-    @game = Game.find_by(id: params[:id])
+    @game = @piece.game
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
-    #flash[:alert] = 'This move is invalid. Try again.' if @piece.move_to(new_x, new_y) == false
-    #flash[:alert] = 'You are in check!' if @piece.check? == true && @piece.checkmate? == false
-    flash[:alert] = 'You have been checkmated!' if @piece.checkmate? == true
+    if @piece.move_to(new_x, new_y) == false
+      flash[:alert] = 'This move is invalid. Try again.'
+      render partial: 'games/update'
+    else
+      render partial: 'games/modal'
+    end
   end
 
   private

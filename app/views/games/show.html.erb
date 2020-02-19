@@ -2,23 +2,7 @@
 <div class="row col-10 offset-2">
   <div class="col-9" align="right">
     <table id="chessboard">
-      <% ((7).downto(0)).each do |y| %>
-        <tr>
-          <% (0..7).each do |x| %>
-            <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
-              <% piece = Piece.find_by(x_position: x, y_position: y, game_id: @game.id) %>
-              <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
-                <% if piece.present? %>
-                  <% image = find_piece(x, y) %>
-                  <div class="draggable" data-id="<%= piece.id %>">
-                    <%= image_tag(image, height: '65px').to_s if image %>
-                  </div>
-                <% end %>
-              </div>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
+      <%= render 'board' %>
     </table>
   </div>
   <div class="side-panel col-2">
@@ -26,29 +10,62 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<div id="pawn-promotion-modal" class="modal">
+  <p>Select a piece type to promote your pawn to:</p>
+  <% @game = Game.find_by(id: params[:id]) %>
+  <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
+  <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
+  <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
+  <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
+  <!-- <a href="pawn-promotion-modal" rel="modal:close">Close</a> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+</div>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-  $(document).ready(function () {
+  var type;
+  var x;
+  var y;
+  $(document).ready(init_draggables_and_droppables);
+  function init_draggables_and_droppables() {
     $(".draggable").draggable();
     $(".droppable").droppable({
-
       drop: function( event, ui ) {
-
+        type = ui.draggable.data('type')
         var id = ui.draggable.data('id')
-        var x = $(this).data('x')
-        var y = $(this).data('y')
-
+        x = $(this).data('x')
+        y = $(this).data('y')
         $.ajax({
           type: 'PUT',
-          url: '/pieces/' + id,
-          dataType: 'json',
-          data: { id: id, x_position: x, y_position: y },
-          success: function(data){
-            location.reload();
-          }
+          url: `/pieces/${id}?x_position=${x}&y_position=${y}`
         });
       }
     });
-  });
+  };
+  function openModal() {
+    if (type === "Pawn" && (y === 0 || y === 7)) {
+      $('#pawn-promotion-modal').modal({
+        escapeClose: false,
+        clickClose: false,
+        showClose: false
+      });
+    }
+  }
+  function handlePawnPromotion() {
+    var id = $(this).data('id');
+    var type = $(this).data('type')
+    var info = {
+      id,
+      type
+    }
+
+    $.ajax({
+      type: 'PUT',
+      url: `/games/${id}/promote`,
+      data: info,
+      dataType: "json"
+    });
+    location.reload();
+  };
+  $('.promoteButton').on('click', handlePawnPromotion);
 </script>
