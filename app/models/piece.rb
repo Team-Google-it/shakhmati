@@ -58,6 +58,7 @@ class Piece < ApplicationRecord
 		end
   	end
 
+  	@piece_causeing_check = nil
   	def checking?
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color, captured: false)
