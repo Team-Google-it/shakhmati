@@ -8,9 +8,10 @@ class Piece < ApplicationRecord
 		game.pieces.reload
 		if checking?
 			game.update_attributes!(status: "in_check")
-		end
-		if checkmate?
+		elsif checkmate?
 			game.update_attributes!(status: "checkmate")
+		else
+			game.update_attributes!(status: "in_progress")
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true

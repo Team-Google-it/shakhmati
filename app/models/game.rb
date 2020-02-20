@@ -5,12 +5,12 @@ class Game < ApplicationRecord
 
 	scope :available, -> { where("white_player_id IS NULL or black_player_id IS NULL")}
 
-	def in_check?(color)
-		king = get_piece('King', color)
-		opponent_pieces(color).each do |opponent|
-			return true if opponent.valid_move?(king.x_position, king.y_position)
-		end
-		false
+	def in_check?
+		status == 'in_check'
+	end
+
+	def checkmate?
+		status == 'checkmate'
 	end
 
 	def populate_white_pieces
