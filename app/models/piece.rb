@@ -59,12 +59,15 @@ class Piece < ApplicationRecord
 		end
   	end
 
-  	@piece_causeing_check = nil
+  	@piece_causing_check = nil
   	def checking?
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color, captured: false)
+  		puts "Count: #{pieces.count}"
   		pieces.each do |piece|
+  			puts "Opponent king position: #{opponent_king.x_position}, #{opponent_king.y_position}"
   			if piece.valid_move?(opponent_king.x_position, opponent_king.y_position)
+  				puts "You are in check"
   				@piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
   				return true
   			end
@@ -75,9 +78,9 @@ class Piece < ApplicationRecord
 
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: color).first
-  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
 
-  		return false unless opponent_king.checking?
+  		return false unless checked_king.checking?
+  		puts "Piece causing check position: #{@piece_causing_check.x_position}, #{@piece_causing_check.y_position}"
   		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_position)
   		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
   		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
