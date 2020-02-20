@@ -20,7 +20,6 @@ class PiecesController < GamesController
     else
       render partial: 'games/modal'
     end
-    redirect_to :back
   end
 
   private
