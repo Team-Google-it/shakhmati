@@ -8,11 +8,11 @@ class Piece < ApplicationRecord
 		game.pieces.reload
 		if checking?
 			game.update_attributes!(status: "in_check")
+			if checkmate?
+				game.update_attributes!(status: "checkmate")
+			end
 		else
 			game.update_attributes!(status: "in_progress")
-		end
-		if checkmate?
-			game.update_attributes!(status: "checkmate")
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
@@ -61,12 +61,17 @@ class Piece < ApplicationRecord
 		end
   	end
 
+  	piece_causing_check = nil
   	def checking?
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color, captured: false)
+  		puts "Count: #{pieces.count}"
   		pieces.each do |piece|
   			if piece.valid_move?(opponent_king.x_position, opponent_king.y_position)
-  				@piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
+  				puts "You are in check"
+
+  				piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
+					puts piece_causing_check.type
   				return true
   			end
   			false
@@ -76,16 +81,25 @@ class Piece < ApplicationRecord
 
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: color).first
-  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
-
-  		return false unless opponent_king.checking?
-  		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_position)
-  		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
-  		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
-
+  		unless checked_king.checking?
+				puts "checked_king.checking?"
+				return false
+			end
+  		puts "Piece causing check position: #{x_position}, #{y_position}"
+  		if can_be_captured?(x_position, y_position)
+				puts "can_be_captured?"
+				return false
+			end
+  		if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
+				puts "can_move_out_of_check?"
+				return false
+			end
+  		if can_be_blocked?(checked_king.x_position, checked_king.y_position)
+				puts "can_be_blocked?"
+				return false
+			end
   		true
   	end
-
 
   	def is_obstructed?(x_target, y_target)
 		case
@@ -164,10 +178,11 @@ class Piece < ApplicationRecord
     	false
   	end
 
-	def opponent_color
+  	def opponent_color
 		return "black" if color == "white"
 		"white"
 	end
+
 
 	def same_color?(color)
 		color == game.turn

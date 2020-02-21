@@ -2,6 +2,72 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
 
+	describe '#capture' do
+	    subject(:capture) { white_rook.capture(2, 2) }
+	    let(:user1) { FactoryBot.create(:user) }
+	    let(:user2) { FactoryBot.create(:user) }
+	    let(:white_rook) { FactoryBot.create(:rook, color: 'white', player_id: user1.id) }
+	    let(:white_queen) { FactoryBot.create(:queen, color: 'white', player_id: user1.id) }
+	    let(:black_queen) { FactoryBot.create(:queen, color: 'black', player_id: user2.id) }
+	    before do
+	      	allow(white_rook).to receive(:find_piece).and_return(find_piece)
+	    end
+	    context 'target is of different colors' do
+	      	let(:find_piece) { black_queen } 
+	      	it "should capture the target" do
+		        capture
+		        black_queen.reload
+		        expect(black_queen.captured).to eq true
+	      	end
+	    end
+	    context 'target is of the same color' do
+	      	let(:find_piece) { white_queen } 
+	      	it "should not capture the target" do
+		        capture
+		        white_queen.reload
+		        expect(black_queen.captured).to eq false
+	      	end
+	    end
+	end
+
+	describe '#move_to' do
+		subject(:move_to) { piece.move_to(2,2) }
+		let(:user) { FactoryBot.create(:user) }
+		let(:piece) { FactoryBot.create(:rook, player_id: user.id) }
+		before do
+			allow(piece).to receive(:valid_move?).and_return(valid_move?)
+		end
+		context 'when move is valid' do
+			let(:valid_move?) { true }
+			context 'when move checks opponent' do
+				let(:checking?) { true }
+				let(:game) { piece.game }
+				before do
+					allow(piece).to receive(:checking?).and_return(checking?)
+				end
+				it "status should equal in_check" do
+					move_to
+					expect(game.status).to eq "in_check"
+				end
+			end
+			context 'when king is in checkmate' do
+				let(:checkmate?) { true }
+				let(:game) { piece.game }
+				before do
+					allow(piece).to receive(:checkmate?).and_return(checkmate?)
+				end
+				it "status should equal checkmate" do
+					move_to
+					expect(game.status).to eq "checkmate"
+				end
+			end
+		end
+		context 'when move is invalid' do
+			let(:valid_move?) { false }
+			it { is_expected.to eq false }
+		end
+	end
+
 	describe "#is_obstructed?" do
 		it "should return true if piece path is obstructed vertically UP" do
 			g = Game.create!()

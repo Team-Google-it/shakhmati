@@ -26,11 +26,16 @@ class PiecesController < GamesController
     if @piece.move_to(new_x, new_y) == false
       flash.now.alert = 'This move is invalid. Try again.'
       render partial: 'games/update'
+    elsif @game.in_check?
+      flash.now.alert = "Check!"
+      render partial: 'games/modal'
+    elsif @game.checkmate?
+      flash.now.alert = "Checkmate!"
+      render partial: 'games/modal'
     else
       current_game.swap_turn
       render partial: 'games/modal'
     end
-
   end
 
   private
