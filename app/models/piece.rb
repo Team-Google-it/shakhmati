@@ -37,6 +37,7 @@ class Piece < ApplicationRecord
   		return false unless on_board?(x_target, y_target)
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
+  		return false if !same_color?(color)
   		true
   	end
 
@@ -178,6 +179,10 @@ class Piece < ApplicationRecord
 
 	def same_position?(x_target, y_target)
 		x_position == x_target && y_position == y_target
+	end
+
+	def same_color?(color)
+		color == game.turn
 	end
 
 	def on_board?(x_target, y_target)
