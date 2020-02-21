@@ -2,12 +2,9 @@
   <div class="col-2 offset-2 message">
     <p class="alert alert-info"><%= notice %></p>
   </div>
-<% elsif alert.present? %>
+<% end %>
+<% if alert.present? %>
 <div class="col-2 offset-2 message">
   <p class="alert alert-danger"><%= alert %></p>
 </div>
-<% else %>
-  <div class="col-2 offset-2 message">
-
-  </div>
 <% end %>
