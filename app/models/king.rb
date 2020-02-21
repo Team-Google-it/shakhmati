@@ -2,10 +2,19 @@ class King < Piece
 
 	def valid_move?(x_target, y_target)
 		return false unless super
-		return true if can_castle?(x_target, y_target)
-		return true if move_single_step?(x_target, y_target)
-		return false if can_be_captured?(x_target, y_target)
-		return false
+		if can_castle?(x_target, y_target)
+			puts "king can castle"
+			return true
+		end
+		unless move_single_step?(x_target, y_target)
+			puts "move single step is false"
+			return false
+		end
+		if can_be_captured?(x_target, y_target)
+			puts "king can be captured"
+			return false
+		end
+		return true
 	end
 
 	def move_to(x_target, y_target)
@@ -18,23 +27,28 @@ class King < Piece
 		end
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
 		game.update_attributes(status: "in_check") if checking?
+		game.pieces.reload
 		true
 	end
 
 	def can_move_out_of_check?(x_current, y_current)
-		move_options = [[x_current+1, y_current+0],
-						[x_current+1, y_current+1],
-						[x_current+0, y_current+1],
-						[x_current-1, y_current+1],
-						[x_current-1, y_current+0],
-						[x_current+1, y_current+0],
-						[x_current+1, y_current+0],
-						[x_current+1, y_current+0]]
+		move_options = [[x_current+1, y_current-1],
+										[x_current+1, y_current+0],
+										[x_current+1, y_current+1],
+										[x_current+0, y_current+1],
+										[x_current-1, y_current+1],
+										[x_current-1, y_current+0],
+										[x_current-1, y_current-1],
+										[x_current+0, y_current-1]]
 		move_options.each do |move|
 			x = move.first
 			y = move.last
-			return true if valid_move?(x,y)
+			if valid_move?(x,y)
+				puts "can_move_out_of_check is true"
+				return true
+			end
 		end
+		false
 	end
 
 

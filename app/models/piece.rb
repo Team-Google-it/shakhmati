@@ -83,12 +83,23 @@ class Piece < ApplicationRecord
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: color).first
 
-  		return false unless checked_king.checking?
-  		puts "Piece causing check position: #{piece_causing_check.x_position}, #{piece_causing_check.y_position}"
-  		return false if piece_causing_check.can_be_captured?(piece_causing_check.x_position, piece_causing_check.y_position)
-  		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
-  		return false if piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
-
+  		unless checked_king.checking?
+				puts "checked_king.checking?"
+				return false
+			end
+  		puts "Piece causing check position: #{x_position}, #{y_position}"
+  		if can_be_captured?(x_position, y_position)
+				puts "can_be_captured?"
+				return false
+			end
+  		if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
+				puts "can_move_out_of_check?"
+				return false
+			end
+  		if can_be_blocked?(checked_king.x_position, checked_king.y_position)
+				puts "can_be_blocked?"
+				return false
+			end
   		true
   	end
 
