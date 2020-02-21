@@ -10,8 +10,20 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h1>My Wins:</h1>
+      <p>My Wins:</p>
       <%= current_user.wins %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <p>My Losses:</p>
+      <%= current_user.losses %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <p>Total games:</p>
+      <%= current_user.total_games %>
     </div>
   </div>
 </div>
