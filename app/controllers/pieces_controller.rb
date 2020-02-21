@@ -28,8 +28,10 @@ class PiecesController < GamesController
       render partial: 'games/update'
     elsif @game.in_check?
       flash.now.alert = "Check!"
+      render partial: 'games/modal'
     elsif @game.checkmate?
       flash.now.alert = "Checkmate!"
+      render partial: 'games/modal'
     else
       render partial: 'games/modal'
     end
