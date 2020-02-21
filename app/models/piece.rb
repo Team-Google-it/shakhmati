@@ -176,7 +176,13 @@ class Piece < ApplicationRecord
 	end
 
 	def same_color?(color)
-		game = Game.find_by(id: self.game_id)
+		piece = Piece.find_by(color: color)
+		op_piece = Piece.find_by(color: opponent_color)
+		id = color == 'white' ? piece.player_id : op_piece.player_id
+		puts "Game id: #{id}"
+		puts "Piece id: #{piece.player_id}"
+		game = Game.find_by(id: id)
+		puts "Game turn: #{game.turn}"
   		return true if color == game.turn
   	end
 
