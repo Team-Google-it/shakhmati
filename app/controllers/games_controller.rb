@@ -1,6 +1,13 @@
 class GamesController < ApplicationController
 before_action :authenticate_user!, only: [:new, :create, :show]
 
+	def promote
+		@game = Game.find_by_id(params[:id])
+		new_type = params[:type]
+		@piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y)
+		@piece.update_attributes(type: new_type)
+	end
+
 	def index
 		@games = Game.available
 		@game = Game.new

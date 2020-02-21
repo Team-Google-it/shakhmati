@@ -4,6 +4,7 @@ class King < Piece
 		return false unless super
 		return true if can_castle?(x_target, y_target)
 		return true if move_single_step?(x_target, y_target)
+		return false if can_be_captured?(x_target, y_target)
 		return false
 	end
 
@@ -18,6 +19,22 @@ class King < Piece
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
 		game.update_attributes(status: "in_check") if checking?
 		true
+	end
+
+	def can_move_out_of_check?(x_current, y_current)
+		move_options = [[x_current+1, y_current+0],
+						[x_current+1, y_current+1],
+						[x_current+0, y_current+1],
+						[x_current-1, y_current+1],
+						[x_current-1, y_current+0],
+						[x_current+1, y_current+0],
+						[x_current+1, y_current+0],
+						[x_current+1, y_current+0]]
+		move_options.each do |move|
+			x = move.first
+			y = move.last
+			return true if valid_move?(x,y)
+		end
 	end
 
 	def can_castle?(x_target, y_target)

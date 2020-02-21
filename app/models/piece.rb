@@ -5,8 +5,14 @@ class Piece < ApplicationRecord
 		return false unless valid_move?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
-		if checking?()
+		game.pieces.reload
+		if checking?
 			game.update_attributes!(status: "in_check")
+		else
+			game.update_attributes!(status: "in_progress")
+		end
+		if checkmate?
+			game.update_attributes!(status: "checkmate")
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
@@ -38,21 +44,51 @@ class Piece < ApplicationRecord
   		true
   	end
 
-  	def king_in_check?(king_x, king_y)
+  	def can_be_captured?(x_current, y_current)
   		opponent_pieces.each do |opponent|
-  			return true if opponent.valid_move?(king_x, king_y)
+  			return true if opponent.valid_move?(x_current, y_current)
   		end
   		false
+  	end
+
+  	def can_be_blocked?(x_target, y_target)
+  		case
+			when vertical_move?(x_target, y_target)
+				vertical_target?(x_target, y_target)
+			when horizontal_move?(x_target, y_target)
+				horizontal_target?(x_target, y_target)
+			when diagonal_move?(x_target, y_target)
+				diagonal_target?(x_target, y_target)
+			else
+				false
+		end
   	end
 
   	def checking?
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color, captured: false)
   		pieces.each do |piece|
-  			return true if piece.valid_move?(opponent_king.x_position.to_i, opponent_king.y_position.to_i)
+  			if piece.valid_move?(opponent_king.x_position, opponent_king.y_position)
+  				@piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
+  				return true
+  			end
+  			false
   		end
   		false
   	end
+
+  	def checkmate?
+  		checked_king = game.pieces.where(type: 'King', color: color).first
+  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
+
+  		return false unless opponent_king.checking?
+  		return false if @piece_causing_check.can_be_captured?(@piece_causing_check.x_position, @piece_causing_check.y_position)
+  		return false if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
+  		return false if @piece_causing_check.can_be_blocked?(checked_king.x_position, checked_king.y_position)
+
+  		true
+  	end
+
 
   	def is_obstructed?(x_target, y_target)
 		case
@@ -105,6 +141,37 @@ class Piece < ApplicationRecord
     	false
   	end
 
+  	def vertical_target?(y_target)
+		direction = y_target > y_position ? 1 : -1
+		(y_position + direction).step(y_target - direction, direction) do |y_current|
+			return true if can_be_captured?(x_position, y_current)
+		end
+		false
+	end
+
+	def horizontal_target?(x_target)
+		direction = x_target > x_position ? 1 : -1
+		(x_position + direction).step(x_target - direction, direction) do |x_current|
+			return true if can_be_captured?(x_current, y_position)
+		end
+		false
+	end
+
+	def diagonal_target?(x_target, y_target)
+    	x_direction = x_target > x_position ? 1 : -1
+    	y_direction = y_target > y_position ? 1 : -1
+    	(x_position + x_direction).step(x_target - x_direction, x_direction) do |x_current|
+      		y_current = y_position + ((x_current - x_position).abs * y_direction)
+      		return true if can_be_captured?(x_current, y_current)
+    	end
+    	false
+  	end
+
+	def opponent_color
+		return "black" if color == "white"
+		"white"
+	end
+
   	private
 
   	def move_single_step?(x_target, y_target)
@@ -119,11 +186,6 @@ class Piece < ApplicationRecord
 
 	def on_board?(x_target, y_target)
 		x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
-	end
-
-	def opponent_color
-		return "black" if color == "white"
-		"white"
 	end
 
 	def opponent_pieces

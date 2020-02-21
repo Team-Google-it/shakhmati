@@ -4,13 +4,24 @@ class Game < ApplicationRecord
 	has_many :pieces
 
 	scope :available, -> { where("white_player_id IS NULL or black_player_id IS NULL")}
+	scope :by_status, ->(status) { where(status: status)}
+	scope :in_progress, -> { by_status('in_progress')}
 
-	def in_check?(color)
-		king = get_piece('King', color)
-		opponent_pieces(color).each do |opponent|
-			return true if opponent.valid_move?(king.x_position, king.y_position)
-		end
-		false
+	def in_check?
+		status == 'in_check'
+	end
+
+	def checkmate?
+		status == 'checkmate'
+	end
+
+	def assign_first_turn
+		update_attributes(turn: 'white')
+	end
+
+	def swap_turn
+		change = turn == 'white' ? 'black' : 'white'
+		update_attributes(turn: change)
 	end
 
 	def populate_white_pieces
