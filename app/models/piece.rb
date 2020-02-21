@@ -59,7 +59,7 @@ class Piece < ApplicationRecord
 		end
   	end
 
-  	@piece_causing_check = nil
+  	piece_causing_check = nil
   	def checking?
   		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
   		pieces = game.pieces.where(color: color, captured: false)
@@ -68,7 +68,7 @@ class Piece < ApplicationRecord
   			puts "Opponent king position: #{opponent_king.x_position}, #{opponent_king.y_position}"
   			if piece.valid_move?(opponent_king.x_position, opponent_king.y_position)
   				puts "You are in check"
-  				@piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
+  				piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
   				return true
   			end
   			false
