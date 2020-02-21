@@ -12,10 +12,19 @@ class PiecesController < GamesController
   def update
     @piece = Piece.find_by(id: params[:id])
     @game = @piece.game
+    if current_user.id == @game.white_player_id
+      user_color = "white"
+    else
+      user_color = "black"
+    end
+    #if @game.stalemate?(user_color)
+    #  flash[:alert] = "The game is in a stalemate"
+    #  @game.update_attributes(:status => "in_stalemate")
+    #end
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
     if @piece.move_to(new_x, new_y) == false
-      flash[:alert] = 'This move is invalid. Try again.'
+      flash.now.alert = 'This move is invalid. Try again.'
       render partial: 'games/update'
     else
       render partial: 'games/modal'
