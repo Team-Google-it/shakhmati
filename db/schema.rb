@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_21_015438) do
+ActiveRecord::Schema.define(version: 2020_02_21_213924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_015438) do
     t.string "status"
     t.integer "last_piece_x"
     t.integer "last_piece_y"
+    t.string "turn"
   end
 
   create_table "pieces", force: :cascade do |t|

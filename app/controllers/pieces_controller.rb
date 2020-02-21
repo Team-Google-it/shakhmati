@@ -12,11 +12,6 @@ class PiecesController < GamesController
   def update
     @piece = Piece.find_by(id: params[:id])
     @game = @piece.game
-    if current_user.id == @game.white_player_id
-      user_color = "white"
-    else
-      user_color = "black"
-    end
     #if @game.stalemate?(user_color)
     #  flash[:alert] = "The game is in a stalemate"
     #  @game.update_attributes(:status => "in_stalemate")
@@ -24,17 +19,24 @@ class PiecesController < GamesController
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
     if @piece.move_to(new_x, new_y) == false
-      flash.now.alert = 'This move is invalid. Try again.'
+      if current_user.id == @piece.player_id
+        flash.now.alert = 'This move is invalid. Try again.'
+      else
+        flash.now.alert = 'It is not your turn!'
+      end
       render partial: 'games/update'
-    elsif @game.in_check?
-      flash.now.alert = "Check!"
-      render partial: 'games/modal'
-    elsif @game.checkmate?
-      flash.now.alert = "Checkmate!"
-      render partial: 'games/modal'
     else
       current_game.swap_turn
-      render partial: 'games/modal'
+      flash.now.notice = "Your turn, #{@game.turn}"
+      if @game.in_check?
+        flash.now.alert = "Check!"
+        render partial: 'games/modal'
+      elsif @game.checkmate?
+        flash.now.alert = "Checkmate!"
+        render partial: 'games/modal'
+      else
+        render partial: 'games/modal'
+      end
     end
   end
 
