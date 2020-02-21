@@ -19,7 +19,7 @@ class Piece < ApplicationRecord
 	end
 
 	def occupied?(x_current, y_current)
-		game.pieces.where(x_position: x_current, y_position: y_current).present?
+		game.piece_at(x_current, y_current).present?
 	end
 
 	def capture(x_target, y_target)
@@ -28,11 +28,7 @@ class Piece < ApplicationRecord
   	end
 
   	def find_piece(x_target, y_target)
-  		return game.pieces.where(x_position: x_target, y_position: y_target).first
-  	end
-
-  	def find_last_piece(x_target, y_target)
-  		return Piece.find_by(x_position: x_target, y_position: y_target, game_id: game.id)
+  		game.piece_at(x_target, y_target)
   	end
 
   	def valid_move?(x_target, y_target)
