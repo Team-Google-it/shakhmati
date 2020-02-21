@@ -37,7 +37,6 @@ class Piece < ApplicationRecord
   		return false unless on_board?(x_target, y_target)
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
-  		puts "Same color: #{same_color?(color)}"
   		return false if !same_color?(color)
   		true
   	end
@@ -176,14 +175,7 @@ class Piece < ApplicationRecord
 	end
 
 	def same_color?(color)
-		piece = Piece.find_by(color: color)
-		op_piece = Piece.find_by(color: opponent_color)
-		id = color == 'white' ? piece.player_id : op_piece.player_id
-		puts "Game id: #{id}"
-		puts "Piece id: #{piece.player_id}"
-		game = Game.find_by(id: id)
-		puts "Game turn: #{game.turn}"
-  		return true if color == game.turn
+  		color == game.turn
   	end
 
   	private
