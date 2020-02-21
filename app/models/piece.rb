@@ -169,6 +169,10 @@ class Piece < ApplicationRecord
 		"white"
 	end
 
+	def same_color?(color)
+		color == game.turn
+	end
+
   	private
 
   	def move_single_step?(x_target, y_target)
@@ -179,10 +183,6 @@ class Piece < ApplicationRecord
 
 	def same_position?(x_target, y_target)
 		x_position == x_target && y_position == y_target
-	end
-
-	def same_color?(color)
-		color == game.turn
 	end
 
 	def on_board?(x_target, y_target)
