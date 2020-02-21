@@ -3,6 +3,7 @@ class Piece < ApplicationRecord
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
 		game.pieces.reload
@@ -16,6 +17,19 @@ class Piece < ApplicationRecord
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
+	end
+
+	def would_be_in_check?(x_target, y_target)
+		previous_attributes = attributes
+		move_to(x_target, y_target)
+		begin
+			if checking?
+				true
+			end
+		ensure
+		update_attributes(previous_attributes)
+		false
+		end
 	end
 
 	def occupied?(x_current, y_current)
@@ -37,6 +51,7 @@ class Piece < ApplicationRecord
   		return false unless on_board?(x_target, y_target)
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
+			return false if would_be_in_check?(x_target, y_target)
   		true
   	end
 
