@@ -7,6 +7,10 @@ class Game < ApplicationRecord
 	scope :by_status, ->(status) { where(status: status)}
 	scope :in_progress, -> { by_status('in_progress')}
 
+	def in_progress?
+		status ==  'in_progress'
+	end
+
 	def in_check?
 		status == 'in_check'
 	end

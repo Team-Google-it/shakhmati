@@ -14,6 +14,7 @@ class PiecesController < GamesController
     @game = @piece.game
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
+    current_game.swap_turn
     if @piece.move_to(new_x, new_y) == false
       flash[:alert] = 'This move is invalid. Try again.'
       render partial: 'games/update'
@@ -27,5 +28,9 @@ class PiecesController < GamesController
 
   def piece_params
     params.require(:piece).permit(:x_position, :y_position)
+  end
+
+  def current_game
+    @game ||= Game.find(params[:id] || params[:game_id])
   end
 end

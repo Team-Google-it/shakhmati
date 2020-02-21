@@ -8,13 +8,6 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		@piece.update_attributes(type: new_type)
 	end
 
-	def promote
-		@game = Game.find_by_id(params[:id])
-		new_type = params[:type]
-		@piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y)
-		@piece.update_attributes(type: new_type)
-	end
-
 	def index
 		@games = Game.available
 		@game = Game.new
@@ -29,6 +22,7 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 	def create
 		@game = Game.create(game_params)
 		@game.update_attributes(:white_player_id => current_user.id, :status => "pending")
+		@game.assign_first_turn
 		if @game.valid?
 			redirect_to game_path(@game)
 		else

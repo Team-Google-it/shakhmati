@@ -1,4 +1,17 @@
 <br>
+<% if @game.in_progress? %>
+  <% if @game.turn == 'white' %>
+    <div class="text-center"><h4>White's turn!</h4></div>
+  <% else %>
+    <div class="text-center"><h4>Black's turn!</h4></div>
+  <% end %>
+<% elsif @game.in_check? %>
+  <div class="text-center"><h4>Check!</h4></div>
+<% elsif @game.checkmate? %>
+  <div class="text-center"><h4>Checkmate!</h4></div>
+<% end %>
+
+<br>
 <div class="row col-10 offset-2">
   <div class="col-9" align="right">
     <table id="chessboard">
