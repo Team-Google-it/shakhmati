@@ -27,7 +27,6 @@ class PiecesController < GamesController
       render partial: 'games/update'
     else
       current_game.swap_turn
-      flash.now.notice = "Your turn, #{@game.turn}"
       if @game.in_check?
         flash.now.alert = "Check!"
         render partial: 'games/modal'
