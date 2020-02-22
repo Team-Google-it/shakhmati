@@ -1,4 +1,5 @@
 $("#chessboard").html('<%= j render partial: 'games/board' %>');
 $("#flash").html('<%= j render partial: 'games/flash', locals: {:flash => flash} %>');
+$("#turn-container").html('<%= j render partial: 'games/turn' %>');
 init_draggables_and_droppables();
 openModal();
