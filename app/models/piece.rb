@@ -29,12 +29,12 @@ class Piece < ApplicationRecord
 			previous_attributes = attributes
 			update_attributes!(x_position: x_target, y_position: y_target)
 			# puts "checking should be called"
-			# game.pieces.reload
+			game.pieces.reload
 			return true if checking?(opponent_color)
 		ensure
 			# puts "ensure"
 			update_attributes!(previous_attributes)
-
+			game.pieces.reload
 		end
 		return false
 	end
