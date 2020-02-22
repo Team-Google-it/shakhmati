@@ -2,14 +2,22 @@ class King < Piece
 
 	def valid_move?(x_target, y_target)
 		return false unless super
-		return true if can_castle?(x_target, y_target)
-		return true if move_single_step?(x_target, y_target)
-		return false
+
+		if can_castle?(x_target, y_target)
+			return true
+		end
+		unless move_single_step?(x_target, y_target)
+			return false
+		end
+		if can_be_captured?(x_target, y_target)
+			return false
+		end
+		return true
 	end
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
-		return false if king_in_check?(x_target, y_target)
+		return false if can_be_captured?(x_target, y_target)
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		if can_castle?(x_target, y_target)
 			rook = castling_rook(x_target, y_target)
@@ -17,7 +25,27 @@ class King < Piece
 		end
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
 		game.update_attributes(status: "in_check") if checking?
+		game.pieces.reload
 		true
+	end
+
+	def can_move_out_of_check?(x_current, y_current)
+		move_options = [[x_current+1, y_current-1],
+										[x_current+1, y_current+0],
+										[x_current+1, y_current+1],
+										[x_current+0, y_current+1],
+										[x_current-1, y_current+1],
+										[x_current-1, y_current+0],
+										[x_current-1, y_current-1],
+										[x_current+0, y_current-1]]
+		move_options.each do |move|
+			x = move.first
+			y = move.last
+			if valid_move?(x,y)
+				return true
+			end
+		end
+		false
 	end
 
 	def can_castle?(x_target, y_target)
@@ -30,13 +58,13 @@ class King < Piece
 		king_target = [x_target, y_target]
 		case king_target
 		when [2,0]
-			return false if king_in_check?(3,0) || occupied?(3,0) || occupied?(1,0)
+			return false if can_be_captured?(3,0) || occupied?(3,0) || occupied?(1,0)
 		when [6,0]
-			return false if king_in_check?(5,0) || occupied?(5,0)
+			return false if can_be_captured?(5,0) || occupied?(5,0)
 		when [2,7]
-			return false if king_in_check?(3,7) || occupied?(3,7) || occupied?(1,7)
+			return false if can_be_captured?(3,7) || occupied?(3,7) || occupied?(1,7)
 		when [6,7]
-			return false if king_in_check?(5,7) || occupied?(5,7)
+			return false if can_be_captured?(5,7) || occupied?(5,7)
 		else
 			nil
 		end
