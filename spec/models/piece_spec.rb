@@ -55,10 +55,6 @@ RSpec.describe Piece, type: :model do
 				before do
 					allow(piece).to receive(:checking?).and_return(checking?)
 				end
-				it "status should equal in_check" do
-					move_to
-					expect(game.status).to eq "in_check"
-				end
 			end
 			# context 'when king is in checkmate' do
 			# 	let(:checkmate?) { true }
