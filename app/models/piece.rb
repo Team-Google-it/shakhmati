@@ -57,7 +57,7 @@ class Piece < ApplicationRecord
   		return false unless on_board?(x_target, y_target)
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
-  		return false if !same_color?(color)
+  		# return false if !same_color?(color)
   		true
   	end
 
@@ -111,7 +111,7 @@ class Piece < ApplicationRecord
 			end
   		true
   	end
-	
+
   	def is_obstructed?(x_target, y_target)
 		case
 			when vertical_move?(x_target, y_target)
