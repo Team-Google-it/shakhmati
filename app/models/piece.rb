@@ -4,7 +4,6 @@ class Piece < ApplicationRecord
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
 		if would_be_in_check?(x_target, y_target)
-			puts "returns true"
 			return false
 		end
 
