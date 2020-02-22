@@ -3,6 +3,10 @@ class Piece < ApplicationRecord
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+		if would_be_in_check?(x_target, y_target)
+			puts "returning not false"
+			return false
+		end
 
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
@@ -20,15 +24,17 @@ class Piece < ApplicationRecord
 	end
 
 	def would_be_in_check?(x_target, y_target)
-		previous_attributes = attributes
-		move_to(x_target, y_target)
+		puts "would be checked"
 		begin
-			if checking?
-				true
-			end
+			previous_attributes = attributes
+			update_attributes!(x_position: x_target, y_position: y_target)
+			puts "checking should be called"
+			game.pieces.reload
+			return true if checking?
 		ensure
-		update_attributes(previous_attributes)
-		false
+			puts "ensure"
+			update_attributes!(previous_attributes)
+			return false
 		end
 	end
 
@@ -51,7 +57,6 @@ class Piece < ApplicationRecord
   		return false unless on_board?(x_target, y_target)
   		return false if occupied?(x_target, y_target) && color == target.color
   		return false if is_obstructed?(x_target, y_target)
-			return false if would_be_in_check?(x_target, y_target)
   		true
   	end
 
