@@ -58,14 +58,31 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		@game = Game.find(params[:id])
 		if @game.white_player_id && @game.black_player_id && (current_user.id == @game.white_player_id || current_user.id == @game.black_player_id)
 			if current_user.id == @game.black_player_id
+
+				loser = User.find_by(id: @game.black_player_id)
 				user = User.find_by(id: @game.white_player_id)
+
+				user_total_games = user.total_games + 1
+				loser_total_games = loser.total_games + 1
 				wins_update = user.wins + 1
-				user.update_attributes(:wins => wins_update)
+				losses_update = loser.losses + 1
+
+				loser.update_attributes(:losses => losses_update, :total_games => loser_total_games)
+				user.update_attributes(:wins => wins_update, :total_games => user_total_games)
 				@game.update_attributes(:black_player_id => nil, :status => "completed")
+
 			elsif current_user.id == @game.white_player_id
+
+				loser = User.find_by(id: @game.white_player_id)
 				user = User.find_by(id: @game.black_player_id)
+
+				user_total_games = user.total_games + 1
+				loser_total_games = loser.total_games + 1
 				wins_update = user.wins + 1
-				user.update_attributes(:wins => wins_update)
+				losses_update = loser.losses + 1
+
+				loser.update_attributes(:losses => losses_update, :total_games => loser_total_games)
+				user.update_attributes(:wins => wins_update, :total_games => user_total_games)
 				@game.update_attributes(:white_player_id => nil, :status => "completed")
 			else
 				flash[:danger] = "You are not a player of this game!"
