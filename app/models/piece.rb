@@ -15,11 +15,24 @@ class Piece < ApplicationRecord
 			if checkmate?
 				game.update_attributes!(status: "checkmate")
 			end
+		elsif stalemate?
+			game.update_attributes(status: "stalemate")
 		else
 			game.update_attributes!(status: "in_progress")
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
+	end
+
+	def stalemate?
+		pieces = Piece.where(color: color, captured: false).all
+		pieces.each do |piece|
+			(0..7).each do |x|
+				(0..7).each do |y|
+					return false if piece.valid_move?(x, y) && !piece.would_be_in_check?(x, y)
+				end
+			end
+		end
 	end
 
 	def would_be_in_check?(x_target, y_target)
