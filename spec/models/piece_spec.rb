@@ -13,7 +13,7 @@ RSpec.describe Piece, type: :model do
 	      	allow(white_rook).to receive(:find_piece).and_return(find_piece)
 	    end
 	    context 'target is of different colors' do
-	      	let(:find_piece) { black_queen } 
+	      	let(:find_piece) { black_queen }
 	      	it "should capture the target" do
 		        capture
 		        black_queen.reload
@@ -21,13 +21,23 @@ RSpec.describe Piece, type: :model do
 	      	end
 	    end
 	    context 'target is of the same color' do
-	      	let(:find_piece) { white_queen } 
+	      	let(:find_piece) { white_queen }
 	      	it "should not capture the target" do
 		        capture
 		        white_queen.reload
 		        expect(black_queen.captured).to eq false
 	      	end
 	    end
+	end
+
+	describe "#would_be_in_check?" do
+		let(:game) { FactoryBot.create(:game) }
+		let(:king) { FactoryBot.create(:king, color: "white", x_position: 1, y_position: 3, game_id: game.id) }
+		let(:rook) { FactoryBot.create(:rook, color: "black", x_position: 0, y_position: 4, game_id: game.id) }
+		it "should prevent moving the king into check" do
+			king.game.pieces.reload
+			expect(king.valid_move?(0, 3)).to eq false
+		end
 	end
 
 	describe '#move_to' do
@@ -44,10 +54,6 @@ RSpec.describe Piece, type: :model do
 				let(:game) { piece.game }
 				before do
 					allow(piece).to receive(:checking?).and_return(checking?)
-				end
-				it "status should equal in_check" do
-					move_to
-					expect(game.status).to eq "in_check"
 				end
 			end
 			# context 'when king is in checkmate' do

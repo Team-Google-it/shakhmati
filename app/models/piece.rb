@@ -3,10 +3,14 @@ class Piece < ApplicationRecord
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+		if would_be_in_check?(x_target, y_target)
+			return false
+		end
+
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
 		game.pieces.reload
-		if checking?
+		if checking?(color)
 			game.update_attributes!(status: "in_check")
 			if checkmate?
 				game.update_attributes!(status: "checkmate")
@@ -16,6 +20,24 @@ class Piece < ApplicationRecord
 		end
 		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		true
+	end
+
+	def would_be_in_check?(x_target, y_target)
+		puts "would be checked"
+		begin
+			previous_attributes = attributes
+			update_attributes!(x_position: x_target, y_position: y_target)
+			game.swap_turn
+			# puts "checking should be called"
+			game.pieces.reload
+			return checking?(opponent_color)
+		ensure
+			# puts "ensure"
+			update_attributes!(previous_attributes)
+			game.swap_turn
+			game.pieces.reload
+		end
+		# return false
 	end
 
 	def occupied?(x_current, y_current)
@@ -62,9 +84,15 @@ class Piece < ApplicationRecord
   	end
 
   	piece_causing_check = nil
-  	def checking?
-  		opponent_king = game.pieces.where(type: 'King', color: opponent_color).first
-  		pieces = game.pieces.where(color: color, captured: false)
+
+  	def checking?(checking_color)
+			if checking_color == "white"
+				checked_color = "black"
+			else
+				checked_color = "white"
+			end
+  		opponent_king = game.pieces.where(type: 'King', color: checked_color).first
+  		pieces = game.pieces.where(color: checking_color, captured: false)
   		pieces.each do |piece|
   			if piece.valid_move?(opponent_king.x_position, opponent_king.y_position)
   				piece_causing_check = game.pieces.where(x_position: piece.x_position, y_position: piece.y_position).first
@@ -77,7 +105,7 @@ class Piece < ApplicationRecord
 
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: color).first
-  		unless checked_king.checking?
+  		unless checked_king.checking?(color)
 				return false
 			end
   		if can_be_captured?(x_position, y_position)
@@ -91,7 +119,7 @@ class Piece < ApplicationRecord
 			end
   		true
   	end
-	
+
   	def is_obstructed?(x_target, y_target)
 		case
 			when vertical_move?(x_target, y_target)
@@ -170,11 +198,19 @@ class Piece < ApplicationRecord
   	end
 
   	def opponent_color
-		return "black" if color == "white"
-		"white"
-	end
+			return "black" if color == "white"
+			"white"
+		end
 
-	def same_color?(color)
+		# def user_color
+		#	if current_user.id == game.white_player_id
+		#		"white"
+		#	else
+		#		"black"
+		#	end
+		# end
+
+		def same_color?(color)
   		color == game.turn
   	end
 

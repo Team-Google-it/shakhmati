@@ -24,7 +24,7 @@ class King < Piece
 			rook.move_castled_rook(x_target, y_target)
 		end
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
-		game.update_attributes(status: "in_check") if checking?
+		game.update_attributes(status: "in_check") if checking?(color)
 		game.pieces.reload
 		true
 	end
@@ -41,7 +41,7 @@ class King < Piece
 		move_options.each do |move|
 			x = move.first
 			y = move.last
-			if valid_move?(x,y)
+			if valid_move?(x,y) && on_board?(x, y) && !would_be_in_check?(x, y)
 				return true
 			end
 		end

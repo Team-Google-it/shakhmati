@@ -9,7 +9,7 @@ FactoryBot.define do
   factory :rook do
     game
     type        { 'Rook' }
-    player_id   { 1 }
+    player_id   { 2 }
     x_position  { 0 }
     y_position  { 0 }
     captured    { false }
