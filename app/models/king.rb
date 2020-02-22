@@ -2,16 +2,14 @@ class King < Piece
 
 	def valid_move?(x_target, y_target)
 		return false unless super
+
 		if can_castle?(x_target, y_target)
-			puts "king can castle"
 			return true
 		end
 		unless move_single_step?(x_target, y_target)
-			puts "move single step is false"
 			return false
 		end
 		if can_be_captured?(x_target, y_target)
-			puts "king can be captured"
 			return false
 		end
 		return true
@@ -44,13 +42,11 @@ class King < Piece
 			x = move.first
 			y = move.last
 			if valid_move?(x,y)
-				puts "can_move_out_of_check is true"
 				return true
 			end
 		end
 		false
 	end
-
 
 	def can_castle?(x_target, y_target)
 		return false unless allowed_castling_target?(x_target, y_target)

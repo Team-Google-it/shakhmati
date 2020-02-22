@@ -22,10 +22,12 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 	def create
 		@game = Game.create(game_params)
 		@game.update_attributes(:white_player_id => current_user.id, :status => "pending")
+		@game.assign_first_turn
 		pieces = Piece.where(color: "white").all
 		pieces.each do |piece|
 			piece.update_attributes(player_id: @game.white_player_id)
 		end
+
 		if @game.valid?
 			redirect_to game_path(@game)
 		else
