@@ -7,6 +7,9 @@
   </div>
   <div class="side-panel col-2">
     <p class="forfeit-button"><%= link_to "Forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-secondary' %></p>
+    <div id="turn-container">
+      <%= render 'turn' %>
+    </div>
   </div>
 </div>
 
