@@ -41,7 +41,7 @@ class King < Piece
 		move_options.each do |move|
 			x = move.first
 			y = move.last
-			if valid_move?(x,y)
+			if valid_move?(x,y) && on_board?(x, y) && !would_be_in_check?(x, y)
 				return true
 			end
 		end

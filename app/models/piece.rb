@@ -28,15 +28,17 @@ class Piece < ApplicationRecord
 		begin
 			previous_attributes = attributes
 			update_attributes!(x_position: x_target, y_position: y_target)
+			game.swap_turn
 			# puts "checking should be called"
 			game.pieces.reload
-			return true if checking?(opponent_color)
+			return checking?(opponent_color)
 		ensure
 			# puts "ensure"
 			update_attributes!(previous_attributes)
+			game.swap_turn
 			game.pieces.reload
 		end
-		return false
+		# return false
 	end
 
 	def occupied?(x_current, y_current)
