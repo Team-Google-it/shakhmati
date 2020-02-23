@@ -78,19 +78,32 @@ class Piece < ApplicationRecord
   	def valid_move?(x_target, y_target)
   		target = find_piece(x_target, y_target)
   		return false if same_position?(x_target, y_target)
+			puts "1"
   		return false unless on_board?(x_target, y_target)
+			puts "2"
   		return false if occupied?(x_target, y_target) && color == target.color
+			puts "3"
   		return false if is_obstructed?(x_target, y_target)
+			puts "4"
   		return false if !same_color?(color)
+			puts "returning true"
   		true
   	end
 
   	def can_be_captured?(x_current, y_current)
-			pieces = opponent_pieces
-  		pieces.each do |opponent|
-  			return true if opponent.valid_move?(x_current, y_current)
-  		end
-  		false
+			pieces = game.pieces.where(color: opponent_color, captured: false).all
+			begin
+				game.swap_turn
+	  		pieces.each do |opponent|
+					puts "can it be?"
+	  			if opponent.valid_move?(x_current, y_current)
+						return true
+					end
+	  		end
+				ensure
+					game.swap_turn
+				end
+	  	false
   	end
 
   	def can_be_blocked?(x_target, y_target)
@@ -128,7 +141,7 @@ class Piece < ApplicationRecord
 
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: opponent_color).first
-  		unless checked_king.checking?(color)
+  		unless checking?(color)
 				return false
 			end
   		if can_be_captured?(x_position, y_position)
