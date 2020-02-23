@@ -60,7 +60,7 @@ class Piece < ApplicationRecord
 			game.swap_turn
 			game.pieces.reload
 		end
-		# return false
+		return false
 	end
 
 	def occupied?(x_current, y_current)
@@ -91,14 +91,13 @@ class Piece < ApplicationRecord
 			begin
 				game.swap_turn
 	  		pieces.each do |opponent|
-					puts "can it be?"
 	  			if opponent.valid_move?(x_current, y_current) && !opponent.would_be_in_check?(x_current, y_current)
 						return true
 					end
 	  		end
-				ensure
-					game.swap_turn
-				end
+			ensure
+				game.swap_turn
+			end
 	  	false
   	end
 
@@ -138,19 +137,15 @@ class Piece < ApplicationRecord
   	def checkmate?
   		checked_king = game.pieces.where(type: 'King', color: opponent_color).first
   		unless checking?(color)
-				puts "checking"
 				return false
 			end
   		if can_be_captured?(x_position, y_position)
-				puts "can be captured"
 				return false
 			end
   		if checked_king.can_move_out_of_check?(checked_king.x_position, checked_king.y_position)
-				puts "can move out of check"
 				return false
 			end
   		if can_be_blocked?(checked_king.x_position, checked_king.y_position)
-				puts "can be blocked"
 				return false
 			end
   		true
