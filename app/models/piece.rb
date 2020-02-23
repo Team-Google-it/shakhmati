@@ -117,7 +117,7 @@ class Piece < ApplicationRecord
   	end
 
   	def checkmate?
-  		checked_king = game.pieces.where(type: 'King', color: color).first
+  		checked_king = game.pieces.where(type: 'King', color: opponent_color).first
   		unless checked_king.checking?(color)
 				return false
 			end
