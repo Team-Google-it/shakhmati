@@ -39,6 +39,12 @@ class Piece < ApplicationRecord
 		puts "would be checked"
 		begin
 			previous_attributes = attributes
+			target = Piece.find_by(x_position: x_target, y_position: y_target)
+			if target
+				target_previous_attributes = target.attributes
+				target.update_attributes!(x_position: nil, y_position: nil, captured: true)
+			end
+			capture(x_target, y_target) if occupied?(x_target, y_target)
 			update_attributes!(x_position: x_target, y_position: y_target)
 			game.swap_turn
 			# puts "checking should be called"
@@ -47,6 +53,9 @@ class Piece < ApplicationRecord
 		ensure
 			# puts "ensure"
 			update_attributes!(previous_attributes)
+			if target
+				target.update_attributes!(target_previous_attributes)
+			end
 			game.swap_turn
 			game.pieces.reload
 		end
@@ -77,7 +86,8 @@ class Piece < ApplicationRecord
   	end
 
   	def can_be_captured?(x_current, y_current)
-  		opponent_pieces.each do |opponent|
+			pieces = opponent_pieces
+  		pieces.each do |opponent|
   			return true if opponent.valid_move?(x_current, y_current)
   		end
   		false
@@ -86,9 +96,9 @@ class Piece < ApplicationRecord
   	def can_be_blocked?(x_target, y_target)
   		case
 			when vertical_move?(x_target, y_target)
-				vertical_target?(x_target, y_target)
+				vertical_target?(y_target)
 			when horizontal_move?(x_target, y_target)
-				horizontal_target?(x_target, y_target)
+				horizontal_target?(x_target)
 			when diagonal_move?(x_target, y_target)
 				diagonal_target?(x_target, y_target)
 			else
@@ -227,6 +237,10 @@ class Piece < ApplicationRecord
   		color == game.turn
   	end
 
+		def opponent_pieces
+	  	game.pieces.where(color: opponent_color, captured: false).all
+		end
+
   	private
 
   	def move_single_step?(x_target, y_target)
@@ -242,8 +256,4 @@ class Piece < ApplicationRecord
 	def on_board?(x_target, y_target)
 		x_target >= 0 && x_target <= 7 && y_target >= 0 && y_target <= 7
 	end
-
-	def opponent_pieces
-    	game.pieces.where(color: opponent_color, captured: false)
-  	end
 end
