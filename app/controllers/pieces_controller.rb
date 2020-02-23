@@ -26,6 +26,10 @@ class PiecesController < GamesController
       end
       render partial: 'games/update'
     else
+      if @piece.save
+        ActionCable.server.broadcast 'game_channel',
+                                     params:  @piece.params
+      end
       current_game.swap_turn
       if @game.in_check?
         flash.now.alert = "Check!"
