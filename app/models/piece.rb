@@ -25,7 +25,7 @@ class Piece < ApplicationRecord
 	end
 
 	def stalemate?
-		pieces = Piece.where(color: color, captured: false).all
+		pieces = Piece.where(color: game.turn, captured: false).all
 		pieces.each do |piece|
 			(0..7).each do |x|
 				(0..7).each do |y|
@@ -33,6 +33,7 @@ class Piece < ApplicationRecord
 				end
 			end
 		end
+		true
 	end
 
 	def would_be_in_check?(x_target, y_target)
@@ -78,15 +79,10 @@ class Piece < ApplicationRecord
   	def valid_move?(x_target, y_target)
   		target = find_piece(x_target, y_target)
   		return false if same_position?(x_target, y_target)
-			puts "1"
   		return false unless on_board?(x_target, y_target)
-			puts "2"
   		return false if occupied?(x_target, y_target) && color == target.color
-			puts "3"
   		return false if is_obstructed?(x_target, y_target)
-			puts "4"
   		return false if !same_color?(color)
-			puts "returning true"
   		true
   	end
 
