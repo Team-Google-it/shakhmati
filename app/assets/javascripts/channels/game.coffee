@@ -7,3 +7,4 @@ App.game = App.cable.subscriptions.create "GameChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    document.location.reload() if data.reload

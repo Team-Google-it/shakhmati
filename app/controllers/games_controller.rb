@@ -1,6 +1,16 @@
 class GamesController < ApplicationController
 before_action :authenticate_user!, only: [:new, :create, :update, :show, :destroy]
 
+	def self.start(uuid1, uuid2)
+		# white, black = [uuid1, uuid2].shuffle
+
+		ActionCable.server.broadcast "player_#{white_player_id}", {action: "game_start", msg: "white"}
+		ActionCable.server.broadcast "player_#{black_player_id}", {action: "game_start", msg: "black"}
+
+		REDIS.set("opponent_for:#{white_player_id}", black)
+		REDIS.set("opponent_for:#{black_player_id}", white)
+	end
+
 	def promote
 		@game = Game.find_by_id(params[:id])
 		new_type = params[:type]

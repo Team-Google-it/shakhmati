@@ -28,7 +28,7 @@ class PiecesController < GamesController
     else
       if @piece.save
         ActionCable.server.broadcast 'game_channel',
-                                     params:  @piece.params
+        reload: true
       end
       current_game.swap_turn
       if @game.in_check?
