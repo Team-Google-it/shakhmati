@@ -15,9 +15,9 @@
       </div>
       <% if !current_user %>
         <%= link_to "Sign up", new_user_registration_path, class: 'btn btn-outline-secondary mb-2' %>
-        <%= link_to "Sign in", new_user_session_path, class: 'btn btn-outline-secondary mb-2' %>
+        <%= link_to "Log in", new_user_session_path, class: 'btn btn-outline-secondary mb-2' %>
       <% else %>
-        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'btn btn-outline-secondary mb-2 nav-button' %>
+        <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'btn btn-outline-secondary mb-2 nav-button' %>
         <%= link_to "My Profile", user_path(current_user.id), class: 'btn btn-outline-secondary mb-2 nav-button' %>
         <%= button_to "New Game", new_game_path, method: :get, class: 'btn btn-primary nav-button mb-2' %>
         <%= link_to "View Games", root_path, class: 'btn btn-outline-secondary nav-button' %>
