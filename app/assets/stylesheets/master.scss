@@ -59,6 +59,16 @@
   flex-direction: column;
   justify-content: space-around;
 }
+#credits-modal {
+  max-height: 300px;
+  text-align: center;
+}
+.credits-modal-flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .nav-button {
   width: 90%;
 }
