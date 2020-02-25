@@ -53,3 +53,9 @@
 #forfeit-modal {
   max-height: 200px;
 }
+.forfeit-modal-flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}

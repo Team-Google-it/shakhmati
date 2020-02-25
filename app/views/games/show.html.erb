@@ -14,9 +14,13 @@
 </div>
 <div class="">
   <div id="forfeit-modal" class="modal">
-    <p>Are you sure you want to forfeit this game? (If someone else has joined already, it will count as a loss against you.)</p>
-    <%= link_to "Yes, forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-danger' %>
-    <a href="#forfeit-modal" rel="modal:close">No, go back</a>
+    <div class="forfeit-modal-flex">
+      <p>Are you sure you want to forfeit this game? (If someone else has joined already, it will count as a loss against you.)</p>
+      <div class="forfeit-modal-buttons">
+        <%= link_to "Yes, forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-danger' %>
+        <a href="#forfeit-modal" rel="modal:close">No, go back</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -62,7 +66,7 @@
       });
     }
   }
-  
+
   function handlePawnPromotion() {
     var id = $(this).data('id');
     var type = $(this).data('type')
