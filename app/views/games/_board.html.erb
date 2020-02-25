@@ -1,17 +1,37 @@
-<% ((7).downto(0)).each do |y| %>
-  <tr>
-    <% (0..7).each do |x| %>
-      <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
-        <% piece = @game.piece_at(x, y) %>
-        <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
-          <% if piece.present? %>
-            <% image = find_piece(x, y) %>
-            <div class="draggable" data-id="<%= piece.id %>" data-type="<%= piece.type.to_s %>">
-              <%= image_tag(image, height: '65px').to_s if image %>
-            </div>
-          <% end %>
-        </div>
-      </td>
-    <% end %>
-  </tr>
+<% if current_user.id == @game.white_player_id %>
+  <% ((7).downto(0)).each do |y| %>
+    <tr>
+      <% (0..7).each do |x| %>
+        <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
+          <% piece = @game.piece_at(x, y) %>
+          <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
+            <% if piece.present? %>
+              <% image = find_piece(x, y) %>
+              <div class="draggable" data-id="<%= piece.id %>" data-type="<%= piece.type.to_s %>">
+                <%= image_tag(image, height: '65px').to_s if image %>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+<% else %>
+  <% (0..7).each do |y| %>
+    <tr>
+      <% ((7).downto(0)).each do |x| %>
+        <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
+          <% piece = @game.piece_at(x, y) %>
+          <div class="square<% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %> light<% else %> dark<% end %>">
+            <% if piece.present? %>
+              <% image = find_piece(x, y) %>
+              <div class="draggable" data-id="<%= piece.id %>" data-type="<%= piece.type.to_s %>">
+                <%= image_tag(image, height: '65px').to_s if image %>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
 <% end %>
