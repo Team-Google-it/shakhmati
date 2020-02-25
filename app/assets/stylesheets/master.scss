@@ -72,3 +72,13 @@
 .nav-button {
   width: 90%;
 }
+.form-flex {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.form-container {
+  width: 500px;
+  margin: auto;
+}
