@@ -6,9 +6,19 @@
     </table>
   </div>
   <div class="side-panel col-2">
-    <p class="forfeit-button"><%= link_to "Forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-secondary' %></p>
+    <p class="forfeit-button"><a href="#forfeit-modal" rel="modal:open" class="btn btn-outline-secondary">Foreit Game</a></p>
     <div id="turn-container">
       <%= render 'turn' %>
+    </div>
+  </div>
+</div>
+
+<div id="forfeit-modal" class="modal">
+  <div class="forfeit-modal-flex">
+    <p>Are you sure you want to forfeit this game? (If someone else has joined already, it will count as a loss against you.)</p>
+    <div class="forfeit-modal-buttons">
+      <%= link_to "Yes, forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-danger' %>
+      <a href="#forfeit-modal" rel="modal:close">No, go back</a>
     </div>
   </div>
 </div>
@@ -20,11 +30,8 @@
   <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
   <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
   <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
-  <!-- <a href="pawn-promotion-modal" rel="modal:close">Close</a> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </div>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
   var type;
   var x;
@@ -54,6 +61,7 @@
       });
     }
   }
+
   function handlePawnPromotion() {
     var id = $(this).data('id');
     var type = $(this).data('type')

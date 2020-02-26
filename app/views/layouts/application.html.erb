@@ -14,12 +14,13 @@
         <%= link_to "SHAKHMATI", root_path, class: 'main-header' %>
       </div>
       <% if !current_user %>
-        <%= link_to "Sign up", new_user_registration_path, class: 'btn btn-outline-secondary mb-3' %>
-        <%= link_to "Sign in", new_user_session_path, class: 'btn btn-outline-secondary mb-3' %>
+        <%= link_to "Sign up", new_user_registration_path, class: 'btn btn-outline-secondary mb-2' %>
+        <%= link_to "Log in", new_user_session_path, class: 'btn btn-outline-secondary mb-2' %>
       <% else %>
-        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'btn btn-outline-secondary mb-3' %>
-        <%= link_to "My Profile", user_path(current_user.id), class: 'btn btn-outline-secondary mb-3' %>
-        <%= button_to "New Game", new_game_path, method: :get, class: 'btn btn-primary' %>
+        <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'btn btn-outline-secondary mb-2 nav-button' %>
+        <%= link_to "My Profile", user_path(current_user.id), class: 'btn btn-outline-secondary mb-2 nav-button' %>
+        <%= button_to "New Game", new_game_path, method: :get, class: 'btn btn-primary nav-button mb-2' %>
+        <%= link_to "View Games", root_path, class: 'btn btn-outline-secondary nav-button' %>
       <% end %>
       <div class="open-games">
         <div class="open-games-wrapper">
@@ -32,6 +33,24 @@
             <% end %>
           </div>
         </div>
+      </div>
+      <p class="credits-button mt-3"><a href="#credits-modal" rel="modal:open" class="btn btn-outline-secondary nav-button">Credits</a></p>
+    </div>
+
+    <div id="credits-modal" class="modal">
+      <div class="credits-modal-flex">
+        <h3>This chess app was made by:</h3>
+        <div>
+          <a href="https://github.com/PickleBanquet" target="_blank"><p><strong>Michael Dunphrey</strong></p></a>
+          <a href="https://github.com/derfman9303" target="_blank"><p><strong>Frederic Hodges</strong></p></a>
+          <a href="https://github.com/bvedzi" target="_blank"><p><strong>Burim Vedziovski</strong></p></a>
+        </div>
+        <div>
+          <a href="#credits-modal" rel="modal:close" class="btn btn-outline-secondary">Back</a>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
       </div>
     </div>
 
