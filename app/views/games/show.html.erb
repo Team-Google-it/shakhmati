@@ -22,14 +22,8 @@
     </div>
   </div>
 </div>
+<div id="pawn-modal-container">
 
-<div id="pawn-promotion-modal" class="modal">
-  <p>Select a piece type to promote your pawn to:</p>
-  <% @game = Game.find_by(id: params[:id]) %>
-  <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
-  <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
-  <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
-  <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
 </div>
 
 <script>
@@ -53,12 +47,10 @@
     });
   };
   function openModal() {
-    if (type === "Pawn" && (y === 0 || y === 7)) {
-      $('#pawn-promotion-modal').modal({
-        escapeClose: false,
-        clickClose: false,
-        showClose: false
-      });
+    if (type === "Rook"/* && (y === 0 || y === 7)*/) {
+      // openPawnModal();
+      // testMethod();
+      // render partial: 'games/promotion';
     }
   }
 
