@@ -6,11 +6,13 @@
     </table>
   </div>
   <div class="side-panel col-2">
-    <p class="forfeit-button"><a href="#forfeit-modal" rel="modal:open" class="btn btn-outline-secondary">Foreit Game</a></p>
+    <p class="forfeit-button"><a href="#forfeit-modal" rel="modal:open" class="btn btn-outline-danger">Foreit Game</a></p>
+    <a href="#captured-modal" rel="modal:open" class="btn btn-outline-secondary">Captured pieces</a>
     <div id="turn-container">
+      <hr>
       <%= render 'turn' %>
+      <hr>
     </div>
-    <a href="#captured-modal" rel="modal:open">Captured pieces</a>
   </div>
 </div>
 
@@ -53,6 +55,7 @@
       </div>
     </div>
   </div>
+  <a href="#captured-modal" rel="modal:close">Close</a>
 </div>
 
 <div id="pawn-promotion-modal" class="modal">
