@@ -12,36 +12,40 @@ class PiecesController < GamesController
   def update
     @piece = Piece.find_by(id: params[:id])
     @game = @piece.game
-    #if @game.stalemate?(user_color)
-    #  flash[:alert] = "The game is in a stalemate"
-    #  @game.update_attributes(:status => "in_stalemate")
-    #end
-    new_x = params[:x_position].to_i
-    new_y = params[:y_position].to_i
-    if @piece.move_to(new_x, new_y) == false
-      if current_user.id == @piece.player_id
-        flash.now.alert = 'This move is invalid. Try again.'
+
+      #if @game.stalemate?(user_color)
+      #  flash[:alert] = "The game is in a stalemate"
+      #  @game.update_attributes(:status => "in_stalemate")
+      #end
+      new_x = params[:x_position].to_i
+      new_y = params[:y_position].to_i
+      if @piece.move_to(new_x, new_y) == false
+        if current_user.id == @piece.player_id
+          flash.now.alert = 'This move is invalid. Try again.'
+        else
+          flash.now.alert = 'It is not your turn!'
+        end
+        render partial: 'games/update'
+      elsif @game.pieces.where(type: "Pawn", y_position: 0).exists? || @game.pieces.where(type: "Pawn", y_position: 7).exists?
+        flash.now.alert = 'Please wait until your opponent has promoted their pawn first.'
       else
-        flash.now.alert = 'It is not your turn!'
-      end
-      render partial: 'games/update'
-    else
-      if @piece.save
-        ActionCable.server.broadcast 'game_channel',
-        reload: true
-      end
-      current_game.swap_turn
-      if @game.in_check?
-        flash.now.alert = "Check!"
-        render partial: 'games/modal'
-      elsif @game.checkmate?
-        flash.now.alert = "Checkmate!"
-        render partial: 'games/modal'
-      else
-        render partial: 'games/modal'
+        # action cable broadcast to channel
+        if @piece.save
+          ActionCable.server.broadcast 'game_channel',
+          reload: true
+        end
+        current_game.swap_turn
+        if @game.in_check?
+          flash.now.alert = "Check!"
+          render partial: 'games/modal'
+        elsif @game.checkmate?
+          flash.now.alert = "Checkmate!"
+          render partial: 'games/modal'
+        else
+          render partial: 'games/modal'
+        end
       end
     end
-  end
 
   private
 
