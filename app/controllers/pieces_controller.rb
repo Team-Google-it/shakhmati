@@ -13,12 +13,14 @@ class PiecesController < GamesController
     @piece = Piece.find_by(id: params[:id])
     @game = @piece.game
 
-      #if @game.stalemate?(user_color)
-      #  flash[:alert] = "The game is in a stalemate"
-      #  @game.update_attributes(:status => "in_stalemate")
-      #end
-      new_x = params[:x_position].to_i
-      new_y = params[:y_position].to_i
+    #if @game.stalemate?(user_color)
+    #  flash[:alert] = "The game is in a stalemate"
+    #  @game.update_attributes(:status => "in_stalemate")
+    #end
+    new_x = params[:x_position].to_i
+    new_y = params[:y_position].to_i
+
+    if (current_user.id == @game.white_player_id && @game.turn == "white") || (current_user.id == @game.black_player_id && @game.turn == "black")
       if @piece.move_to(new_x, new_y) == false
         if current_user.id == @piece.player_id
           flash.now.alert = 'This move is invalid. Try again.'
@@ -45,6 +47,9 @@ class PiecesController < GamesController
           render partial: 'games/modal'
         end
       end
+    else
+      flash.now.alert = 'It is not your turn!'
+      render partial: 'games/update'
     end
 
   private
