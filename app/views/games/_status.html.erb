@@ -1,0 +1,6 @@
+<p>Game status:</p>
+<% if @game.status == "in_progress" %>
+  <p><strong>In progress</strong></p>
+<% else %>
+  <p><strong><%= @game.status %></strong></p>
+<% end %>
