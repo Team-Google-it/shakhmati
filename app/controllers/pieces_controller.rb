@@ -29,11 +29,6 @@ class PiecesController < GamesController
       elsif @game.pieces.where(type: "Pawn", y_position: 0).exists? || @game.pieces.where(type: "Pawn", y_position: 7).exists?
         flash.now.alert = 'Please wait until your opponent has promoted their pawn first.'
       else
-        # action cable broadcast to channel
-        if @piece.save
-          ActionCable.server.broadcast 'game_channel',
-          reload: true
-        end
         current_game.swap_turn
         if @game.in_check?
           flash.now.alert = "Check!"
@@ -45,6 +40,11 @@ class PiecesController < GamesController
           render partial: 'games/modal'
         end
       end
+      # action cable broadcast to channel
+      # if @piece.save
+        ActionCable.server.broadcast 'game_channel',
+        reload: true
+      # end
     end
 
   private
