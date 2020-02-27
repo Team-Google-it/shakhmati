@@ -10,6 +10,7 @@
     <div id="turn-container">
       <%= render 'turn' %>
     </div>
+    <a href="#captured-modal" rel="modal:open">Captured pieces</a>
   </div>
 </div>
 
@@ -19,6 +20,37 @@
     <div class="forfeit-modal-buttons">
       <%= link_to "Yes, forfeit Game", game_path(@game), method: :delete, class: 'btn btn-outline-danger' %>
       <a href="#forfeit-modal" rel="modal:close">No, go back</a>
+    </div>
+  </div>
+</div>
+
+<div id="captured-modal" class="modal">
+  <div class="card">
+    <div class="card-body">
+      <h3>White captured pieces:</h3>
+      <% white_pieces = @game.pieces.where(color: "white", captured: true) %>
+      <div class="captured-flex">
+        <% white_pieces.each do |white_piece| %>
+          <% image = draw_piece(white_piece.type, white_piece.color) %>
+          <div>
+          <%= image_tag(image, height: '65px').to_s %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Black captured pieces:</h3>
+      <% black_pieces = @game.pieces.where(color: "black", captured: true) %>
+      <div class="captured-flex">
+        <% black_pieces.each do |black_piece| %>
+          <% image = draw_piece(black_piece.type, black_piece.color) %>
+          <div>
+          <%= image_tag(image, height: '65px').to_s %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
