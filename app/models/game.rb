@@ -33,6 +33,9 @@ class Game < ApplicationRecord
 		(0..7).each do |num|
 			Pawn.create(game_id: self.id, x_position: num, y_position: 1, player_id: self.white_player_id, color: "white", status: "start", captured: false)
 		end
+
+		# Pawn.create(game_id: self.id, x_position: 4, y_position: 1, player_id: self.white_player_id, color: "white", status: "start", captured: false)
+
 		Rook.create(game_id: self.id, x_position: 0, y_position: 0, player_id: self.white_player_id, color: "white", status: "start", captured: false)
 		Rook.create(game_id: self.id, x_position: 7, y_position: 0, player_id: self.white_player_id, color: "white", status: "start", captured: false)
 
