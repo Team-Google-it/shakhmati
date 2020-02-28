@@ -5,7 +5,7 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		@game = Game.find_by_id(params[:id])
 		new_type = params[:type]
 		@piece = @game.last_piece_moved
-		@piece.update_attributes(type: new_type)
+		@piece.update(type: new_type)
 	end
 
 	def index
@@ -19,11 +19,11 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 
 	def create
 		@game = Game.create(game_params)
-		@game.update_attributes(:white_player_id => current_user.id, :status => "pending")
+		@game.update(:white_player_id => current_user.id, :status => "pending")
 		@game.assign_first_turn
 		pieces = @game.pieces.where(color: "white").all
 		pieces.each do |piece|
-			piece.update_attributes(player_id: @game.white_player_id)
+			piece.update(player_id: @game.white_player_id)
 		end
 
 		if @game.valid?
@@ -37,10 +37,10 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		@game = Game.find(params[:id])
 		white_player = @game.white_player_id
 		if current_user.id != white_player
-			@game.update_attributes(:black_player_id => current_user.id, :status => "in_progress")
+			@game.update(:black_player_id => current_user.id, :status => "in_progress")
 			pieces = @game.pieces.where(color: "black").all
 			pieces.each do |piece|
-				piece.update_attributes(player_id: @game.black_player_id)
+				piece.update(player_id: @game.black_player_id)
 			end
 			flash[:notice] = "Joined game: #{@game.name}!"
 			redirect_to game_path(@game)
@@ -67,9 +67,9 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 				wins_update = user.wins + 1
 				losses_update = loser.losses + 1
 
-				loser.update_attributes(:losses => losses_update, :total_games => loser_total_games)
-				user.update_attributes(:wins => wins_update, :total_games => user_total_games)
-				@game.update_attributes(:black_player_id => nil, :status => "completed")
+				loser.update(:losses => losses_update, :total_games => loser_total_games)
+				user.update(:wins => wins_update, :total_games => user_total_games)
+				@game.update(:black_player_id => nil, :status => "completed")
 
 			elsif current_user.id == @game.white_player_id
 
@@ -81,9 +81,9 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 				wins_update = user.wins + 1
 				losses_update = loser.losses + 1
 
-				loser.update_attributes(:losses => losses_update, :total_games => loser_total_games)
-				user.update_attributes(:wins => wins_update, :total_games => user_total_games)
-				@game.update_attributes(:white_player_id => nil, :status => "completed")
+				loser.update(:losses => losses_update, :total_games => loser_total_games)
+				user.update(:wins => wins_update, :total_games => user_total_games)
+				@game.update(:white_player_id => nil, :status => "completed")
 			else
 				flash[:danger] = "You are not a player of this game!"
 			end

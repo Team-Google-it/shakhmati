@@ -8,19 +8,19 @@ class Piece < ApplicationRecord
 		end
 
 		capture(x_target, y_target) if occupied?(x_target, y_target)
-		update_attributes!(x_position: x_target, y_position: y_target)
+		update!(x_position: x_target, y_position: y_target)
 		game.pieces.reload
 		if checking?(color)
-			game.update_attributes!(status: "in_check")
+			game.update!(status: "in_check")
 			if checkmate?
-				game.update_attributes!(status: "checkmate")
+				game.update!(status: "checkmate")
 			end
 		elsif stalemate?
-			game.update_attributes(status: "stalemate")
+			game.update(status: "stalemate")
 		else
-			game.update_attributes!(status: "in_progress")
+			game.update!(status: "in_progress")
 		end
-		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
+		game.update!(last_piece_x: x_target, last_piece_y: y_target)
 		true
 	end
 
@@ -42,14 +42,14 @@ class Piece < ApplicationRecord
 		target = find_piece(x_target, y_target)
 		target_previous_attributes = target&.attributes
 		begin
-			target&.update_attributes!(x_position: nil, y_position: nil, captured: true)
-			update_attributes!(x_position: x_target, y_position: y_target)
+			target&.update!(x_position: nil, y_position: nil, captured: true)
+			update!(x_position: x_target, y_position: y_target)
 			game.swap_turn
 			game.pieces.reload
 			return checking?(opponent_color)
 		ensure
-			update_attributes!(previous_attributes)
-			target&.update_attributes!(target_previous_attributes)
+			update!(previous_attributes)
+			target&.update!(target_previous_attributes)
 			game.swap_turn
 			game.pieces.reload
 		end
@@ -62,7 +62,7 @@ class Piece < ApplicationRecord
 
 	def capture(x_target, y_target)
     	target = find_piece(x_target, y_target)
-    	target.update_attributes!(captured: true, x_position: nil, y_position: nil) if color != target.color
+    	target.update!(captured: true, x_position: nil, y_position: nil) if color != target.color
   	end
 
   	def find_piece(x_target, y_target)
