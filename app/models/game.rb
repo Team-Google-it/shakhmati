@@ -7,6 +7,13 @@ class Game < ApplicationRecord
 	scope :by_status, ->(status) { where(status: status)}
 	scope :in_progress, -> { by_status('in_progress')}
 
+	def last_piece_moved
+		piece_at(last_piece_x, last_piece_y)
+	end
+
+	def pieces_by_color(color)
+		pieces.select(color: color).all
+	end
 
 	def in_progress?
 		status ==  'in_progress'

@@ -4,26 +4,24 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 	def promote
 		@game = Game.find_by_id(params[:id])
 		new_type = params[:type]
-		@piece = Piece.find_by(x_position: @game.last_piece_x, y_position: @game.last_piece_y)
+		@piece = @game.last_piece_moved
 		@piece.update_attributes(type: new_type)
 	end
 
 	def index
 		@games = Game.available
 		@game = Game.new
-		@game.populate_white_pieces
-		@game.populate_black_pieces
 	end
 
 	def new
-		@game = Game.new
+
 	end
 
 	def create
 		@game = Game.create(game_params)
 		@game.update_attributes(:white_player_id => current_user.id, :status => "pending")
 		@game.assign_first_turn
-		pieces = Piece.where(color: "white").all
+		pieces = @game.pieces.where(color: "white").all
 		pieces.each do |piece|
 			piece.update_attributes(player_id: @game.white_player_id)
 		end
@@ -40,7 +38,7 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		white_player = @game.white_player_id
 		if current_user.id != white_player
 			@game.update_attributes(:black_player_id => current_user.id, :status => "in_progress")
-			pieces = Piece.where(color: "black").all
+			pieces = @game.pieces.where(color: "black").all
 			pieces.each do |piece|
 				piece.update_attributes(player_id: @game.black_player_id)
 			end
@@ -90,8 +88,7 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 				flash[:danger] = "You are not a player of this game!"
 			end
 		else
-			game_pieces = Piece.where(:game_id == @game.id).all
-			game_pieces.destroy_all
+			@game.pieces.destroy_all
 			@game.destroy
 		end
 		redirect_to user_path(current_user.id)

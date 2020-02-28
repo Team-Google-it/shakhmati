@@ -25,7 +25,7 @@ class Piece < ApplicationRecord
 	end
 
 	def stalemate?
-		pieces = Piece.where(color: game.turn, captured: false).all
+		pieces = game.pieces.where(color: game.turn, captured: false).all
 		pieces.each do |piece|
 			(0..7).each do |x|
 				(0..7).each do |y|
@@ -38,25 +38,18 @@ class Piece < ApplicationRecord
 
 	def would_be_in_check?(x_target, y_target)
 		puts "would be checked"
+		previous_attributes = attributes
+		target = find_piece(x_target, y_target)
+		target_previous_attributes = target&.attributes
 		begin
-			previous_attributes = attributes
-			target = Piece.find_by(x_position: x_target, y_position: y_target)
-			if target
-				target_previous_attributes = target.attributes
-				target.update_attributes!(x_position: nil, y_position: nil, captured: true)
-			end
-			capture(x_target, y_target) if occupied?(x_target, y_target)
+			target&.update_attributes!(x_position: nil, y_position: nil, captured: true)
 			update_attributes!(x_position: x_target, y_position: y_target)
 			game.swap_turn
-			# puts "checking should be called"
 			game.pieces.reload
 			return checking?(opponent_color)
 		ensure
-			# puts "ensure"
 			update_attributes!(previous_attributes)
-			if target
-				target.update_attributes!(target_previous_attributes)
-			end
+			target&.update_attributes!(target_previous_attributes)
 			game.swap_turn
 			game.pieces.reload
 		end

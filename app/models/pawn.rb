@@ -7,11 +7,8 @@ class Pawn < Piece
 
 		if color == "white" && move_single_step?(x_target, y_target) && y_target == y_position + 1
 			if (x_target - x_position).abs == 1
-				if occupied?(x_target, y_target)
-					target = Piece.where(game_id: game_id, x_position: x_target, y_position: y_target).first
-					return target.color == 'black' ? true : false
-				end
-        return true if en_passant?(x_target, y_target)
+				target = find_piece(x_target, y_target)
+				return target&.color == 'black' || en_passant?(x_target, y_target)
 			else
 				return true if !occupied?(x_target, y_target)
 			end
@@ -19,11 +16,8 @@ class Pawn < Piece
 
 		if color == "black" && move_single_step?(x_target, y_target) && y_target == y_position - 1
 			if (x_target - x_position).abs == 1
-				if occupied?(x_target, y_target)
-					target = Piece.where(game_id: game_id, x_position: x_target, y_position: y_target).first
-					return target.color == 'white' ? true : false
-				end
-        return true if en_passant?(x_target, y_target)
+				target = find_piece(x_target, y_target)
+				return target&.color == 'white' || en_passant?(x_target, y_target)
 			else
 				return true if !occupied?(x_target, y_target)
 			end
@@ -45,7 +39,7 @@ class Pawn < Piece
           	return target.color == 'white' ? true : false
         end
 	    end
-	  end
+		end
+		false
 	end
-	false
 end

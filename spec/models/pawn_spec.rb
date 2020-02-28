@@ -11,7 +11,7 @@ RSpec.describe Pawn, type: :class do
 			expect(piece.valid_move?(piece.x_position+0, piece.y_position+1)).to be true
 			expect(piece.valid_move?(piece.x_position+0, piece.y_position+2)).to be true
 
-      		expect(piece.valid_move?(piece.x_position+0, piece.y_position+3)).to be false
+      expect(piece.valid_move?(piece.x_position+0, piece.y_position+3)).to be false
 			expect(piece.valid_move?(piece.x_position+0, piece.y_position-2)).to be false
 			expect(piece.valid_move?(piece.x_position+1, piece.y_position+0)).to be false
 			expect(piece.valid_move?(piece.x_position-1, piece.y_position+0)).to be false
