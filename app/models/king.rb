@@ -25,6 +25,7 @@ class King < Piece
 			rook.move_castled_rook(x_target, y_target)
 		end
 		update_attributes!(x_position: x_target, y_position: y_target, status: 'moved')
+		game.update_attributes!(last_piece_x: x_target, last_piece_y: y_target)
 		game.update_attributes(status: "in_check") if checking?(color)
 		game.pieces.reload
 		true
