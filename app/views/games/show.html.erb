@@ -6,10 +6,13 @@
     </table>
   </div>
   <div class="side-panel col-2">
-    <p class="forfeit-button"><a href="#forfeit-modal" rel="modal:open" class="btn btn-outline-secondary">Foreit Game</a></p>
+    <p class="forfeit-button"><a href="#forfeit-modal" rel="modal:open" class="btn btn-outline-danger">Foreit Game</a></p>
+    <a href="#captured-modal" rel="modal:open" class="btn btn-outline-secondary">Captured pieces</a>
     <div id="turn-container">
+      <hr>
       <%= render 'turn' %>
       <hr>
+
       <%= render 'status' %>
     </div>
   </div>
@@ -24,15 +27,46 @@
     </div>
   </div>
 </div>
-<div id="pawn-modal-container">
-  <div id="pawn-promotion-modal" class="modal">
-    <p>Select a piece type to promote your pawn to:</p>
-    <% @game = Game.find_by(id: params[:id]) %>
-    <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
-    <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
-    <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
-    <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
+
+<div id="captured-modal" class="modal">
+  <div class="card">
+    <div class="card-body">
+      <h3>White captured pieces:</h3>
+      <% white_pieces = @game.pieces.where(color: "white", captured: true) %>
+      <div class="captured-flex">
+        <% white_pieces.each do |white_piece| %>
+          <% image = draw_piece(white_piece.type, white_piece.color) %>
+          <div>
+          <%= image_tag(image, height: '65px').to_s %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Black captured pieces:</h3>
+      <% black_pieces = @game.pieces.where(color: "black", captured: true) %>
+      <div class="captured-flex">
+        <% black_pieces.each do |black_piece| %>
+          <% image = draw_piece(black_piece.type, black_piece.color) %>
+          <div>
+          <%= image_tag(image, height: '65px').to_s %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <a href="#captured-modal" rel="modal:close">Close</a>
+</div>
+
+<div id="pawn-promotion-modal" class="modal">
+  <p>Select a piece type to promote your pawn to:</p>
+  <% @game = Game.find_by(id: params[:id]) %>
+  <%= image_tag('WhiteQueen.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Queen' }).to_s %>
+  <%= image_tag('WhiteKnight.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Knight' }).to_s %>
+  <%= image_tag('WhiteRook.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Rook' }).to_s %>
+  <%= image_tag('WhiteBishop.png', height: '65px', class: 'promoteButton', :data => { :id => @game.id, :type => 'Bishop' }).to_s %>
 </div>
 
 <script>
