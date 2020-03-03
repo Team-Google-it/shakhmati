@@ -29,14 +29,32 @@ class PiecesController < GamesController
       if @piece.move_to(new_x, new_y) == false
         if current_user.id == @piece.player_id
           flash.now.alert = 'This move is invalid. Try again.'
+        else
+          flash.now.alert = 'It is not your turn!'
+        end
+        render partial: 'games/update'
+      else
+        if @piece.save
+          ActionCable.server.broadcast 'game_channel',
+          reload: true
+        end
+        current_game.swap_turn
+        if @game.in_check?
+          flash.now.alert = "Check!"
+          render partial: 'games/modal'
+        elsif @game.checkmate?
+          flash.now.alert = "Checkmate!"
+          render partial: 'games/modal'
+        else
           render partial: 'games/modal'
         end
       end
-    # else
-    #   flash.now.alert = 'It is not your turn!'
-    #   render partial: 'games/update'
-    # end
+    #else
+    #  flash.now.alert = 'It is not your turn!'
+    #  render partial: 'games/update'
+    #end
   end
+
 
   private
 
