@@ -90,8 +90,8 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 				flash[:danger] = "You are not a player of this game!"
 			end
 		else
-			pieces = Piece.where(:game_id == @game.id).all
-			pieces.destroy_all
+			game_pieces = Piece.where(:game_id == @game.id).all
+			game_pieces.destroy_all
 			@game.destroy
 		end
 		redirect_to user_path(current_user.id)

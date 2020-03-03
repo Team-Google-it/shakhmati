@@ -12,6 +12,8 @@
       <hr>
       <%= render 'turn' %>
       <hr>
+
+      <%= render 'status' %>
     </div>
   </div>
 </div>
@@ -71,7 +73,20 @@
   var type;
   var x;
   var y;
-  $(document).ready(init_draggables_and_droppables);
+  $(document).ready(function(){
+    init_draggables_and_droppables();
+   // Get and Check item in localStorage
+   if (localStorage.getItem('popupFlag') == 1) {
+     openPawnModal();
+   }
+});
+function openPawnModal() {
+  $('#pawn-promotion-modal').modal({
+    escapeClose: false,
+    clickClose: false,
+    showClose: false
+  });
+}
   function init_draggables_and_droppables() {
     $(".draggable").draggable();
     $(".droppable").droppable({
@@ -89,15 +104,12 @@
   };
   function openModal() {
     if (type === "Pawn" && (y === 0 || y === 7)) {
-      $('#pawn-promotion-modal').modal({
-        escapeClose: false,
-        clickClose: false,
-        showClose: false
-      });
+      localStorage.setItem('popupFlag', 1);
     }
   }
 
   function handlePawnPromotion() {
+    localStorage.removeItem('popupFlag')
     var id = $(this).data('id');
     var type = $(this).data('type')
     var info = {
