@@ -42,7 +42,7 @@ class Piece < ApplicationRecord
 	end
 
 	def would_be_in_check?(x_target, y_target)
-		puts "would be checked"
+		# puts "would be checked"
 		begin
 			previous_attributes = attributes
 			target = Piece.find_by(x_position: x_target, y_position: y_target)
@@ -94,11 +94,11 @@ class Piece < ApplicationRecord
   	def can_be_captured?(x_current, y_current)
 			pieces = game.pieces.where(color: opponent_color, captured: false).all
 			begin
-				game.swap_turn
+			game.swap_turn
 	  		pieces.each do |opponent|
 	  			if opponent.valid_move?(x_current, y_current) && !opponent.would_be_in_check?(x_current, y_current)
-						return true
-					end
+					return true
+				end
 	  		end
 			ensure
 				game.swap_turn
@@ -246,13 +246,13 @@ class Piece < ApplicationRecord
 		#	end
 		# end
 
-		def same_color?(color)
+	def same_color?(color)
   		color == game.turn
   	end
 
-		def opponent_pieces
+	def opponent_pieces
 	  	game.pieces.where(color: opponent_color, captured: false).all
-		end
+	end
 
   	private
 
