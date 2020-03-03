@@ -12,41 +12,39 @@ class PiecesController < GamesController
   def update
     @piece = Piece.find_by(id: params[:id])
     @game = @piece.game
-    #if @game.stalemate?(user_color)
-    #  flash[:alert] = "The game is in a stalemate"
-    #  @game.update_attributes(:status => "in_stalemate")
-    #end
+
+    pawns = @game.pieces.where(type: "Pawn").all
+    pawns.each do |pawn|
+      if pawn.y_position == 0 || pawn.y_position == 7
+        flash.now.alert = 'Please wait until your opponent has promoted their pawn first.'
+        render partial: 'games/update'
+        return
+      end
+    end
+
     new_x = params[:x_position].to_i
     new_y = params[:y_position].to_i
 
-    # if (current_user.id == @game.white_player_id && @game.turn == "white") || (current_user.id == @game.black_player_id && @game.turn == "black")
-      if @piece.move_to(new_x, new_y) == false
-        if current_user.id == @piece.player_id
-          flash.now.alert = 'This move is invalid. Try again.'
-        else
-          flash.now.alert = 'It is not your turn!'
-        end
-        render partial: 'games/update'
+
+    if (current_user.id == @game.white_player_id && @game.turn == "white") || (current_user.id == @game.black_player_id && @game.turn == "black")    
+      if current_user.id == @piece.player_id
+        flash.now.alert = 'This move is invalid. Try again.'
       else
-        if @piece.save
-          ActionCable.server.broadcast 'game_channel',
-          reload: true
-        end
-        current_game.swap_turn
-        if @game.in_check?
-          flash.now.alert = "Check!"
-          render partial: 'games/modal'
-        elsif @game.checkmate?
-          flash.now.alert = "Checkmate!"
-          render partial: 'games/modal'
-        else
-          render partial: 'games/modal'
-        end
+        flash.now.alert = 'It is not your turn!'
       end
-    #else
-    #  flash.now.alert = 'It is not your turn!'
-    #  render partial: 'games/update'
-    #end
+    else
+      flash.now.alert = 'It is not your turn!'
+      render partial: 'games/update'
+    end
+    else
+      @game.swap_turn
+      render partial: 'games/modal'
+      # action cable broadcast to channel
+      if @piece.save
+        ActionCable.server.broadcast 'game_channel',
+        reload: true
+      end
+    end
   end
 
   private
