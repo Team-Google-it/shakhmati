@@ -3,7 +3,6 @@ class Pawn < Piece
 	def valid_move?(x_target, y_target)
 		return false unless super
 
-		# return false if would_be_in_check?(x_target, y_target) && x_position == x_target
 		return true if color == "white" && y_position == 1 && x_position == x_target && y_target == 3 && !occupied?(x_target, y_target)# 1st move & 2 steps
 		return true if color == "black" && y_position == 6 && x_position == x_target && y_target == 4 && !occupied?(x_target, y_target)# 1st move & 2 steps
 
