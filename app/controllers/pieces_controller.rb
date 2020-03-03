@@ -31,6 +31,7 @@ class PiecesController < GamesController
       else
         flash.now.alert = 'It is not your turn!'
       end
+
       render partial: 'games/update'
     else
       @game.swap_turn
