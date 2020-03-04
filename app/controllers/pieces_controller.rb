@@ -34,15 +34,17 @@ class PiecesController < GamesController
         end
         render partial: 'games/update'
       else
-        if @piece.save
-          ActionCable.server.broadcast 'game_channel',
-          reload: true
-        end
         current_game.swap_turn
         if @game.in_check?
           flash.now.alert = "Check!"
           render partial: 'games/modal'
         elsif @game.checkmate?
+          winner = @game.piece_at(@game.last_piece_x, @game.last_piece_y)
+          if winner.color == "white"
+            @game.update(winner: "white")
+          else
+            @game.update(winner: "black")
+          end
           flash.now.alert = "Checkmate!"
           render partial: 'games/modal'
         else
@@ -51,6 +53,10 @@ class PiecesController < GamesController
           end
           render partial: 'games/modal'
         end
+      end
+      if @piece.save
+        ActionCable.server.broadcast 'game_channel',
+        reload: true
       end
     #else
       #flash.now.alert = 'It is not your turn!'

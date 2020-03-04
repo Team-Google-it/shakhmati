@@ -36,16 +36,21 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 		@game = Game.find(params[:id])
 		white_player = @game.white_player_id
 		if current_user.id != white_player
-			@game.update(:black_player_id => current_user.id, :status => "start") 
+			@game.update(:black_player_id => current_user.id, :status => "start")
 			pieces = @game.pieces.where(color: "black").all
 			pieces.each do |piece|
 				piece.update(player_id: @game.black_player_id)
 			end
+			redirect_to game_path(@game)
 			flash[:notice] = "Joined game: #{@game.name}!"
 		else
+			redirect_to game_path(@game)
 			flash[:notice] = "You are already in this game as the white player!"
 		end
-		redirect_to game_path(@game)
+		if @game.save
+			ActionCable.server.broadcast 'game_channel',
+			reload: true
+		end
 	end
 
 	def show
