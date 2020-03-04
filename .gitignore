@@ -31,4 +31,3 @@
 
 # Ignore test coverage files
 /coverage/*
-echo "coverage" >> .gitignore
