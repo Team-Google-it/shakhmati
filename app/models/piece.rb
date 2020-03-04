@@ -3,11 +3,10 @@ class Piece < ApplicationRecord
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+		capture(x_target, y_target) if occupied?(x_target, y_target)
 		if would_be_in_check?(x_target, y_target)
 			return false
 		end
-
-		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update_attributes!(x_position: x_target, y_position: y_target)
 		game.pieces.reload
 		if checking?(color)
@@ -42,10 +41,10 @@ class Piece < ApplicationRecord
 	# end
 
 	def would_be_in_check?(x_target, y_target)
-		# puts "would be checked"
+		puts "would be checked"
 		begin
 			previous_attributes = attributes
-			target = Piece.find_by(x_position: x_target, y_position: y_target)
+			target = Piece.find_by(x_position: x_target, y_position: y_target, color: color)
 			if target
 				target_previous_attributes = target.attributes
 				target.update_attributes!(x_position: nil, y_position: nil, captured: true)
@@ -53,11 +52,11 @@ class Piece < ApplicationRecord
 			capture(x_target, y_target) if occupied?(x_target, y_target)
 			update_attributes!(x_position: x_target, y_position: y_target)
 			game.swap_turn
-			# puts "checking should be called"
+			puts "checking should be called"
 			game.pieces.reload
 			return checking?(opponent_color)
 		ensure
-			# puts "ensure"
+			puts "ensure"
 			update_attributes!(previous_attributes)
 			if target
 				target.update_attributes!(target_previous_attributes)
