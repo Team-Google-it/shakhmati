@@ -28,12 +28,12 @@ class Game < ApplicationRecord
 	end
 
 	def assign_first_turn
-		update_attributes(turn: 'white')
+		update(turn: 'white')
 	end
 
 	def swap_turn
 		change = turn == 'white' ? 'black' : 'white'
-		update_attributes(turn: change)
+		update(turn: change)
 	end
 
 	def populate_white_pieces
