@@ -10,7 +10,7 @@ class PiecesController < GamesController
   end
 
   def update
-    @piece = Piece.find_by(id: params[:id])
+    @piece = Piece.find(params[:id])
     @game = @piece.game
 
     pawns = @game.pieces.where(type: "Pawn").all

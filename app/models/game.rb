@@ -7,6 +7,13 @@ class Game < ApplicationRecord
 	scope :by_status, ->(status) { where(status: status)}
 	scope :in_progress, -> { by_status('in_progress')}
 
+	def last_piece_moved
+		piece_at(last_piece_x, last_piece_y)
+	end
+
+	def pieces_by_color(color)
+		pieces.select(color: color).all
+	end
 
 	def in_progress?
 		status ==  'in_progress'
@@ -21,12 +28,12 @@ class Game < ApplicationRecord
 	end
 
 	def assign_first_turn
-		update_attributes(turn: 'white')
+		update(turn: 'white')
 	end
 
 	def swap_turn
 		change = turn == 'white' ? 'black' : 'white'
-		update_attributes(turn: change)
+		update(turn: change)
 	end
 
 	def populate_white_pieces

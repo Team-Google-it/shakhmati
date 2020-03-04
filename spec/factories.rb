@@ -75,7 +75,7 @@ FactoryBot.define do
       user1 = user
       user2 = user
       after(:create) do |game|
-        game.update_attributes(white_player_id: user1.id, black_player_id: user2.id)
+        game.update(white_player_id: user1.id, black_player_id: user2.id)
         game.populate_white_pieces
         game.populate_black_pieces
       end
