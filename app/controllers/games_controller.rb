@@ -10,11 +10,10 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 
 	def index
 		@games = Game.available
-		@game = Game.new
 	end
 
 	def new
-
+		@game = Game.new
 	end
 
 	def create
