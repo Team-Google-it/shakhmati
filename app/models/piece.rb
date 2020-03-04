@@ -23,22 +23,22 @@ class Piece < ApplicationRecord
 		true
 	end
 
-	# def stalemate?
-	# 	if game.turn == "white"
-	# 		current_color = "black"
-	# 	else
-	# 		current_color = "white"
-	# 	end
-	# 	pieces = Piece.where(color: current_color, captured: false).all
-	# 	pieces.each do |piece|
-	# 		(0..7).each do |x|
-	# 			(0..7).each do |y|
-	# 				return false if piece.valid_move?(x, y) && !piece.would_be_in_check?(x, y)
-	# 			end
-	# 		end
-	# 	end
-	# 	true
-	# end
+	def stalemate?
+		if game.turn == "white"
+	 		current_color = "black"
+	 	else
+	 		current_color = "white"
+	 	end
+	 	pieces = Piece.where(color: current_color, captured: false).all
+	 	pieces.each do |piece|
+	 		(0..7).each do |x|
+	 			(0..7).each do |y|
+	 				return false if piece.valid_move?(x, y) && !piece.would_be_in_check?(x, y)
+	 			end
+	 		end
+	 	end
+	 	true
+	end
 
 	def would_be_in_check?(x_target, y_target)
 		puts "would be checked"
