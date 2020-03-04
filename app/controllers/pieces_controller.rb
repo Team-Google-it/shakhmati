@@ -43,9 +43,13 @@ class PiecesController < GamesController
           flash.now.alert = "Check!"
           render partial: 'games/modal'
         elsif @game.checkmate?
-          # @game.update(:winner_id => current_user.id)
-          # puts "Winner ID: #{@game.winner_id}"
+          @game.update(:winner_id => current_user.id)
           flash.now.alert = "Checkmate!"
+          if @game.winner_id == @game.white_player_id
+            flash.now.alert = "White has won"
+          elsif @game.winner_id == @game.black_player_id
+            flase.now.alert = "Black has won"
+          end
           render partial: 'games/modal'
         else
           render partial: 'games/modal'
