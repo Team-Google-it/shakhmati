@@ -60,6 +60,10 @@
   <a href="#captured-modal" rel="modal:close">Close</a>
 </div>
 
+<div id="check-modal" class="modal">
+  <h1>Game is in check!</h1>
+</div>
+
 <div id="pawn-promotion-modal" class="modal">
   <p>Select a piece type to promote your pawn to:</p>
   <% @game = Game.find_by(id: params[:id]) %>
@@ -70,16 +74,28 @@
 </div>
 
 <script>
+  var status = '<%= @game.status %>';
   var type;
   var x;
   var y;
   $(document).ready(function(){
+    console.log(status);
     init_draggables_and_droppables();
    // Get and Check item in localStorage
    if (localStorage.getItem('popupFlag') == 1) {
      openPawnModal();
+   } else if (status === 'in_check') {
+     openCheckModal();
+   } else if (status === 'checkmate') {
+     openCheckmateModal();
    }
 });
+function openCheckmateModal() {
+  $('#checkmate-modal').modal('open');
+}
+function openCheckModal() {
+  $('#check-modal').modal('open');
+}
 function openPawnModal() {
   $('#pawn-promotion-modal').modal({
     escapeClose: false,
