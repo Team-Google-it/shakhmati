@@ -46,8 +46,6 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 			flash[:notice] = "You are already in this game as the white player!"
 		end
 		redirect_to game_path(@game)
-		ActionCable.server.broadcast 'game_channel',
-		reload: true
 	end
 
 	def show
