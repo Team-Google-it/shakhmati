@@ -14,6 +14,7 @@ class Piece < ApplicationRecord
 			game.update!(status: "in_check")
 			if checkmate?
 				game.update!(status: "checkmate")
+				return false
 			end
 		elsif stalemate?
 			game.update(status: "stalemate")

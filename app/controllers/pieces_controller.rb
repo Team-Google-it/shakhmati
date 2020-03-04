@@ -43,6 +43,7 @@ class PiecesController < GamesController
           flash.now.alert = "Check!"
           render partial: 'games/modal'
         elsif @game.checkmate?
+          @game.update(:winner_id => current_user.id)
           flash.now.alert = "Checkmate!"
           render partial: 'games/modal'
         else
@@ -54,7 +55,6 @@ class PiecesController < GamesController
     #  render partial: 'games/update'
     #end
   end
-
 
   private
 
