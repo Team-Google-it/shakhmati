@@ -14,8 +14,8 @@ class Piece < ApplicationRecord
 			if checkmate?
 				game.update_attributes!(status: "checkmate")
 			end
-		# elsif stalemate?
-		# 	game.update_attributes(status: "stalemate")
+		elsif stalemate?
+			game.update_attributes(status: "stalemate")
 		else
 			game.update_attributes!(status: "in_progress")
 		end
