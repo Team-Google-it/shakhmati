@@ -3,10 +3,10 @@ class Piece < ApplicationRecord
 
 	def move_to(x_target, y_target)
 		return false unless valid_move?(x_target, y_target)
+		capture(x_target, y_target) if occupied?(x_target, y_target)
 		if would_be_in_check?(x_target, y_target)
 			return false
 		end
-
 		capture(x_target, y_target) if occupied?(x_target, y_target)
 		update!(x_position: x_target, y_position: y_target)
 		game.pieces.reload
@@ -82,11 +82,11 @@ class Piece < ApplicationRecord
   	def can_be_captured?(x_current, y_current)
 			pieces = game.pieces.where(color: opponent_color, captured: false).all
 			begin
-				game.swap_turn
+			game.swap_turn
 	  		pieces.each do |opponent|
 	  			if opponent.valid_move?(x_current, y_current) && !opponent.would_be_in_check?(x_current, y_current)
-						return true
-					end
+					return true
+				end
 	  		end
 			ensure
 				game.swap_turn
@@ -234,13 +234,13 @@ class Piece < ApplicationRecord
 		#	end
 		# end
 
-		def same_color?(color)
+	def same_color?(color)
   		color == game.turn
   	end
 
-		def opponent_pieces
+	def opponent_pieces
 	  	game.pieces.where(color: opponent_color, captured: false).all
-		end
+	end
 
   	private
 
