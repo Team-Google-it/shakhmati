@@ -46,6 +46,9 @@ class PiecesController < GamesController
           flash.now.alert = "Checkmate!"
           render partial: 'games/modal'
         else
+          if @game.status == 'start'
+            @game.update(status: 'in_progress')
+          end
           render partial: 'games/modal'
         end
       end

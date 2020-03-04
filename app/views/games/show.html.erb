@@ -62,6 +62,17 @@
 
 <div id="check-modal" class="modal">
   <h1>Game is in check!</h1>
+  <a href="#check-modal" rel="modal:close">Close</a>
+</div>
+
+<div id="checkmate-modal" class="modal">
+  <h1>Game is in checkmate!</h1>
+  <a href="#checkmate-modal" rel="modal:close">Close</a>
+</div>
+
+<div id="join-modal" class="modal">
+  <h1>Both players have joined!</h1>
+  <a href="#join-modal" rel="modal:close">Close</a>
 </div>
 
 <div id="pawn-promotion-modal" class="modal">
@@ -78,8 +89,7 @@
   var type;
   var x;
   var y;
-  $(document).ready(function(){
-    console.log(status);
+  $(document).ready(function() {
     init_draggables_and_droppables();
    // Get and Check item in localStorage
    if (localStorage.getItem('popupFlag') == 1) {
@@ -88,6 +98,9 @@
      openCheckModal();
    } else if (status === 'checkmate') {
      openCheckmateModal();
+   } else if (status === 'start') {
+     openJoinModal();
+     join = false;
    }
 });
 function openCheckmateModal() {
@@ -96,6 +109,9 @@ function openCheckmateModal() {
 function openCheckModal() {
   $('#check-modal').modal('open');
 }
+  function openJoinModal() {
+    $('#join-modal').modal('open');
+  }
 function openPawnModal() {
   $('#pawn-promotion-modal').modal({
     escapeClose: false,
