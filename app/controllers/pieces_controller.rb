@@ -12,8 +12,6 @@ class PiecesController < GamesController
   def update
     @piece = Piece.find(params[:id])
     @game = @piece.game
-    @last_x = @game.last_piece_x 
-    @last_y = @game.last_piece_y
 
     pawns = @game.pieces.where(type: "Pawn").all
     pawns.each do |pawn|
@@ -55,6 +53,8 @@ class PiecesController < GamesController
     #  flash.now.alert = 'It is not your turn!'
     #  render partial: 'games/update'
     #end
+    @last_x = @game.last_piece_x 
+    @last_y = @game.last_piece_y
   end
 
 

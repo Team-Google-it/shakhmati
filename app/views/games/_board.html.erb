@@ -5,7 +5,7 @@
         <td class="square-td droppable" data-x="<%= x %>" data-y="<%= y %>">
           <% piece = @game.piece_at(x, y) %>
           <% checking_piece = @game.pieces.find_by(x_position: x, y_position: y) %>
-          <div class="square <% if @last__x == x && @last_y == y %>last-moved<% elsif @game.last_piece_x == x && @game.last_piece_y == y %>moved<% elsif x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %>light<% else %>dark<% end %>">
+          <div class="square <% if @last_x == x && @last_y == y %>last-moved<% elsif @game.last_piece_x == x && @game.last_piece_y == y %>moved<% elsif x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %>light<% else %>dark<% end %>">
             <% if piece.present? %>
               <% image = find_piece(x, y) %>
               <div class="draggable" data-id="<%= piece.id %>" data-type="<%= piece.type.to_s %>">
