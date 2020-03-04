@@ -41,15 +41,9 @@ before_action :authenticate_user!, only: [:new, :create, :update, :show, :destro
 			pieces.each do |piece|
 				piece.update(player_id: @game.black_player_id)
 			end
-			redirect_to game_path(@game)
-			flash[:notice] = "Joined game: #{@game.name}!"
+			redirect_to game_path(@game), notice: "Joined game: #{@game.name}!"
 		else
-			redirect_to game_path(@game)
-			flash[:notice] = "You are already in this game as the white player!"
-		end
-		if @game.save
-			ActionCable.server.broadcast 'game_channel',
-			reload: true
+			redirect_to game_path(@game), notice: "You are already in this game as the white player!"
 		end
 	end
 
