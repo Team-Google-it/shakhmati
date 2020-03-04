@@ -26,6 +26,7 @@ class King < Piece
 		end
 		update!(x_position: x_target, y_position: y_target, status: 'moved')
 		game.update(status: "in_check") if checking?(color)
+		game.update(last_piece_x: x_target, last_piece_y: y_target)
 		game.pieces.reload
 		true
 	end

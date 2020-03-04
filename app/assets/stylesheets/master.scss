@@ -94,3 +94,8 @@
 .player-stats > div {
   flex: 1;
 }
+.captured-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
