@@ -1,8 +1,16 @@
-
+<br>
 <div class="row col-10 offset-2">
   <div class="col-9" align="right">
     <table id="chessboard">
-      <%= render 'board' %>
+      <% ((7).downto(0)).each do |y| %>
+        <tr>
+          <% (0..7).each do |x| %>
+            <td class="square-td">
+              <div class="square <% if x % 2 == 0 && y % 2 == 1 || x % 2 == 1 && y % 2 == 0 %>light<% else %>dark<% end %>"></div>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
     </table>
   </div>
 </div>

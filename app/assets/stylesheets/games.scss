@@ -15,8 +15,11 @@
 .moved {
   background-color: #de4545;
 }
+.last-moved {
+  background-color: green;
+}
 .side-panel {
-  height: 220px;
+  height: 300px;
   margin: auto;
   background-color: lightgray;
 }

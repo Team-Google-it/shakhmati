@@ -26,6 +26,7 @@ class Piece < ApplicationRecord
 
 	def stalemate?
 		pieces = game.pieces.where(color: game.turn, captured: false).all
+
 		pieces.each do |piece|
 			(0..7).each do |x|
 				(0..7).each do |y|
